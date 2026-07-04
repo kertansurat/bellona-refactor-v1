@@ -1,1 +1,371 @@
-/* Placeholder: ใส่ไฟล์ party-export.css จาก Production จริงที่นี่ ถ้ามี */
+/* BELLONA ROOC Web v2.5.3 Production - Party Export Module
+   Scope: screenshot/export only. Clean export DOM; does not modify live party layout. */
+
+.bellona-export-btn {
+    border: 1px solid rgba(212, 175, 55, .34);
+    background: rgba(20, 26, 36, .92);
+    color: #f7d75e;
+    padding: 8px 12px;
+    border-radius: 9px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: .02em;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    box-shadow: 0 8px 20px rgba(0,0,0,.18);
+    transition: transform .12s ease, background .12s ease, border-color .12s ease;
+}
+.bellona-export-btn:hover {
+    background: rgba(31, 38, 52, .98);
+    border-color: rgba(255, 214, 77, .60);
+    transform: translateY(-1px);
+}
+.bellona-export-btn.primary {
+    background: linear-gradient(135deg, #d4af37, #f4d76c);
+    color: #090909;
+    border-color: rgba(255, 234, 138, .72);
+}
+.bellona-export-btn.is-exporting {
+    pointer-events: none;
+    opacity: .62;
+}
+
+.bp-export-stage {
+    position: fixed;
+    left: -100000px;
+    top: 0;
+    width: 2000px;
+    z-index: -9999;
+    pointer-events: none;
+}
+
+.bp-export-sheet,
+.bp-export-sheet * {
+    box-sizing: border-box !important;
+    -webkit-font-smoothing: antialiased !important;
+    text-rendering: geometricPrecision !important;
+}
+
+.bp-export-sheet {
+    position: relative;
+    width: 2000px !important;
+    height: 1080px !important;
+    min-height: 1080px !important;
+    padding: 38px 34px 14px !important;
+    color: #f4f4f5 !important;
+    font-family: Inter, "Noto Sans Thai", Arial, sans-serif !important;
+    background:
+        radial-gradient(circle at 18% 0%, rgba(212,175,55,.085), transparent 31%),
+        radial-gradient(circle at 72% 7%, rgba(255,255,255,.035), transparent 24%),
+        linear-gradient(135deg, #101010 0%, #171717 45%, #0c0c0d 100%) !important;
+    border: 2px solid rgba(212,175,55,.33) !important;
+    overflow: hidden !important;
+}
+
+.bp-export-sheet::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.018) 1px, transparent 1px);
+    background-size: 42px 42px;
+    opacity: .12;
+    pointer-events: none;
+}
+
+.bp-export-inner {
+    position: relative;
+    z-index: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.bp-export-header {
+    height: 84px !important;
+    flex: 0 0 84px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid rgba(212,175,55,.18) !important;
+    margin-bottom: 16px !important;
+    padding-bottom: 12px !important;
+}
+
+.bp-export-brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 28px !important;
+    min-width: 0 !important;
+}
+
+.bp-export-logo {
+    width: 130px !important;
+    height: 58px !important;
+    object-fit: contain !important;
+    flex: 0 0 auto !important;
+    filter: drop-shadow(0 0 12px rgba(212,175,55,.23)) !important;
+}
+
+.bp-export-title {
+    font-size: 36px !important;
+    line-height: 36px !important;
+    margin: 0 0 7px !important;
+    font-weight: 1000 !important;
+    color: #ffe06a !important;
+    letter-spacing: .055em !important;
+}
+
+.bp-export-subtitle {
+    color: #d7d7db !important;
+    font-size: 17px !important;
+    line-height: 17px !important;
+    font-weight: 1000 !important;
+    letter-spacing: .22em !important;
+    white-space: nowrap !important;
+}
+
+.bp-export-meta {
+    text-align: right !important;
+    color: #ffe06a !important;
+    font-weight: 1000 !important;
+    line-height: 1.25 !important;
+    flex: 0 0 auto !important;
+}
+
+.bp-export-meta-type {
+    font-size: 18px !important;
+    letter-spacing: .02em !important;
+    margin-bottom: 7px !important;
+}
+
+.bp-export-meta-line {
+    font-size: 18px !important;
+    color: #f8de74 !important;
+    display: flex !important;
+    justify-content: flex-end !important;
+    align-items: center !important;
+    gap: 14px !important;
+    white-space: nowrap !important;
+}
+
+.bp-export-grid {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 16px 18px !important;
+    width: 100% !important;
+    flex: 0 0 auto !important;
+}
+
+.bp-party-card {
+    width: 100% !important;
+    height: 432px !important;
+    min-height: 432px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 15px !important;
+    overflow: hidden !important;
+    background: rgba(10, 10, 11, .78) !important;
+    border: 1px solid rgba(212,175,55,.31) !important;
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.025), 0 18px 34px rgba(0,0,0,.24) !important;
+    backdrop-filter: none !important;
+}
+
+.bp-party-head {
+    height: 56px !important;
+    padding: 0 15px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    border-bottom: 1px solid rgba(212,175,55,.14) !important;
+    background: rgba(18, 18, 18, .58) !important;
+}
+
+.bp-party-title {
+    color: #ffe063 !important;
+    font-size: 23px !important;
+    line-height: 23px !important;
+    font-weight: 1000 !important;
+    letter-spacing: -.015em !important;
+    white-space: nowrap !important;
+}
+
+.bp-party-summary {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: flex-end !important;
+    justify-content: center !important;
+    gap: 5px !important;
+    line-height: 1 !important;
+}
+
+.bp-count,
+.bp-power {
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    color: #ffdf19 !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    font-weight: 900 !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    gap: 6px !important;
+    white-space: nowrap !important;
+}
+
+.bp-party-body {
+    height: 376px !important;
+    padding: 10px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 7px !important;
+    background: rgba(14, 14, 15, .30) !important;
+}
+
+.bp-party-slot {
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    max-height: 62px !important;
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    border-radius: 10px !important;
+    border: 1px solid rgba(255,255,255,.055) !important;
+    background: rgba(14, 14, 15, .82) !important;
+    box-shadow: inset 0 0 16px rgba(255,255,255,.018) !important;
+    overflow: visible !important;
+}
+
+.bp-player-row {
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 11px !important;
+    overflow: visible !important;
+}
+
+.bp-player-icon {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    flex: 0 0 32px !important;
+    object-fit: contain !important;
+    border-radius: 999px !important;
+}
+
+.bp-player-icon-fallback {
+    border: 2px solid rgba(255,255,255,.72) !important;
+    background: linear-gradient(135deg, #30343d, #15171d) !important;
+    color: #fff !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    font-size: 14px !important;
+    font-weight: 900 !important;
+}
+
+.bp-player-text {
+    min-width: 0 !important;
+    max-width: 340px !important;
+    display: flex !important;
+    flex-direction: row !important;   /* เปลี่ยนจาก column */
+    align-items: center !important;
+    justify-content: flex-start !important;
+    height: 100% !important;
+    color: #ffffff !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    padding: 0 !important;
+    text-shadow: 0 2px 2px rgba(0,0,0,.50) !important;
+}
+
+.bp-player-name {
+    display: flex !important;
+    align-items: center !important;
+    height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 16px !important;
+    line-height: 1 !important;
+    color: #fff !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    transform: translateY(-4px) !important;
+}
+
+.bp-player-job {
+    display: none !important;
+}
+
+.bp-empty-slot {
+    width: 100% !important;
+    height: 62px !important;
+    min-height: 62px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: rgba(255,255,255,.32) !important;
+    font-size: 14px !important;
+    line-height: 14px !important;
+    font-weight: 900 !important;
+    padding: 0 !important;
+}
+
+.bp-export-footer {
+    height: 38px !important;
+    flex: 0 0 38px !important;
+    margin-top: 10px !important;
+    border-top: 1px solid rgba(212,175,55,.13) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    color: #d2d2d5 !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+}
+
+.bp-export-footer b { color: #ffe063 !important; }
+.bp-export-footer-right { text-align: right !important; color: #d8d8db !important; }
+
+/* SUB PARTY BLUE THEME */
+.bp-export-sheet.bp-export-sub {
+    background:
+        radial-gradient(circle at 18% 0%, rgba(80,180,255,.10), transparent 31%),
+        radial-gradient(circle at 72% 7%, rgba(255,255,255,.035), transparent 24%),
+        linear-gradient(135deg, #101010 0%, #171717 45%, #0c0c0d 100%) !important;
+    border-color: rgba(80,180,255,.38) !important;
+}
+
+.bp-export-sub .bp-export-header,
+.bp-export-sub .bp-party-head,
+.bp-export-sub .bp-export-footer {
+    border-color: rgba(80,180,255,.20) !important;
+}
+
+.bp-export-sub .bp-export-title,
+.bp-export-sub .bp-export-meta,
+.bp-export-sub .bp-export-meta-type,
+.bp-export-sub .bp-export-meta-line,
+.bp-export-sub .bp-party-title,
+.bp-export-sub .bp-count,
+.bp-export-sub .bp-power,
+.bp-export-sub .bp-export-footer b {
+    color: #6ec8ff !important;
+}
+
+.bp-export-sub .bp-export-subtitle {
+    color: #bfe8ff !important;
+}
+
+.bp-export-sub .bp-party-card {
+    border-color: rgba(80,180,255,.34) !important;
+}
