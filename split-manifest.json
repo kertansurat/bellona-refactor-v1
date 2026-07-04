@@ -1,0 +1,32 @@
+{
+  "project": "BELLONA Refactor v1.1",
+  "rule": "Production reference untouched; Firebase schema unchanged; UI and functions must match latest production.",
+  "cssModules": [
+    "css/modules/00-base.css",
+    "css/modules/01-map-tactical.css",
+    "css/modules/02-party-base.css",
+    "css/modules/03-members-admin.css",
+    "css/modules/04-layout-fixes.css",
+    "css/modules/05-reward-queue.css",
+    "css/modules/06-auth-lock-bg.css",
+    "css/modules/07-party-dual-plan.css",
+    "css/modules/08-party-responsive.css",
+    "css/modules/09-party-view-toggle.css"
+  ],
+  "jsModules": [
+    "js/modules/00-core-state.js",
+    "js/modules/01-normalize-attendance-firebase.js",
+    "js/modules/02-admin-auth-storage-backup.js",
+    "js/modules/03-members.js",
+    "js/modules/04-party.js",
+    "js/modules/05-members-manager-stats.js",
+    "js/modules/06-rewards-wheel.js",
+    "js/modules/07-reward-queue.js",
+    "js/modules/08-tabs-maps-tactical.js",
+    "js/modules/09-bootstrap.js"
+  ],
+  "validation": {
+    "javascriptSyntaxCheck": "passed with node --check for all JS files",
+    "logicChanged": false
+  }
+}
