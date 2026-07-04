@@ -1,0 +1,17 @@
+[
+  {
+    "id": "vigrid",
+    "name": "Vigrid",
+    "image": "assets/maps/vigrid.png"
+  },
+  {
+    "id": "valeofclash",
+    "name": "Vale of Clash",
+    "file": "assets/maps/valeofclash.png"
+  },
+  {
+    "id": "stellarclash",
+    "name": "Stellar Clash",
+    "file": "assets/maps/stellarclash.png"
+  }
+]

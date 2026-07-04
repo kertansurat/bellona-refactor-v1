@@ -14,21 +14,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- html2canvas for high quality screenshots -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-    
-    <!-- BELLONA Refactor v1.1: modular CSS loaded in production order -->
-    <link rel="stylesheet" href="./css/modules/00-base.css">
-    <link rel="stylesheet" href="./css/modules/01-map-tactical.css">
-    <link rel="stylesheet" href="./css/modules/02-party-base.css">
-    <link rel="stylesheet" href="./css/modules/03-members-admin.css">
-    <link rel="stylesheet" href="./css/modules/04-layout-fixes.css">
-    <link rel="stylesheet" href="./css/modules/05-reward-queue.css">
-    <link rel="stylesheet" href="./css/modules/06-auth-lock-bg.css">
-    <link rel="stylesheet" href="./css/modules/07-party-dual-plan.css">
-    <link rel="stylesheet" href="./css/modules/08-party-responsive.css">
-    <link rel="stylesheet" href="./css/modules/09-party-view-toggle.css">
-    <link rel="stylesheet" href="./assets/bellona-theme-gray.css">
-    <link rel="stylesheet" href="./assets/dashboard.css">
-    <link rel="stylesheet" href="./assets/css/party-export.css">
+    <link rel="stylesheet" href="./css/modules/00-production-inline.css">
+<link rel="stylesheet" href="./assets/bellona-theme-gray.css">
+<link rel="stylesheet" href="./assets/dashboard.css">
+<link rel="stylesheet" href="./assets/css/party-export.css">
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#d4af37] selection:text-black">
 
@@ -208,77 +197,49 @@
 </div>
 
 <!-- 1. แท็บจัดทีมปาร์ตี้ -->
-<div id="tab-content-party" class="hidden space-y-3 bellona-dual-party">
+<div id="tab-content-party" class="hidden space-y-4">
 
-    <div class="dual-party-toolbar bg-[#111520] p-3 rounded-xl border border-[#1f2838] shadow-xl flex flex-wrap items-center justify-between gap-3">
-        <div class="min-w-[260px]">
-            <div class="text-[11px] uppercase tracking-[0.26em] text-[#d4af37] font-black">BELLONA PARTY PLANNER</div>
-            <div class="text-sm text-gray-300 mt-1">
-                แยกแผนจัดปาร์ตี้ 2 รูปแบบ · รายชื่อเดียวกันลากจัดได้ทั้ง Guild League และ Emperium Overrun โดยไม่ปนกัน
-            </div>
+    <div class="flex justify-between items-center bg-[#111520] p-3 rounded-lg border border-[#1f2838] flex-wrap gap-2 shadow-xl">
+        <div class="text-xs text-gray-400">
+            คลิกเลือกชื่อสมาชิกในแถบซ้ายมือ แล้วกดคลิกช่องปาร์ตี้ทางขวาเพื่อจัดทีมรบได้อย่างรวดเร็ว
         </div>
 
-        <div class="flex items-center gap-2 flex-wrap text-xs">
-            <button id="party-plan-btn-guild" type="button" onclick="switchPartyPlan('guild')" class="party-plan-btn active">
-                <i class="fa-solid fa-crown"></i> Guild League
+        <div class="flex gap-2.5">
+            <button onclick="captureParties()" class="bg-[#141a24] hover:bg-[#1c2433] text-[#d4af37] border border-[#2d374a] px-4 py-2 rounded-lg text-xs font-bold transition flex items-center gap-2 shadow-md">
+                <i class="fa-solid fa-camera"></i> แคปจอรายชื่อปาร์ตี้
             </button>
-            <button id="party-plan-btn-overrun" type="button" onclick="switchPartyPlan('overrun')" class="party-plan-btn">
-                <i class="fa-solid fa-shield-halved"></i> Emperium Overrun
-            </button>
-
-            <span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
-
-            <button id="party-view-btn-main" type="button" onclick="switchPartyView('main')" class="party-view-btn active">
-                <i class="fa-solid fa-crown"></i> ดูปาร์ตี้หลัก
-            </button>
-            <button id="party-view-btn-sub" type="button" onclick="switchPartyView('sub')" class="party-view-btn">
-                <i class="fa-solid fa-shield"></i> ดูปาร์ตี้รอง
-            </button>
-
-            <span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
-
-            <button type="button" onclick="BellonaDualPartyExport.exportAll()" class="party-export-btn">
-                <i class="fa-solid fa-camera"></i> Export All
-            </button>
-            <button type="button" onclick="BellonaDualPartyExport.exportMain()" class="party-export-btn">
-                <i class="fa-solid fa-crown"></i> Main PNG
-            </button>
-            <button type="button" onclick="BellonaDualPartyExport.exportSub()" class="party-export-btn">
-                <i class="fa-solid fa-shield-halved"></i> Sub PNG
-            </button>
-
-            <button type="button" onclick="triggerClearPartiesConfirmation()" class="admin-only bg-red-950/40 text-red-300 border border-red-900/40 px-4 py-3 rounded-xl text-xs font-black">
-                <i class="fa-solid fa-trash-can"></i> ล้างแผนนี้
+            <button onclick="triggerClearPartiesConfirmation()" class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-3 py-1.5 rounded-lg text-xs font-bold">
+                ล้างทีมปาร์ตี้ทั้งหมด
             </button>
         </div>
     </div>
 
-    <div id="capture-party-combined-zone" class="dual-party-zone party-view-main">
+    <div id="capture-party-combined-zone" class="grid party-compact-grid gap-4">
 
-        <div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-main" id="capture-main-zone">
-            <div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
+        <div class="space-y-3 p-4 bg-[#111520] rounded-xl border party-card-main" id="capture-main-zone">
+            <div class="border-b border-[#1f2838] pb-2 flex justify-between items-center">
                 <h3 class="party-title-main font-extrabold uppercase tracking-wider">
-                    <i class="fa-solid fa-crown"></i> ปาร์ตี้หลัก Main Party 1 - 8
+                    <i class="fa-solid fa-crown"></i> ปาร์ตี้หลัก (MAIN PARTY 1 - 8)
                 </h3>
-                <span id="main-plan-label" class="text-[10px] text-[#d4af37] font-bold bg-[#d4af37]/5 px-2 py-0.5 rounded-full border border-[#d4af37]/15">
-                    Guild League
+                <span class="text-[10px] text-gray-500 font-bold bg-[#d4af37]/5 px-2 py-0.5 rounded border border-[#d4af37]/15">
+                    BELLONA GVG
                 </span>
             </div>
 
-            <div id="parties-grid" class="dual-party-grid"></div>
+            <div id="parties-grid" class="grid party-inner-grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
-        <div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-sub" id="capture-sub-zone">
-            <div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
+        <div class="space-y-3 p-4 bg-[#111520] rounded-xl border party-card-sub" id="capture-sub-zone">
+            <div class="border-b border-[#1f2838] pb-2 flex justify-between items-center">
                 <h3 class="party-title-sub font-extrabold uppercase tracking-wider">
-                    <i class="fa-solid fa-shield-halved"></i> ปาร์ตี้รอง / กองหนุน Sub Party 1 - 8
+                    <i class="fa-solid fa-shield-halved"></i> ปาร์ตี้รอง / กองหนุน (SUB-PARTY 1 - 8)
                 </h3>
-                <span id="sub-plan-label" class="text-[10px] text-cyan-200 font-bold bg-cyan-400/5 px-2 py-0.5 rounded-full border border-cyan-300/15">
-                    Guild League
+                <span class="text-[10px] text-gray-500 font-bold bg-gray-400/5 px-2 py-0.5 rounded border border-gray-400/15">
+                    BELLONA SUB
                 </span>
             </div>
 
-            <div id="sub-parties-grid" class="dual-party-grid"></div>
+            <div id="sub-parties-grid" class="grid party-inner-grid grid-cols-1 sm:grid-cols-2 gap-2"></div>
         </div>
 
     </div>
@@ -319,9 +280,9 @@
                         <div class="map-scroll-container">
                             <div class="map-canvas-wrapper" id="tactical-board-wrapper">
                                 <div id="battle-map-placeholder" class="w-full h-full absolute inset-0 bg-[#0c0e14] flex flex-col items-center justify-center select-none">
-                                    <img src="./assets/logo-bellona.png" id="fallback-watermark-logo" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" class="w-full max-w-[400px] opacity-10 rounded">
+                                    <img loading="lazy" decoding="async" src="./assets/logo-bellona.png" id="fallback-watermark-logo" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" class="w-full max-w-[400px] opacity-10 rounded">
                                 </div>
-                                <img id="battle-map-bg" src="" crossorigin="anonymous" class="w-full h-full object-cover absolute inset-0 hidden">
+                                <img loading="lazy" decoding="async" id="battle-map-bg" src="" crossorigin="anonymous" class="w-full h-full object-cover absolute inset-0 hidden">
                                 <canvas id="drawing-canvas" class="absolute inset-0 z-10 w-full h-full cursor-crosshair"></canvas>
                                 <div id="markers-overlay" class="absolute inset-0 z-20 pointer-events-none"></div>
                             </div>
@@ -855,23 +816,10 @@
             </div>
         </div>
     </div>
-
-<!-- BELLONA Refactor v1.1: modular JS loaded in production order -->
-<script src="./js/modules/00-core-state.js"></script>
-<script src="./js/modules/01-normalize-attendance-firebase.js"></script>
-<script src="./js/modules/02-admin-auth-storage-backup.js"></script>
-<script src="./js/modules/03-members.js"></script>
-<script src="./js/modules/04-party.js"></script>
-<script src="./js/modules/05-members-manager-stats.js"></script>
-<script src="./js/modules/06-rewards-wheel.js"></script>
-<script src="./js/modules/07-reward-queue.js"></script>
-<script src="./js/modules/08-tabs-maps-tactical.js"></script>
-<script src="./js/modules/09-bootstrap.js"></script>
+<script src="./js/modules/00-production-core.js"></script>
 <script src="./assets/dashboard.js"></script>
-<script src="./js/party-export-fallback.js"></script>
 <script src="./assets/js/party-export.js"></script>
-<script src="./js/dual-party-export.js"></script>
 <script src="./js/modules/10-performance-pass.js"></script>
-<script type="module" src="./js/firebase-init.js"></script>
+<script type="module" src="./js/modules/09-firebase-init.module.js"></script>
 </body>
 </html>
