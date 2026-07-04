@@ -1,0 +1,154 @@
+/* BELLONA Refactor v1.1 modular split
+   Module: 06-auth-lock-bg.css
+   Scope: Sidebar visibility, login eye, admin lock, ROOC background
+   Source: css/bellona-production.css lines 443-591 */
+
+        /* v111 HOTFIX: ซ่อนแถบรายชื่อซ้ายในทุกแท็บ ยกเว้นหน้าจัดปาร์ตี้ */
+        #player-sidebar.sidebar-hidden {
+            display: none !important;
+        }
+        .login-password-wrap { position: relative; }
+        .login-eye-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #94a3b8;
+            width: 34px;
+            height: 34px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            background: rgba(15, 23, 42, .5);
+            border: 1px solid rgba(148, 163, 184, .16);
+        }
+        .login-eye-btn:hover { color: #d4af37; border-color: rgba(212,175,55,.35); }
+
+
+
+        /* v113.2 ADMIN EDIT LOCK: ชื่อ/Power/อาชีพ แก้ได้เฉพาะ Admin */
+        .admin-readonly-field {
+            background: rgba(15, 23, 42, .45) !important;
+            border-color: rgba(71, 85, 105, .45) !important;
+            color: #94a3b8 !important;
+            cursor: not-allowed !important;
+            opacity: .86;
+        }
+        .admin-lock-note {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 4px;
+            color: #64748b;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .02em;
+        }
+
+
+
+        /* v2.3 MEMBER MODULE + ROOC BACKGROUND */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+            background: url('./assets/bg-rooc.png') center center / cover no-repeat fixed;
+            opacity: .30;
+            pointer-events: none;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background: linear-gradient(180deg, rgba(7,9,14,.84), rgba(8,10,15,.92));
+            pointer-events: none;
+        }
+        .bellona-bg-panel { backdrop-filter: blur(2px); }
+
+
+        /* v2.3.1 MEMBER FILTER + GLOBAL BACKGROUND FIX */
+        html, body {
+            background-color: #080a0f !important;
+            background-image:
+            linear-gradient(180deg, rgba(7, 9, 14, .18), rgba(8, 10, 15, .34)),
+            url('./assets/bg-rooc.png') !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+        }
+        body::before, body::after {
+            display: none !important;
+        }
+        main > section.flex-grow {
+            background: rgba(8, 10, 15, .12) !important;
+            backdrop-filter: blur(1px);
+        }
+        #player-sidebar {
+            background-color: rgba(12, 14, 20, .88) !important;
+            backdrop-filter: blur(2px);
+        }
+
+    
+
+        /* v2.3.6 BACKGROUND BRIGHTNESS TUNE - CSS ONLY
+           ปรับให้เห็นภาพพื้นหลังชัดขึ้น แต่ยังคงความอ่านง่ายของตัวอักษร */
+        html {
+            min-height: 100%;
+            background-color: #080a0f !important;
+            background-image:
+                linear-gradient(180deg, rgba(7, 9, 14, .36), rgba(8, 10, 15, .58)),
+                url('./assets/bg-rooc.png') !important;
+            background-size: cover !important;
+            background-position: center center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+        }
+        body {
+            min-height: 100%;
+            background: transparent !important;
+        }
+        body::before,
+        body::after {
+            display: none !important;
+            content: none !important;
+        }
+        main {
+            background: transparent !important;
+        }
+        main > section.flex-grow,
+        main > section:last-child {
+            background: rgba(8, 10, 15, .12) !important;
+            backdrop-filter: blur(.5px);
+        }
+        header,
+        nav {
+            background-color: rgba(9, 11, 16, .82) !important;
+            backdrop-filter: blur(8px);
+        }
+        #player-sidebar {
+            background-color: rgba(12, 14, 20, .70) !important;
+            backdrop-filter: blur(7px);
+        }
+        [class*="bg-[#111520]"] {
+        background-color: rgba(24, 24, 24, .70) !important;
+        backdrop-filter: blur(3px);
+        }
+
+        [class*="bg-[#0c0e14]"] {
+        background-color: rgba(18, 18, 18, .60) !important;
+        backdrop-filter: blur(3px);
+        }
+        [class*="bg-[#090b10]"] {
+            background-color: rgba(9, 11, 16, .80) !important;
+        }
+        [class*="bg-[#080a0f]"] {
+            background-color: rgba(8, 10, 15, .16) !important;
+        }
+        #login-overlay-screen {
+            background-color: rgba(7, 9, 14, .88) !important;
+        }
+

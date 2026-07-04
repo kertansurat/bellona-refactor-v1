@@ -1,0 +1,137 @@
+/* BELLONA Refactor v1.1 modular split
+   Module: 09-party-view-toggle.css
+   Scope: Party view toggle and hidden hotfix
+   Source: css/bellona-production.css lines 1042-1173 */
+
+/* v2.6 PARTY VIEW TOGGLE PATCH: แสดงทีละฝั่งเพื่อให้ตัวหนังสือใหญ่และรองรับทุกหน้าจอ */
+#tab-content-party .party-view-btn {
+    border: 1px solid rgba(148,163,184,.22);
+    background: rgba(9, 11, 16, .72);
+    color: #dbeafe;
+    border-radius: 12px;
+    padding: 11px 14px;
+    font-weight: 900;
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+}
+#tab-content-party .party-view-btn.active {
+    background: linear-gradient(135deg, rgba(15,23,42,.95), rgba(30,41,59,.95));
+    color: #fff;
+    border-color: rgba(212,175,55,.55);
+    box-shadow: inset 0 0 0 1px rgba(212,175,55,.18), 0 10px 24px rgba(0,0,0,.16);
+}
+@media (min-width: 1024px) {
+    #tab-content-party #capture-party-combined-zone.dual-party-zone {
+        grid-template-columns: 1fr !important;
+        height: calc(100% - var(--party-toolbar-h) - var(--party-gap)) !important;
+    }
+    #tab-content-party #capture-party-combined-zone.party-view-main #capture-sub-zone,
+    #tab-content-party #capture-party-combined-zone.party-view-sub #capture-main-zone {
+        display: none !important;
+    }
+    #tab-content-party #capture-party-combined-zone.party-view-main #capture-main-zone,
+    #tab-content-party #capture-party-combined-zone.party-view-sub #capture-sub-zone {
+        display: flex !important;
+    }
+    #tab-content-party .dual-party-section-head {
+        min-height: clamp(42px, 4.6vh, 54px) !important;
+        flex: 0 0 clamp(42px, 4.6vh, 54px) !important;
+    }
+    #tab-content-party .dual-party-section-head h3 {
+        font-size: clamp(16px, 1vw, 19px) !important;
+    }
+    #tab-content-party .dual-party-section-head span {
+        font-size: clamp(11px, .68vw, 12px) !important;
+        padding: 5px 10px !important;
+    }
+    #tab-content-party .dual-party-grid {
+        height: calc(100% - clamp(42px, 4.6vh, 54px)) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        grid-template-rows: repeat(2, minmax(0, 1fr)) !important;
+        gap: clamp(10px, .78vw, 16px) !important;
+    }
+    #tab-content-party .dual-party-grid .glass-panel {
+        padding: clamp(10px, .75vw, 14px) !important;
+        gap: clamp(7px, .45vw, 10px) !important;
+        border-radius: 14px !important;
+    }
+    #tab-content-party .dual-party-grid .glass-panel > div:first-child {
+        min-height: clamp(30px, 3.1vh, 38px) !important;
+        padding-bottom: 7px !important;
+    }
+    #tab-content-party .dual-party-grid .party-title-main,
+    #tab-content-party .dual-party-grid .party-title-sub {
+        font-size: clamp(15px, .92vw, 18px) !important;
+    }
+    #tab-content-party .dual-party-grid .slots {
+        display: grid !important;
+        grid-template-rows: repeat(5, minmax(0, 1fr)) !important;
+        gap: clamp(5px, .38vw, 8px) !important;
+        flex: 1 1 auto !important;
+        min-height: 0 !important;
+    }
+    #tab-content-party .dual-party-grid .party-slot {
+        padding: clamp(5px, .42vw, 8px) clamp(8px, .62vw, 12px) !important;
+        border-radius: 10px !important;
+    }
+    #tab-content-party .dual-party-grid .party-player-info img {
+        width: clamp(28px, 1.65vw, 34px) !important;
+        height: clamp(28px, 1.65vw, 34px) !important;
+        flex: 0 0 clamp(28px, 1.65vw, 34px) !important;
+    }
+    #tab-content-party .dual-party-grid .party-player-name {
+        font-size: clamp(13.5px, .88vw, 16px) !important;
+        line-height: 1.18 !important;
+    }
+    #tab-content-party .dual-party-grid .party-slot-empty {
+        font-size: clamp(12px, .76vw, 14px) !important;
+    }
+    #tab-content-party .dual-party-grid .party-remove-btn {
+        width: clamp(24px, 1.42vw, 30px) !important;
+        height: clamp(24px, 1.42vw, 30px) !important;
+        font-size: clamp(11px, .72vw, 13px) !important;
+    }
+    #tab-content-party .dual-party-grid .party-power-summary {
+        font-size: clamp(10px, .62vw, 12px) !important;
+        gap: 5px !important;
+    }
+    #tab-content-party .dual-party-grid .party-power-pill,
+    #tab-content-party .dual-party-grid .party-count-pill {
+        padding: 4px 8px !important;
+    }
+}
+@media (min-width: 1024px) and (max-width: 1320px) {
+    #tab-content-party .dual-party-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-template-rows: repeat(4, minmax(0, 1fr)) !important;
+    }
+    #tab-content-party .dual-party-grid .party-player-name { font-size: clamp(13px, 1vw, 15px) !important; }
+}
+#capture-party-combined-zone.capture-export-mode.party-export-show-all {
+    display: grid !important;
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+}
+#capture-party-combined-zone.capture-export-mode.party-export-show-all #capture-main-zone,
+#capture-party-combined-zone.capture-export-mode.party-export-show-all #capture-sub-zone,
+#capture-party-combined-zone.capture-export-mode.party-export-main #capture-main-zone,
+#capture-party-combined-zone.capture-export-mode.party-export-sub #capture-sub-zone {
+    display: flex !important;
+}
+#capture-party-combined-zone.capture-export-mode.party-export-main #capture-sub-zone,
+#capture-party-combined-zone.capture-export-mode.party-export-sub #capture-main-zone {
+    display: none !important;
+}
+#capture-party-combined-zone.capture-export-mode .dual-party-grid {
+    grid-template-columns: repeat(2,minmax(0,1fr)) !important;
+    grid-template-rows: none !important;
+}
+
+
+/* HOTFIX v2.5.1: ให้แท็บ Party ถูกซ่อนจริงเมื่อกดไปหน้าอื่น
+   สาเหตุ: CSS responsive ของ Party ใช้ display:flex !important ทับ class hidden ของ Tailwind */
+#tab-content-party.bellona-dual-party.hidden,
+.hidden#tab-content-party.bellona-dual-party {
+    display: none !important;
+}

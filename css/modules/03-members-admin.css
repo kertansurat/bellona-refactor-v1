@@ -1,0 +1,68 @@
+/* BELLONA Refactor v1.1 modular split
+   Module: 03-members-admin.css
+   Scope: Member inline edit, backup/activity log UI
+   Source: css/bellona-production.css lines 207-269 */
+
+        /* MEMBER EDIT v1.0.7: inline name + power */
+        .member-edit-input {
+            background: rgba(28,35,49,.78);
+            border: 1px solid #2d3748;
+            color: #f8fafc;
+            border-radius: 8px;
+            padding: 6px 9px;
+            font-weight: 800;
+            outline: none;
+            transition: border-color .15s ease, background .15s ease;
+        }
+        .member-edit-input:focus {
+            border-color: #d4af37;
+            background: #111827;
+        }
+        .member-power-input {
+            width: 88px;
+            text-align: center;
+            color: #facc15;
+            letter-spacing: .02em;
+        }
+        .member-id-label {
+            color: #64748b;
+            font-size: 10px;
+            line-height: 1.1;
+            margin-top: 3px;
+        }
+
+
+        /* FINAL PRODUCTION: Backup / Activity Log */
+        .activity-log-row {
+            background: #0c0e14;
+            border: 1px solid #1f2838;
+            border-radius: 10px;
+            padding: 10px 12px;
+        }
+        .activity-log-time {
+            color: #94a3b8;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .activity-log-action {
+            color: #d4af37;
+            font-size: 12px;
+            font-weight: 900;
+        }
+        .bellona-version-pill {
+            position: fixed;
+            right: 14px;
+            bottom: 14px;
+            z-index: 40;
+            background: rgba(9,11,16,.88);
+            border: 1px solid rgba(212,175,55,.28);
+            color: #d4af37;
+            border-radius: 999px;
+            padding: 7px 11px;
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: .04em;
+            backdrop-filter: blur(8px);
+        }
+
+
