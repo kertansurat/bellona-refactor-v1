@@ -596,3 +596,141 @@
     font-size: clamp(18px, 1.3vw, 24px) !important;
   }
 }
+
+/* v2.2.6 Dashboard Bar Final Fix
+   แก้จากฐาน v2.2.4 + v2.2.5: ตัวเลขชิดหัวแท่งจริง โดยไม่ทำแท่ง/ไอคอนเพี้ยน */
+#tab-content-dashboard #dash-job-ranking.dash-v21-job-chart,
+#tab-content-dashboard .dash-v21-job-chart {
+  height: calc(100% - 40px) !important;
+  display: flex !important;
+  align-items: stretch !important;
+  justify-content: space-around !important;
+  gap: clamp(12px, 1.05vw, 24px) !important;
+  padding: clamp(14px, 1vw, 20px) clamp(14px, 1.15vw, 24px) 4px !important;
+  overflow: hidden !important;
+}
+
+#tab-content-dashboard .dash-v21-job-item {
+  flex: 1 1 0 !important;
+  max-width: clamp(72px, 5vw, 104px) !important;
+  min-width: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 0 !important;
+  padding: 0 !important;
+  color: #e5e7eb !important;
+}
+
+#tab-content-dashboard .dash-v21-bar-stack {
+  width: 100% !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  align-items: center !important;
+  padding: 0 !important;
+  overflow: visible !important;
+}
+
+#tab-content-dashboard .dash-v21-job-count {
+  display: block !important;
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  justify-self: auto !important;
+  margin: 0 0 4px 0 !important;
+  padding: 0 !important;
+  transform: none !important;
+  font-size: clamp(25px, 1.55vw, 34px) !important;
+  line-height: .86 !important;
+  letter-spacing: -.045em !important;
+  color: #ffffff !important;
+  font-weight: 1000 !important;
+  text-shadow: 0 0 16px var(--job-glow), 0 2px 8px rgba(0,0,0,.82) !important;
+  z-index: 3 !important;
+}
+
+#tab-content-dashboard .dash-v21-job-bar {
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  margin: 0 !important;
+  width: clamp(48px, 3.7vw, 74px) !important;
+  min-height: 22px !important;
+  max-height: calc(100% - 38px) !important;
+  border-radius: 15px 15px 7px 7px !important;
+  position: relative !important;
+  overflow: hidden !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  box-shadow: 0 0 20px var(--job-glow), inset 0 1px 0 rgba(255,255,255,.32) !important;
+  background: linear-gradient(180deg, var(--job-top), var(--job-mid), var(--job-bottom)) !important;
+}
+
+#tab-content-dashboard .dash-v21-job-vertical {
+  writing-mode: unset !important;
+  text-orientation: mixed !important;
+  position: absolute !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) rotate(-90deg) !important;
+  transform-origin: center center !important;
+  white-space: nowrap !important;
+  max-width: 170px !important;
+  color: rgba(255,255,255,.96) !important;
+  font-size: clamp(9px, .55vw, 11px) !important;
+  font-weight: 1000 !important;
+  letter-spacing: .045em !important;
+  text-transform: uppercase !important;
+  text-shadow: 0 1px 4px rgba(0,0,0,.88), 0 0 10px rgba(255,255,255,.16) !important;
+  pointer-events: none !important;
+}
+
+#tab-content-dashboard .dash-v21-job-item > img {
+  flex: 0 0 auto !important;
+  align-self: center !important;
+  width: clamp(48px, 3.7vw, 74px) !important;
+  height: clamp(48px, 3.7vw, 74px) !important;
+  margin: 8px 0 0 0 !important;
+  border-radius: 18px !important;
+  padding: 5px !important;
+  object-fit: contain !important;
+  background: rgba(5, 8, 14, .58) !important;
+  border: 1px solid rgba(255,255,255,.14) !important;
+  box-shadow: 0 0 18px var(--job-glow), inset 0 1px 0 rgba(255,255,255,.06) !important;
+  filter: drop-shadow(0 0 8px var(--job-glow)) !important;
+}
+
+#tab-content-dashboard .dash-v21-job-code,
+#tab-content-dashboard .dash-v21-job-item small {
+  display: none !important;
+}
+
+@media (max-height: 850px) and (min-width: 1024px) {
+  #tab-content-dashboard #dash-job-ranking.dash-v21-job-chart,
+  #tab-content-dashboard .dash-v21-job-chart {
+    padding-top: 10px !important;
+    gap: clamp(8px, .8vw, 16px) !important;
+  }
+  #tab-content-dashboard .dash-v21-job-item {
+    max-width: clamp(60px, 4.4vw, 88px) !important;
+  }
+  #tab-content-dashboard .dash-v21-job-count {
+    font-size: clamp(21px, 1.25vw, 28px) !important;
+    margin-bottom: 3px !important;
+  }
+  #tab-content-dashboard .dash-v21-job-bar {
+    width: clamp(42px, 3.2vw, 62px) !important;
+    max-height: calc(100% - 32px) !important;
+    min-height: 18px !important;
+  }
+  #tab-content-dashboard .dash-v21-job-item > img {
+    width: clamp(42px, 3.2vw, 62px) !important;
+    height: clamp(42px, 3.2vw, 62px) !important;
+    margin-top: 6px !important;
+  }
+}
