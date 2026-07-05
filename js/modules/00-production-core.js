@@ -2072,14 +2072,17 @@ function renderStatsTab() {
     const query = normalizeStatsSearchText(statsSearchQuery || safeEl('stats-member-search')?.value || '');
     const visiblePlayers = query ? players.filter(p => getPlayerSearchBlob(p).includes(query)) : players;
     renderStatsMemberSummary(visiblePlayers, absentMap);
-    tbody.innerHTML = visiblePlayers.map(p => {
+    const statsRowsHtml = visiblePlayers.map(p => {
         totalP += p.presentCount || 0;
         totalL += p.leaveCount || 0;
         totalA += p.absentCount || 0;
         const consecutiveAbsent = absentMap[String(p.id)] ?? ((p.status === 'ขาด') ? 1 : 0);
         const consecutiveClass = consecutiveAbsent >= 3 ? 'text-red-300 font-extrabold' : consecutiveAbsent > 0 ? 'text-red-400 font-bold' : 'text-gray-500';
         return `<tr><td class="p-3 font-bold">${escapeHtml(p.name)}</td><td class="p-3 text-gray-400">${escapeHtml(p.job)}</td><td class="p-3 text-center text-green-400">${p.presentCount || 0}</td><td class="p-3 text-center text-amber-400">${p.leaveCount || 0}</td><td class="p-3 text-center text-red-400">${p.absentCount || 0}</td><td class="p-3 text-center ${consecutiveClass}">${consecutiveAbsent} ครั้ง</td></tr>`;
-    }).join('') || `<tr><td colspan="6" class="p-8 text-center text-gray-500 font-bold">ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`;
+    }).join('');
+    tbody.innerHTML = statsRowsHtml
+        ? statsRowsHtml + `<tr class="stats-table-spacer" aria-hidden="true"><td colspan="6"></td></tr>`
+        : `<tr><td colspan="6" class="p-8 text-center text-gray-500 font-bold">ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`;
     if (safeEl('stat-avg-present')) safeEl('stat-avg-present').innerText = totalP + ' ครั้ง';
     if (safeEl('stat-avg-leave')) safeEl('stat-avg-leave').innerText = totalL + ' ครั้ง';
     if (safeEl('stat-avg-absent')) safeEl('stat-avg-absent').innerText = totalA + ' ครั้ง';
