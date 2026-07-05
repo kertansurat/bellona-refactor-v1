@@ -1,861 +1,771 @@
 <!DOCTYPE html>
+
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BELLONA ROOC</title>
-    <meta name="application-name" content="BELLONA ROOC">
-    <meta property="og:title" content="BELLONA ROOC">
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font: Inter & Noto Sans Thai -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+Thai:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- html2canvas for high quality screenshots -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<link rel="stylesheet" href="./css/bellona-production.css">
-<link rel="stylesheet" href="./css/performance.css">
-<link rel="stylesheet" href="./assets/bellona-theme-gray.css">
-<link rel="stylesheet" href="./assets/dashboard.css">
-<link rel="stylesheet" href="./assets/css/party-export.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>BELLONA ROOC</title>
+<meta content="BELLONA ROOC" name="application-name"/>
+<meta content="BELLONA ROOC" property="og:title"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com"></script>
+<!-- FontAwesome Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet"/>
+<!-- Google Font: Inter & Noto Sans Thai -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Noto+Sans+Thai:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- html2canvas for high quality screenshots -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<link href="./css/modules/00-production-core.css" rel="stylesheet"/>
+
+
+
+
+<link href="./css/modules/01-theme-gray.css" rel="stylesheet"/>
+<link href="./css/modules/09-background-theme.css" rel="stylesheet"/>
+<link href="./css/modules/15-dashboard.css" rel="stylesheet"/>
+<link href="./css/modules/16-party-export.css" rel="stylesheet"/>
+<link href="./css/modules/90-rewards-scroll.css" rel="stylesheet"/>
+<link href="./css/modules/99-performance-safe.css" rel="stylesheet"/>
 </head>
 <body class="min-h-screen flex flex-col selection:bg-[#d4af37] selection:text-black">
-
-    <!-- 🔒 หน้าต่าง Login -->
-    <div id="login-overlay-screen" class="fixed inset-0 bg-[#07090e]/98 backdrop-blur-md flex items-center justify-center z-[500] transition-all duration-300">
-        <div class="bg-[#111520] border border-[#232c3f] rounded-2xl p-8 w-[460px] max-w-[95%] shadow-[0_0_50px_rgba(212,175,55,0.12)] space-y-6 text-center">
-            <div class="flex flex-col items-center gap-2">
-                <img id="login-logo" src="./assets/logo-bellona.png" onerror="this.src='https://placehold.co/400x180/121620/d4af37?text=BELLONA+ROOC+GUILD'" class="w-full max-w-[400px] h-auto drop-shadow-[0_0_15px_rgba(212,175,55,0.25)] rounded-lg object-contain" alt="BELLONA ROOC">
-                <p class="text-[13px] text-[#d4af37] uppercase tracking-widest font-bold mt-2">กรุณาระบุสิทธิ์การเข้าใช้งานระบบควบคุมกิลด์</p>
-            </div>
-            <div class="space-y-4 text-left text-sm">
-                <div>
-                    <label class="block text-gray-400 mb-1.5 font-semibold">บัญชีผู้ดูแลกิลด์ (Admin ID)</label>
-                    <input type="text" id="login-username" placeholder="ระบุ ID ผู้ควบคุม..." class="w-full bg-[#181f2d] text-gray-100 px-4 py-3 rounded-lg border border-[#2b364a] focus:outline-none focus:border-[#d4af37] text-base">
-                </div>
-                <div>
-                    <label class="block text-gray-400 mb-1.5 font-semibold">รหัสผ่านลับ (Password)</label>
-                    <div class="login-password-wrap">
-                    <input type="password" id="login-password" placeholder="ระบุรหัสผ่านแก้ไข..." class="w-full bg-[#181f2d] text-gray-100 pl-4 pr-12 py-3 rounded-lg border border-[#2b364a] focus:outline-none focus:border-[#d4af37] text-base">
-                    <button type="button" onclick="toggleLoginPasswordVisibility()" class="login-eye-btn" title="แสดง/ซ่อนรหัสผ่าน"><i id="login-password-eye-icon" class="fa-solid fa-eye"></i></button>
-                </div>
-                </div>
-            </div>
-            <div class="space-y-3 pt-2">
-                <button onclick="attemptAdminLogin()" class="w-full bg-gradient-to-r from-[#b59043] to-[#d4af37] text-black font-extrabold py-3.5 rounded-lg text-sm tracking-wider uppercase transition shadow-lg hover:scale-[1.01]">
-                    <i class="fa-solid fa-shield-halved"></i> เข้าระบบฐานะผู้ดูแล (ADMIN)
+<!-- 🔒 หน้าต่าง Login -->
+<div class="fixed inset-0 bg-[#07090e]/98 backdrop-blur-md flex items-center justify-center z-[500] transition-all duration-300" id="login-overlay-screen">
+<div class="bg-[#111520] border border-[#232c3f] rounded-2xl p-8 w-[460px] max-w-[95%] shadow-[0_0_50px_rgba(212,175,55,0.12)] space-y-6 text-center">
+<div class="flex flex-col items-center gap-2">
+<img alt="BELLONA ROOC" class="w-full max-w-[400px] h-auto drop-shadow-[0_0_15px_rgba(212,175,55,0.25)] rounded-lg object-contain" id="login-logo" onerror="this.src='https://placehold.co/400x180/121620/d4af37?text=BELLONA+ROOC+GUILD'" src="./assets/logo-bellona.png"/>
+<p class="text-[13px] text-[#d4af37] uppercase tracking-widest font-bold mt-2">กรุณาระบุสิทธิ์การเข้าใช้งานระบบควบคุมกิลด์</p>
+</div>
+<div class="space-y-4 text-left text-sm">
+<div>
+<label class="block text-gray-400 mb-1.5 font-semibold">บัญชีผู้ดูแลกิลด์ (Admin ID)</label>
+<input class="w-full bg-[#181f2d] text-gray-100 px-4 py-3 rounded-lg border border-[#2b364a] focus:outline-none focus:border-[#d4af37] text-base" id="login-username" placeholder="ระบุ ID ผู้ควบคุม..." type="text"/>
+</div>
+<div>
+<label class="block text-gray-400 mb-1.5 font-semibold">รหัสผ่านลับ (Password)</label>
+<div class="login-password-wrap">
+<input class="w-full bg-[#181f2d] text-gray-100 pl-4 pr-12 py-3 rounded-lg border border-[#2b364a] focus:outline-none focus:border-[#d4af37] text-base" id="login-password" placeholder="ระบุรหัสผ่านแก้ไข..." type="password"/>
+<button class="login-eye-btn" onclick="toggleLoginPasswordVisibility()" title="แสดง/ซ่อนรหัสผ่าน" type="button"><i class="fa-solid fa-eye" id="login-password-eye-icon"></i></button>
+</div>
+</div>
+</div>
+<div class="space-y-3 pt-2">
+<button class="w-full bg-gradient-to-r from-[#b59043] to-[#d4af37] text-black font-extrabold py-3.5 rounded-lg text-sm tracking-wider uppercase transition shadow-lg hover:scale-[1.01]" onclick="attemptAdminLogin()">
+<i class="fa-solid fa-shield-halved"></i> เข้าระบบฐานะผู้ดูแล (ADMIN)
                 </button>
-                <div class="flex items-center justify-between text-xs text-gray-600">
-                    <span class="h-[1px] w-[42%] bg-[#222b3c]"></span><span>หรือ</span><span class="h-[1px] w-[42%] bg-[#222b3c]"></span>
-                </div>
-                <button onclick="bypassAsGuest()" class="w-full bg-[#161b26] text-[#d4af37] border border-[#283247] hover:bg-[#1e2535] hover:text-white font-bold py-3 rounded-lg text-sm transition">
-                    <i class="fa-solid fa-eye"></i> เข้าชมทั่วไปอย่างเดียว (GUEST)
+<div class="flex items-center justify-between text-xs text-gray-600">
+<span class="h-[1px] w-[42%] bg-[#222b3c]"></span><span>หรือ</span><span class="h-[1px] w-[42%] bg-[#222b3c]"></span>
+</div>
+<button class="w-full bg-[#161b26] text-[#d4af37] border border-[#283247] hover:bg-[#1e2535] hover:text-white font-bold py-3 rounded-lg text-sm transition" onclick="bypassAsGuest()">
+<i class="fa-solid fa-eye"></i> เข้าชมทั่วไปอย่างเดียว (GUEST)
                 </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- หัวเว็บไซต์ควบคุมหลัก -->
-    <header class="bg-[#090b10] border-b border-[#1f2838] px-5 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50">
-        <div class="flex items-center gap-4">
-            <img id="header-logo" src="./assets/logo-bellona.png" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" class="h-14 w-auto object-contain" alt="BELLONA">
-            <div id="role-status-badge" class="px-3.5 py-1.5 rounded text-[11px] font-extrabold tracking-widest uppercase border flex items-center gap-2"></div>
-        </div>
-        <div class="hidden xl:flex items-center gap-8 text-sm text-gray-300 bg-[#111520] px-5 py-2.5 rounded-lg border border-[#1f2838]">
-            <div class="text-center pr-4 border-r border-[#1f2838]">สมาชิกทั้งหมด: <span class="font-bold text-white text-lg" id="count-total">0</span></div>
-            <div class="text-center pr-4 border-r border-[#1f2838]">จัดปาร์ตี้แล้ว: <span class="font-bold text-[#d4af37] text-lg" id="count-assigned">0</span></div>
-            <div class="text-center">รอคิว/สำรอง: <span class="font-bold text-gray-200 text-lg" id="count-waitlist">0</span></div>
-        </div>
-        <div class="flex items-center gap-2 flex-wrap">
-            <!-- ปุ่มเพิ่มอาชีพถูกซ่อนไว้ตามการใช้งานจริง แต่ฟังก์ชั่นตั้งค่ายังคงอยู่ในโค้ด -->
-            <button onclick="exportBellonaBackup()" class="admin-only bg-[#101826] text-emerald-300 border border-emerald-900/60 px-4 py-2.5 rounded-lg text-sm font-bold">
-                <i class="fa-solid fa-file-export"></i> Export Backup
+</div>
+</div>
+</div>
+<!-- หัวเว็บไซต์ควบคุมหลัก -->
+<header class="bg-[#090b10] border-b border-[#1f2838] px-5 py-3 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<img alt="BELLONA" class="h-14 w-auto object-contain" id="header-logo" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" src="./assets/logo-bellona.png"/>
+<div class="px-3.5 py-1.5 rounded text-[11px] font-extrabold tracking-widest uppercase border flex items-center gap-2" id="role-status-badge"></div>
+</div>
+<div class="hidden xl:flex items-center gap-8 text-sm text-gray-300 bg-[#111520] px-5 py-2.5 rounded-lg border border-[#1f2838]">
+<div class="text-center pr-4 border-r border-[#1f2838]">สมาชิกทั้งหมด: <span class="font-bold text-white text-lg" id="count-total">0</span></div>
+<div class="text-center pr-4 border-r border-[#1f2838]">จัดปาร์ตี้แล้ว: <span class="font-bold text-[#d4af37] text-lg" id="count-assigned">0</span></div>
+<div class="text-center">รอคิว/สำรอง: <span class="font-bold text-gray-200 text-lg" id="count-waitlist">0</span></div>
+</div>
+<div class="flex items-center gap-2 flex-wrap">
+<!-- ปุ่มเพิ่มอาชีพถูกซ่อนไว้ตามการใช้งานจริง แต่ฟังก์ชั่นตั้งค่ายังคงอยู่ในโค้ด -->
+<button class="admin-only bg-[#101826] text-emerald-300 border border-emerald-900/60 px-4 py-2.5 rounded-lg text-sm font-bold" onclick="exportBellonaBackup()">
+<i class="fa-solid fa-file-export"></i> Export Backup
             </button>
-            <button onclick="triggerBellonaBackupImport()" class="admin-only bg-[#101826] text-amber-300 border border-amber-900/60 px-4 py-2.5 rounded-lg text-sm font-bold">
-                <i class="fa-solid fa-file-import"></i> Import Backup
+<button class="admin-only bg-[#101826] text-amber-300 border border-amber-900/60 px-4 py-2.5 rounded-lg text-sm font-bold" onclick="triggerBellonaBackupImport()">
+<i class="fa-solid fa-file-import"></i> Import Backup
             </button>
-            <button onclick="openActivityLogModal()" class="bg-[#141a24] text-[#d4af37] border border-[#2b3543] px-4 py-2.5 rounded-lg text-sm font-bold">
-                <i class="fa-solid fa-clock-rotate-left"></i> Activity Log
+<button class="bg-[#141a24] text-[#d4af37] border border-[#2b3543] px-4 py-2.5 rounded-lg text-sm font-bold" onclick="openActivityLogModal()">
+<i class="fa-solid fa-clock-rotate-left"></i> Activity Log
             </button>
-            <button onclick="openAdminToolsModal()" class="admin-only bg-[#141a24] text-amber-300 border border-amber-900/60 px-4 py-2.5 rounded-lg text-sm font-bold">
-                <i class="fa-solid fa-screwdriver-wrench"></i> Admin Tools
+<button class="admin-only bg-[#141a24] text-amber-300 border border-amber-900/60 px-4 py-2.5 rounded-lg text-sm font-bold" onclick="openAdminToolsModal()">
+<i class="fa-solid fa-screwdriver-wrench"></i> Admin Tools
             </button>
-            <input id="bellona-backup-file-input" type="file" accept="application/json,.json" class="hidden" onchange="importBellonaBackupFile(event)">
-            <button onclick="startPlayersRealtimeSync()" class="bg-[#0b1f2a] text-sky-400 border border-sky-900/60 px-4 py-2.5 rounded-lg text-sm font-bold">
-    <i class="fa-solid fa-satellite-dish"></i> เปิด Realtime
+<input accept="application/json,.json" class="hidden" id="bellona-backup-file-input" onchange="importBellonaBackupFile(event)" type="file"/>
+<button class="bg-[#0b1f2a] text-sky-400 border border-sky-900/60 px-4 py-2.5 rounded-lg text-sm font-bold" onclick="startPlayersRealtimeSync()">
+<i class="fa-solid fa-satellite-dish"></i> เปิด Realtime
 </button>
-            <button onclick="logoutSession()" class="bg-[#1c1212] text-rose-400 border border-rose-950/60 px-4 py-2.5 rounded-lg text-sm font-bold"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
-        </div>
-    </header>
-
+<button class="bg-[#1c1212] text-rose-400 border border-rose-950/60 px-4 py-2.5 rounded-lg text-sm font-bold" onclick="logoutSession()"><i class="fa-solid fa-right-from-bracket"></i> ออกจากระบบ</button>
+</div>
+</header>
 <!-- ร่างกายหลักของระบบ -->
 <main class="flex-grow flex flex-col lg:flex-row overflow-hidden relative">
-
-    <!-- เมนูหลักด้านซ้าย -->
-    <nav id="main-left-menu" class="w-full lg:w-[230px] bg-[#090b10] border-r border-[#1f2838] flex lg:flex-col overflow-x-auto lg:overflow-y-auto shrink-0 p-3 gap-2">
-        <button onclick="switchTab('dashboard')" id="tab-btn-dashboard" class="tab-btn active px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-house text-[#d4af37] w-5"></i> Dashboard</button>
-        <button onclick="switchTab('members')" id="tab-btn-members" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-user-gear text-[#d4af37] w-5"></i> จัดการสมาชิก</button>
-        <button onclick="switchTab('party')" id="tab-btn-party" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-users w-5"></i> จัดปาร์ตี้กิลด์วอ</button>
-        <button onclick="switchTab('tactical')" id="tab-btn-tactical" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-map-location-dot w-5"></i> วางแผนกลยุทธ</button>
-        <button onclick="switchTab('auction')" id="tab-btn-auction" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-trophy w-5"></i> จัดการคิวรางวัล</button>
-        <button onclick="switchTab('queuecheck')" id="tab-btn-queuecheck" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-list-check w-5"></i> เช็คคิวรับรางวัล</button>
-        <button onclick="switchTab('rewards')" id="tab-btn-rewards" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-gift w-5"></i> สุ่มของรางวัล</button>
-        <button onclick="switchTab('stats')" id="tab-btn-stats" class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left"><i class="fa-solid fa-chart-line w-5"></i> สถิติ</button>
-    </nav>
-
-    <!-- แผงรายชื่อด้านซ้าย -->
-    <section id="player-sidebar" class="w-full lg:w-[260px] bg-[#0c0e14] border-r border-[#1f2838] flex flex-col shrink-0">
-        <div class="p-4 border-b border-[#1f2838] space-y-3">
-            <div class="flex items-center justify-between">
-                <span class="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-user-clock text-[#d4af37]"></i> รายชื่อสมาชิกกิลด์</span>
-                <span class="bg-[#1f2a3a] text-[#d4af37] text-xs px-3 py-1 rounded-full font-bold" id="waitlist-badge">0</span>
-            </div>
-            <div class="space-y-2">
-                <input type="text" id="search-name" oninput="filterPlayers()" placeholder="พิมพ์ค้นหาชื่อตัวละคร..." class="w-full bg-[#121620] text-sm text-gray-100 pl-3 pr-3 py-2.5 rounded-lg border border-[#212a3a] focus:outline-none">
-                <select id="search-job-dropdown" onchange="filterPlayers()" class="w-full bg-[#121620] text-sm text-gray-200 px-3 py-2.5 rounded-lg border border-[#212a3a] focus:outline-none">
-                    <option value="all">🔍 แสดงสายอาชีพทั้งหมด</option>
-                </select>
-            </div>
-        </div>
-        <div class="flex-grow overflow-y-auto p-3 space-y-2.5" id="waiting-list"></div>
-    </section>
-
-        <!-- แผงหน้าต่างแสดงผลหลัก -->
-        <section class="flex-grow overflow-y-auto bg-[#080a0f] p-5 min-w-0">
+<!-- เมนูหลักด้านซ้าย -->
+<nav class="w-full lg:w-[230px] bg-[#090b10] border-r border-[#1f2838] flex lg:flex-col overflow-x-auto lg:overflow-y-auto shrink-0 p-3 gap-2" id="main-left-menu">
+<button class="tab-btn active px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-dashboard" onclick="switchTab('dashboard')"><i class="fa-solid fa-house text-[#d4af37] w-5"></i> Dashboard</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-members" onclick="switchTab('members')"><i class="fa-solid fa-user-gear text-[#d4af37] w-5"></i> จัดการสมาชิก</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-party" onclick="switchTab('party')"><i class="fa-solid fa-users w-5"></i> จัดปาร์ตี้กิลด์วอ</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-tactical" onclick="switchTab('tactical')"><i class="fa-solid fa-map-location-dot w-5"></i> วางแผนกลยุทธ</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-auction" onclick="switchTab('auction')"><i class="fa-solid fa-trophy w-5"></i> จัดการคิวรางวัล</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-queuecheck" onclick="switchTab('queuecheck')"><i class="fa-solid fa-list-check w-5"></i> เช็คคิวรับรางวัล</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-rewards" onclick="switchTab('rewards')"><i class="fa-solid fa-gift w-5"></i> สุ่มของรางวัล</button>
+<button class="tab-btn px-4 py-3 text-sm font-bold flex items-center gap-3 whitespace-nowrap rounded-lg text-left" id="tab-btn-stats" onclick="switchTab('stats')"><i class="fa-solid fa-chart-line w-5"></i> สถิติ</button>
+</nav>
+<!-- แผงรายชื่อด้านซ้าย -->
+<section class="w-full lg:w-[260px] bg-[#0c0e14] border-r border-[#1f2838] flex flex-col shrink-0" id="player-sidebar">
+<div class="p-4 border-b border-[#1f2838] space-y-3">
+<div class="flex items-center justify-between">
+<span class="text-sm font-bold text-gray-300 uppercase tracking-wider flex items-center gap-2"><i class="fa-solid fa-user-clock text-[#d4af37]"></i> รายชื่อสมาชิกกิลด์</span>
+<span class="bg-[#1f2a3a] text-[#d4af37] text-xs px-3 py-1 rounded-full font-bold" id="waitlist-badge">0</span>
+</div>
+<div class="space-y-2">
+<input class="w-full bg-[#121620] text-sm text-gray-100 pl-3 pr-3 py-2.5 rounded-lg border border-[#212a3a] focus:outline-none" id="search-name" oninput="filterPlayers()" placeholder="พิมพ์ค้นหาชื่อตัวละคร..." type="text"/>
+<select class="w-full bg-[#121620] text-sm text-gray-200 px-3 py-2.5 rounded-lg border border-[#212a3a] focus:outline-none" id="search-job-dropdown" onchange="filterPlayers()">
+<option value="all">🔍 แสดงสายอาชีพทั้งหมด</option>
+</select><select class="w-full bg-[#121620] text-sm text-gray-200 px-3 py-2.5 rounded-lg border border-[#212a3a] focus:outline-none" id="search-status-dropdown" onchange="filterPlayers()"><option value="all">📌 แสดงสถานะทั้งหมด</option><option value="ready">✅ พร้อมจัดปาร์ตี้</option><option value="assigned">🛡️ อยู่ในปาร์ตี้แล้ว</option><option value="waiting">⏳ รอจัดปาร์ตี้</option><option value="leave">🟠 ลาวอร์</option><option value="absent">🔴 ขาดวอร์</option></select>
+</div>
+</div>
+<div class="flex-grow overflow-y-auto p-3 space-y-2.5" id="waiting-list"></div>
+</section>
+<!-- แผงหน้าต่างแสดงผลหลัก -->
+<section class="flex-grow overflow-y-auto bg-[#080a0f] p-5 min-w-0">
 <!-- 0. Dashboard หน้าแรก -->
-<div id="tab-content-dashboard" class="space-y-5">
-    <div class="dashboard-hero rounded-2xl border border-[#1f2838] p-6 shadow-2xl overflow-hidden relative">
-        <div class="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-5">
-            <div>
-                <p class="text-[11px] uppercase tracking-[0.35em] text-[#d4af37] font-black mb-2">BELLONA GVG CONTROL CENTER</p>
-                <h1 class="text-2xl md:text-3xl font-black text-white leading-tight">Dashboard ภาพรวมกิลด์</h1>
-                <p class="text-sm text-gray-300 mt-2 max-w-2xl">สรุปสถานะสมาชิก การเช็คชื่อ ปาร์ตี้ และคิวรางวัลจากข้อมูลปัจจุบันในระบบ</p>
-            </div>
-            <div class="flex flex-wrap gap-2 text-xs font-bold">
-                <button onclick="switchTab('members')" class="bg-[#d4af37] text-black px-4 py-2.5 rounded-lg"><i class="fa-solid fa-user-plus"></i> จัดการสมาชิก</button>
-                <button onclick="switchTab('party')" class="bg-[#242424] text-[#d4af37] border border-[#3a3a3a] px-4 py-2.5 rounded-lg"><i class="fa-solid fa-users"></i> จัดปาร์ตี้</button>
-                <button onclick="switchTab('auction')" class="bg-[#242424] text-[#d4af37] border border-[#3a3a3a] px-4 py-2.5 rounded-lg"><i class="fa-solid fa-trophy"></i> คิวรางวัล</button>
-            </div>
-        </div>
-    </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-        <div class="dashboard-card"><span>สมาชิกทั้งหมด</span><strong id="dash-total-members">0</strong><small>ตัวละครในฐานข้อมูล</small></div>
-        <div class="dashboard-card"><span>มาวอร์วันนี้</span><strong id="dash-present-members">0</strong><small id="dash-attendance-rate">0% ของสมาชิกทั้งหมด</small></div>
-        <div class="dashboard-card"><span>จัดปาร์ตี้แล้ว</span><strong id="dash-assigned-members">0</strong><small>ตัวละครที่ถูกจัดทีม</small></div>
-        <div class="dashboard-card"><span>มีสิทธิ์รางวัล</span><strong id="dash-reward-members">0</strong><small>โควตาสุ่มของรางวัล</small></div>
-    </div>
-
-    <div class="grid grid-cols-1 2xl:grid-cols-3 gap-5">
-        <div class="2xl:col-span-2 dashboard-panel">
-            <div class="dashboard-panel-head">
-                <h3><i class="fa-solid fa-chart-simple"></i> Attendance Progress</h3>
-                <span id="dash-round-label">รอบวันนี้: -</span>
-            </div>
-            <div class="dash-progress-wrap"><div id="dash-present-bar" class="dash-progress-bar"></div></div>
-            <div class="grid grid-cols-3 gap-3 mt-4 text-center">
-                <div class="dash-mini-stat"><b id="dash-leave-members">0</b><span>ลา</span></div>
-                <div class="dash-mini-stat"><b id="dash-absent-members">0</b><span>ขาด</span></div>
-                <div class="dash-mini-stat"><b id="dash-waiting-members">0</b><span>รอจัดปาร์ตี้</span></div>
-            </div>
-        </div>
-        <div class="dashboard-panel">
-            <div class="dashboard-panel-head"><h3><i class="fa-solid fa-bolt"></i> Top Power</h3></div>
-            <div id="dash-top-power" class="space-y-2"></div>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 2xl:grid-cols-3 gap-5">
-        <div class="dashboard-panel 2xl:col-span-2">
-            <div class="dashboard-panel-head">
-                <h3><i class="fa-solid fa-ranking-star"></i> Job Ranking</h3>
-                <span>จำนวนอาชีพในกิลด์</span>
-            </div>
-            <div id="dash-job-ranking" class="dash-job-ranking space-y-3"></div>
-        </div>
-        <div class="dashboard-panel">
-            <div class="dashboard-panel-head"><h3><i class="fa-solid fa-calendar-days"></i> War Calendar</h3></div>
-            <div id="dash-war-calendar" class="dash-war-calendar"></div>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-1 gap-5">
-        <div class="dashboard-panel">
-            <div class="dashboard-panel-head">
-                <h3><i class="fa-solid fa-bullhorn"></i> Guild Notice</h3>
-                <span class="admin-only dash-notice-admin-label">Admin editable</span>
-            </div>
-            <div id="dash-guild-notice-view" class="dash-notice-view"></div>
-            <div id="dash-guild-notice-admin" class="dash-notice-admin admin-only mt-4">
-                <textarea id="dash-guild-notice-input" rows="4" placeholder="พิมพ์ประกาศกิลด์ เช่น เวลารวมตัว, กติกาวอร์, ของรางวัลรอบนี้..."></textarea>
-                <div class="flex justify-end mt-3">
-                    <button type="button" onclick="saveDashboardGuildNotice()" class="dash-notice-save-btn"><i class="fa-solid fa-floppy-disk"></i> บันทึกประกาศ</button>
-                </div>
-            </div>
-        </div>
-    </div>
+<div class="space-y-0 bellona-dashboard-v21" id="tab-content-dashboard">
+<div class="dashboard-hero dash-v21-hero rounded-2xl border border-[#1f2838] p-5 shadow-2xl overflow-hidden relative">
+<div class="relative z-10 flex flex-col xl:flex-row xl:items-center xl:justify-between gap-4">
+<div>
+<p class="text-[11px] uppercase tracking-[0.35em] text-[#d4af37] font-black mb-2">BELLONA GVG CONTROL CENTER</p>
+<h1 class="text-2xl md:text-3xl font-black text-white leading-tight">Dashboard ภาพรวมกิลด์</h1>
+<p class="text-sm text-gray-300 mt-2 max-w-2xl">หน้าเดียวจบ: Job Ranking, War Calendar, Top Power และ Guild Notice</p>
+</div>
+<div class="flex flex-wrap gap-2 text-xs font-bold">
+<button class="bg-[#d4af37] text-black px-4 py-2.5 rounded-lg" onclick="switchTab('members')"><i class="fa-solid fa-user-plus"></i> จัดการสมาชิก</button>
+<button class="bg-[#242424] text-[#d4af37] border border-[#3a3a3a] px-4 py-2.5 rounded-lg" onclick="switchTab('party')"><i class="fa-solid fa-users"></i> จัดปาร์ตี้</button>
+<button class="bg-[#242424] text-[#d4af37] border border-[#3a3a3a] px-4 py-2.5 rounded-lg" onclick="switchTab('auction')"><i class="fa-solid fa-trophy"></i> คิวรางวัล</button>
+</div>
+</div>
+</div>
+<div class="dash-v21-grid">
+<section class="dash-v21-panel dash-v21-job-panel">
+<div class="dash-v21-panel-head">
+<h3><i class="fa-solid fa-ranking-star"></i> JOB RANKING</h3>
+<span>กราฟแท่งอาชีพ</span>
+</div>
+<div class="dash-v21-job-chart" id="dash-job-ranking"></div>
+</section>
+<section class="dash-v21-panel dash-v21-war-panel">
+<div class="dash-v21-panel-head">
+<h3><i class="fa-solid fa-calendar-days"></i> WAR CALENDAR</h3>
+<span>Next battle</span>
+</div>
+<div class="dash-v21-war-calendar" id="dash-war-calendar"></div>
+</section>
+<section class="dash-v21-panel dash-v21-top-brand-panel">
+<div class="dash-v21-panel-head">
+<h3><i class="fa-solid fa-bolt"></i> TOP POWER</h3>
+<span>Top 5</span>
+</div>
+<div class="dash-v21-top-brand-grid">
+<div class="dash-v21-top-power" id="dash-top-power"></div>
+<div class="dash-v21-brand-card">
+<img alt="BELLONA" onerror="this.style.display='none'" src="./assets/logo-bellona.png"/>
+<div class="dash-v21-brand-title">BELLONA</div>
+<div class="dash-v21-brand-sub">ROOC Guild Control Center</div>
+</div>
+</div>
+</section>
+<section class="dash-v21-panel dash-v21-notice-panel">
+<div class="dash-v21-panel-head">
+<h3><i class="fa-solid fa-bullhorn"></i> GUILD NOTICE</h3>
+<span class="admin-only">Admin editable</span>
+</div>
+<div class="dash-v21-notice-view" id="dash-guild-notice-view"></div>
+<div class="dash-v21-notice-admin admin-only" id="dash-guild-notice-admin">
+<textarea id="dash-guild-notice-input" placeholder="พิมพ์ประกาศกิลด์ เช่น เวลารวมตัว, กติกาวอร์, ของรางวัลรอบนี้..." rows="3"></textarea>
+<button class="dash-v21-notice-save-btn" onclick="saveDashboardGuildNotice()" type="button"><i class="fa-solid fa-floppy-disk"></i> บันทึกประกาศ</button>
+</div>
+</section>
+</div>
 </div>
 
 <!-- 1. แท็บจัดทีมปาร์ตี้ -->
-<div id="tab-content-party" class="hidden space-y-3 bellona-dual-party">
-
-    <div class="dual-party-toolbar bg-[#111520] p-3 rounded-xl border border-[#1f2838] shadow-xl flex flex-wrap items-center justify-between gap-3">
-        <div class="min-w-[260px]">
-            <div class="text-[11px] uppercase tracking-[0.26em] text-[#d4af37] font-black">BELLONA PARTY PLANNER</div>
-            <div class="text-sm text-gray-300 mt-1">
+<div class="hidden space-y-3 bellona-dual-party" id="tab-content-party">
+<div class="dual-party-toolbar bg-[#111520] p-3 rounded-xl border border-[#1f2838] shadow-xl flex flex-wrap items-center justify-between gap-3">
+<div class="min-w-[260px]">
+<div class="text-[11px] uppercase tracking-[0.26em] text-[#d4af37] font-black">BELLONA PARTY PLANNER</div>
+<div class="text-sm text-gray-300 mt-1">
                 แยกแผนจัดปาร์ตี้ 2 รูปแบบ · รายชื่อเดียวกันลากจัดได้ทั้ง Guild League และ Emperium Overrun โดยไม่ปนกัน
             </div>
-        </div>
-
-        <div class="flex items-center gap-2 flex-wrap text-xs">
-            <button id="party-plan-btn-guild" type="button" onclick="switchPartyPlan('guild')" class="party-plan-btn active">
-                <i class="fa-solid fa-crown"></i> Guild League
+</div>
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<button class="party-plan-btn active" id="party-plan-btn-guild" onclick="switchPartyPlan('guild')" type="button">
+<i class="fa-solid fa-crown"></i> Guild League
             </button>
-            <button id="party-plan-btn-overrun" type="button" onclick="switchPartyPlan('overrun')" class="party-plan-btn">
-                <i class="fa-solid fa-shield-halved"></i> Emperium Overrun
+<button class="party-plan-btn" id="party-plan-btn-overrun" onclick="switchPartyPlan('overrun')" type="button">
+<i class="fa-solid fa-shield-halved"></i> Emperium Overrun
             </button>
-
-            <span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
-
-            <button id="party-view-btn-main" type="button" onclick="switchPartyView('main')" class="party-view-btn active">
-                <i class="fa-solid fa-crown"></i> ดูปาร์ตี้หลัก
+<span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
+<button class="party-view-btn active" id="party-view-btn-main" onclick="switchPartyView('main')" type="button">
+<i class="fa-solid fa-crown"></i> ดูปาร์ตี้หลัก
             </button>
-            <button id="party-view-btn-sub" type="button" onclick="switchPartyView('sub')" class="party-view-btn">
-                <i class="fa-solid fa-shield"></i> ดูปาร์ตี้รอง
+<button class="party-view-btn" id="party-view-btn-sub" onclick="switchPartyView('sub')" type="button">
+<i class="fa-solid fa-shield"></i> ดูปาร์ตี้รอง
             </button>
-
-            <span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
-
-            <button type="button" onclick="BellonaDualPartyExport.exportAll()" class="party-export-btn">
-                <i class="fa-solid fa-camera"></i> Export All
+<span class="hidden md:block h-8 w-px bg-[#2d3748] mx-1"></span>
+<button class="party-export-btn" onclick="BellonaDualPartyExport.exportAll()" type="button">
+<i class="fa-solid fa-camera"></i> Export All
             </button>
-            <button type="button" onclick="BellonaDualPartyExport.exportMain()" class="party-export-btn">
-                <i class="fa-solid fa-crown"></i> Main PNG
+<button class="party-export-btn" onclick="BellonaDualPartyExport.exportMain()" type="button">
+<i class="fa-solid fa-crown"></i> Main PNG
             </button>
-            <button type="button" onclick="BellonaDualPartyExport.exportSub()" class="party-export-btn">
-                <i class="fa-solid fa-shield-halved"></i> Sub PNG
+<button class="party-export-btn" onclick="BellonaDualPartyExport.exportSub()" type="button">
+<i class="fa-solid fa-shield-halved"></i> Sub PNG
             </button>
-
-            <button type="button" onclick="triggerClearPartiesConfirmation()" class="admin-only bg-red-950/40 text-red-300 border border-red-900/40 px-4 py-3 rounded-xl text-xs font-black">
-                <i class="fa-solid fa-trash-can"></i> ล้างแผนนี้
+<button class="admin-only bg-red-950/40 text-red-300 border border-red-900/40 px-4 py-3 rounded-xl text-xs font-black" onclick="triggerClearPartiesConfirmation()" type="button">
+<i class="fa-solid fa-trash-can"></i> ล้างแผนนี้
             </button>
-        </div>
-    </div>
-
-    <div id="capture-party-combined-zone" class="dual-party-zone party-view-main">
-
-        <div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-main" id="capture-main-zone">
-            <div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
-                <h3 class="party-title-main font-extrabold uppercase tracking-wider">
-                    <i class="fa-solid fa-crown"></i> ปาร์ตี้หลัก Main Party 1 - 8
+</div>
+</div>
+<div class="dual-party-zone party-view-main" id="capture-party-combined-zone">
+<div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-main" id="capture-main-zone">
+<div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
+<h3 class="party-title-main font-extrabold uppercase tracking-wider">
+<i class="fa-solid fa-crown"></i> ปาร์ตี้หลัก Main Party 1 - 8
                 </h3>
-                <span id="main-plan-label" class="text-[10px] text-[#d4af37] font-bold bg-[#d4af37]/5 px-2 py-0.5 rounded-full border border-[#d4af37]/15">
+<span class="text-[10px] text-[#d4af37] font-bold bg-[#d4af37]/5 px-2 py-0.5 rounded-full border border-[#d4af37]/15" id="main-plan-label">
                     Guild League
                 </span>
-            </div>
-
-            <div id="parties-grid" class="dual-party-grid"></div>
-        </div>
-
-        <div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-sub" id="capture-sub-zone">
-            <div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
-                <h3 class="party-title-sub font-extrabold uppercase tracking-wider">
-                    <i class="fa-solid fa-shield-halved"></i> ปาร์ตี้รอง / กองหนุน Sub Party 1 - 8
+</div>
+<div class="dual-party-grid" id="parties-grid"></div>
+</div>
+<div class="dual-party-section p-3 bg-[#111520] rounded-xl border party-card-sub" id="capture-sub-zone">
+<div class="dual-party-section-head border-b border-[#1f2838] pb-2 flex justify-between items-center">
+<h3 class="party-title-sub font-extrabold uppercase tracking-wider">
+<i class="fa-solid fa-shield-halved"></i> ปาร์ตี้รอง / กองหนุน Sub Party 1 - 8
                 </h3>
-                <span id="sub-plan-label" class="text-[10px] text-cyan-200 font-bold bg-cyan-400/5 px-2 py-0.5 rounded-full border border-cyan-300/15">
+<span class="text-[10px] text-cyan-200 font-bold bg-cyan-400/5 px-2 py-0.5 rounded-full border border-cyan-300/15" id="sub-plan-label">
                     Guild League
                 </span>
-            </div>
-
-            <div id="sub-parties-grid" class="dual-party-grid"></div>
-        </div>
-
-    </div>
 </div>
-
-            <!-- 2. แท็บกระดานวางแผนยุทธวิธี -->
-            <div id="tab-content-tactical" class="hidden space-y-5">
-                <div class="flex flex-wrap items-center justify-between gap-3 bg-[#111520] border border-[#1f2838] p-4 rounded-xl">
-                    <div class="flex items-center gap-3 flex-wrap text-sm">
-                        <button onclick="setDrawMode('move')" id="tool-move" class="draw-tool bg-[#d4af37] text-black font-bold px-4 py-2 rounded-lg text-xs"><i class="fa-solid fa-hand"></i> ลากหมาก</button>
-                        <button onclick="setDrawMode('draw')" id="tool-draw" class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs"><i class="fa-solid fa-pencil"></i> วาดเส้นแผน</button>
-                        <button onclick="setDrawMode('line')" id="tool-line" class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs"><i class="fa-solid fa-slash"></i> เส้นตรง</button>
-                        <button onclick="setDrawMode('rect')" id="tool-rect" class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs"><i class="fa-regular fa-square"></i> สี่เหลี่ยม</button>
-                        <button onclick="setDrawMode('circle')" id="tool-circle" class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs"><i class="fa-regular fa-circle"></i> วงกลม</button>
-                        <div class="h-6 w-[1px] bg-[#1f2838]"></div>
-                        <span class="text-gray-300 font-bold text-xs">สีดินสอ:</span>
-                        <div class="flex items-center gap-1.5">
-                            <button onclick="setDrawColor('#ff4d4d')" class="w-7 h-7 rounded-full bg-[#ff4d4d] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ff4d4d"></button>
-                            <button onclick="setDrawColor('#4dabff')" class="w-7 h-7 rounded-full bg-[#4dabff] border border-transparent hover:scale-110 transition cursor-pointer" id="color-4dabff"></button>
-                            <button onclick="setDrawColor('#4dff88')" class="w-7 h-7 rounded-full bg-[#4dff88] border border-transparent hover:scale-110 transition cursor-pointer" id="color-4dff88"></button>
-                            <button onclick="setDrawColor('#ffd44d')" class="w-7 h-7 rounded-full bg-[#ffd44d] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ffd44d"></button>
-                            <button onclick="setDrawColor('#ffffff')" class="w-7 h-7 rounded-full bg-[#ffffff] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ffffff"></button>
-                        </div>
-                        <div class="h-6 w-[1px] bg-[#1f2838]"></div>
-                        <span class="text-gray-300 font-bold text-xs">ขนาดเส้น:</span>
-                        <input type="range" id="brush-size" min="1" max="15" value="4" onchange="updateBrushSize(this.value)" class="w-24 accent-[#d4af37] cursor-pointer">
-                    </div>
-                    <div class="flex items-center gap-2 flex-wrap text-xs">
-                        <button onclick="undoDrawing()" class="admin-only bg-[#1c2331] text-gray-300 px-3 py-1.5 rounded-lg"><i class="fa-solid fa-undo"></i> ย้อนกลับ</button>
-                        <button onclick="clearDrawing()" class="admin-only bg-[#1c2331] text-red-400 px-3 py-1.5 rounded-lg">ล้างเส้นวาด</button>
-                        <button onclick="resetMarkersToDefault()" class="admin-only bg-[#1c2331] text-[#d4af37] px-3 py-1.5 rounded-lg">รีเซ็ตหมาก</button>
-                        <button onclick="exportTacticalMap()" class="bg-[#d4af37] text-black font-extrabold px-5 py-2.5 rounded-lg transition flex items-center gap-1.5 shadow-md hover:bg-yellow-500"><i class="fa-solid fa-download"></i> เซฟรูปภาพแผนกลยุทธ์</button>
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-1 2xl:grid-cols-5 gap-5">
-                    <div class="2xl:col-span-4 bg-[#111520] rounded-xl p-4 border border-[#1f2838] shadow-2xl">
-                        <div class="map-scroll-container">
-                            <div class="map-canvas-wrapper" id="tactical-board-wrapper">
-                                <div id="battle-map-placeholder" class="w-full h-full absolute inset-0 bg-[#0c0e14] flex flex-col items-center justify-center select-none">
-                                    <img src="./assets/logo-bellona.png" id="fallback-watermark-logo" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" class="w-full max-w-[400px] opacity-10 rounded">
-                                </div>
-                                <img id="battle-map-bg" src="" crossorigin="anonymous" class="w-full h-full object-cover absolute inset-0 hidden">
-                                <canvas id="drawing-canvas" class="absolute inset-0 z-10 w-full h-full cursor-crosshair"></canvas>
-                                <div id="markers-overlay" class="absolute inset-0 z-20 pointer-events-none"></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="bg-[#111520] p-4 rounded-xl border border-[#1f2838] space-y-3 shadow-xl">
-                            <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider"><i class="fa-solid fa-map text-[#d4af37]"></i> รูปภาพแผนที่ยุทธวิธี GVG</h3>
-                            <select id="map-selector" onchange="changeBattleMap(this.value)" class="w-full bg-[#1c2331] text-xs text-gray-200 p-2.5 rounded-lg border border-[#1f2838] focus:outline-none">
-                                <option value="default">🖥️ พื้นหลังบอร์ดมาตรฐานกิลด์ BELLONA</option>
-                            </select>
-
-                            <div class="space-y-3 pt-2 border-t border-[#1f2838]/40">
-                                <div class="space-y-1.5">
-                                    <span class="text-[10px] text-gray-400 uppercase tracking-wider font-bold block">จัดการและเปลี่ยนชื่อรูปภาพในคลัง:</span>
-                                    <div id="saved-maps-list" class="space-y-1.5 max-h-[160px] overflow-y-auto pr-1"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="bg-[#111520] p-4 rounded-xl border border-[#1f2838] flex flex-col max-h-[340px] shadow-xl">
-                            <div class="flex justify-between items-center mb-2.5">
-                                <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">ปักหมุดตำแหน่ง (Markers)</h3>
-                                <button onclick="addNewMarker()" class="admin-only bg-cyan-950/40 text-cyan-400 text-[10px] px-2 py-0.5 rounded font-bold">+ เพิ่มหมุด</button>
-                            </div>
-                            <div class="flex gap-1.5 mb-2.5">
-                                <input type="text" id="new-marker-name" placeholder="ชื่อหมาก..." class="flex-grow bg-[#1c2331] text-[11px] text-gray-200 px-2.5 py-2 rounded-lg border border-[#1f2838] focus:outline-none">
-                                <input type="color" id="new-marker-color" value="#dc2626" title="เลือกสีหมาก" class="admin-only w-10 h-10 rounded-lg bg-[#1c2331] border border-[#1f2838] cursor-pointer">
-                            </div>
-                            <div class="flex-grow overflow-y-auto space-y-1.5 pr-1" id="markers-setting-list"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. แท็บจัดการสมาชิกกิลด์ & เช็คชื่อ -->
-            <div id="tab-content-members" class="hidden space-y-5">
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div class="lg:col-span-2 bg-[#111520] p-5 rounded-xl border border-[#1f2838] shadow-xl space-y-4">
-                        <div class="flex flex-wrap justify-between items-center border-b border-[#1f2838] pb-3.5 gap-2">
-                            <div>
-                                <h2 class="text-base font-bold text-gray-200 flex items-center gap-2"><i class="fa-solid fa-users-gear text-[#d4af37]"></i> ทะเบียนและสิทธิ์จัดการสมาชิกกิลด์</h2>
-                                <div class="text-[11px] text-gray-400 mt-1">รอบวอร์อัตโนมัติวันนี้: <span id="attendance-round-badge" class="text-[#d4af37] font-bold">-</span> · กดแก้สถานะในรอบเดิมได้โดยไม่นับซ้ำ</div>
-                            </div>
-                            <div class="flex flex-wrap items-center gap-2">
-    <button onclick="bulkSetAttendanceStatus('มา')" class="admin-only bg-green-950/40 text-green-400 border border-green-900/40 px-3 py-2 rounded-lg text-xs font-bold">
-        <i class="fa-solid fa-circle-check"></i> มาวอร์
+<div class="dual-party-grid" id="sub-parties-grid"></div>
+</div>
+</div>
+</div>
+<!-- 2. แท็บกระดานวางแผนยุทธวิธี -->
+<div class="hidden space-y-5" id="tab-content-tactical">
+<div class="flex flex-wrap items-center justify-between gap-3 bg-[#111520] border border-[#1f2838] p-4 rounded-xl">
+<div class="flex items-center gap-3 flex-wrap text-sm">
+<button class="draw-tool bg-[#d4af37] text-black font-bold px-4 py-2 rounded-lg text-xs" id="tool-move" onclick="setDrawMode('move')"><i class="fa-solid fa-hand"></i> ลากหมาก</button>
+<button class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs" id="tool-draw" onclick="setDrawMode('draw')"><i class="fa-solid fa-pencil"></i> วาดเส้นแผน</button>
+<button class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs" id="tool-line" onclick="setDrawMode('line')"><i class="fa-solid fa-slash"></i> เส้นตรง</button>
+<button class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs" id="tool-rect" onclick="setDrawMode('rect')"><i class="fa-regular fa-square"></i> สี่เหลี่ยม</button>
+<button class="draw-tool admin-only bg-[#1c2331] text-gray-300 px-4 py-2 rounded-lg text-xs" id="tool-circle" onclick="setDrawMode('circle')"><i class="fa-regular fa-circle"></i> วงกลม</button>
+<div class="h-6 w-[1px] bg-[#1f2838]"></div>
+<span class="text-gray-300 font-bold text-xs">สีดินสอ:</span>
+<div class="flex items-center gap-1.5">
+<button class="w-7 h-7 rounded-full bg-[#ff4d4d] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ff4d4d" onclick="setDrawColor('#ff4d4d')"></button>
+<button class="w-7 h-7 rounded-full bg-[#4dabff] border border-transparent hover:scale-110 transition cursor-pointer" id="color-4dabff" onclick="setDrawColor('#4dabff')"></button>
+<button class="w-7 h-7 rounded-full bg-[#4dff88] border border-transparent hover:scale-110 transition cursor-pointer" id="color-4dff88" onclick="setDrawColor('#4dff88')"></button>
+<button class="w-7 h-7 rounded-full bg-[#ffd44d] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ffd44d" onclick="setDrawColor('#ffd44d')"></button>
+<button class="w-7 h-7 rounded-full bg-[#ffffff] border border-transparent hover:scale-110 transition cursor-pointer" id="color-ffffff" onclick="setDrawColor('#ffffff')"></button>
+</div>
+<div class="h-6 w-[1px] bg-[#1f2838]"></div>
+<span class="text-gray-300 font-bold text-xs">ขนาดเส้น:</span>
+<input class="w-24 accent-[#d4af37] cursor-pointer" id="brush-size" max="15" min="1" onchange="updateBrushSize(this.value)" type="range" value="4"/>
+</div>
+<div class="flex items-center gap-2 flex-wrap text-xs">
+<button class="admin-only bg-[#1c2331] text-gray-300 px-3 py-1.5 rounded-lg" onclick="undoDrawing()"><i class="fa-solid fa-undo"></i> ย้อนกลับ</button>
+<button class="admin-only bg-[#1c2331] text-red-400 px-3 py-1.5 rounded-lg" onclick="clearDrawing()">ล้างเส้นวาด</button>
+<button class="admin-only bg-[#1c2331] text-[#d4af37] px-3 py-1.5 rounded-lg" onclick="resetMarkersToDefault()">รีเซ็ตหมาก</button>
+<button class="bg-[#d4af37] text-black font-extrabold px-5 py-2.5 rounded-lg transition flex items-center gap-1.5 shadow-md hover:bg-yellow-500" onclick="exportTacticalMap()"><i class="fa-solid fa-download"></i> เซฟรูปภาพแผนกลยุทธ์</button>
+</div>
+</div>
+<div class="grid grid-cols-1 2xl:grid-cols-5 gap-5">
+<div class="2xl:col-span-4 bg-[#111520] rounded-xl p-4 border border-[#1f2838] shadow-2xl">
+<div class="map-scroll-container">
+<div class="map-canvas-wrapper" id="tactical-board-wrapper">
+<div class="w-full h-full absolute inset-0 bg-[#0c0e14] flex flex-col items-center justify-center select-none" id="battle-map-placeholder">
+<img class="w-full max-w-[400px] opacity-10 rounded" id="fallback-watermark-logo" onerror="this.src='https://placehold.co/400x200/121620/d4af37?text=BELLONA+ROOC+GUILD'" src="./assets/logo-bellona.png"/>
+</div>
+<img class="w-full h-full object-cover absolute inset-0 hidden" crossorigin="anonymous" id="battle-map-bg" src=""/>
+<canvas class="absolute inset-0 z-10 w-full h-full cursor-crosshair" id="drawing-canvas"></canvas>
+<div class="absolute inset-0 z-20 pointer-events-none" id="markers-overlay"></div>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-[#111520] p-4 rounded-xl border border-[#1f2838] space-y-3 shadow-xl">
+<h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider"><i class="fa-solid fa-map text-[#d4af37]"></i> รูปภาพแผนที่ยุทธวิธี GVG</h3>
+<select class="w-full bg-[#1c2331] text-xs text-gray-200 p-2.5 rounded-lg border border-[#1f2838] focus:outline-none" id="map-selector" onchange="changeBattleMap(this.value)">
+<option value="default">🖥️ พื้นหลังบอร์ดมาตรฐานกิลด์ BELLONA</option>
+</select>
+<div class="space-y-3 pt-2 border-t border-[#1f2838]/40">
+<div class="space-y-1.5">
+<span class="text-[10px] text-gray-400 uppercase tracking-wider font-bold block">จัดการและเปลี่ยนชื่อรูปภาพในคลัง:</span>
+<div class="space-y-1.5 max-h-[160px] overflow-y-auto pr-1" id="saved-maps-list"></div>
+</div>
+</div>
+</div>
+<div class="bg-[#111520] p-4 rounded-xl border border-[#1f2838] flex flex-col max-h-[340px] shadow-xl">
+<div class="flex justify-between items-center mb-2.5">
+<h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">ปักหมุดตำแหน่ง (Markers)</h3>
+<button class="admin-only bg-cyan-950/40 text-cyan-400 text-[10px] px-2 py-0.5 rounded font-bold" onclick="addNewMarker()">+ เพิ่มหมุด</button>
+</div>
+<div class="flex gap-1.5 mb-2.5">
+<input class="flex-grow bg-[#1c2331] text-[11px] text-gray-200 px-2.5 py-2 rounded-lg border border-[#1f2838] focus:outline-none" id="new-marker-name" placeholder="ชื่อหมาก..." type="text"/>
+<input class="admin-only w-10 h-10 rounded-lg bg-[#1c2331] border border-[#1f2838] cursor-pointer" id="new-marker-color" title="เลือกสีหมาก" type="color" value="#dc2626"/>
+</div>
+<div class="flex-grow overflow-y-auto space-y-1.5 pr-1" id="markers-setting-list"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- 3. แท็บจัดการสมาชิกกิลด์ & เช็คชื่อ -->
+<div class="hidden space-y-5" id="tab-content-members">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-[#111520] p-5 rounded-xl border border-[#1f2838] shadow-xl space-y-4">
+<div class="flex flex-wrap justify-between items-center border-b border-[#1f2838] pb-3.5 gap-2">
+<div>
+<h2 class="text-base font-bold text-gray-200 flex items-center gap-2"><i class="fa-solid fa-users-gear text-[#d4af37]"></i> ทะเบียนและสิทธิ์จัดการสมาชิกกิลด์</h2>
+<div class="text-[11px] text-gray-400 mt-1">รอบวอร์อัตโนมัติวันนี้: <span class="text-[#d4af37] font-bold" id="attendance-round-badge">-</span> · กดแก้สถานะในรอบเดิมได้โดยไม่นับซ้ำ</div>
+</div>
+<div class="flex flex-wrap items-center gap-2">
+<button class="admin-only bg-green-950/40 text-green-400 border border-green-900/40 px-3 py-2 rounded-lg text-xs font-bold" onclick="bulkSetAttendanceStatus('มา')">
+<i class="fa-solid fa-circle-check"></i> มาวอร์
     </button>
-
-    <button onclick="bulkSetAttendanceStatus('ลา')" class="admin-only bg-amber-950/40 text-amber-400 border border-amber-900/40 px-3 py-2 rounded-lg text-xs font-bold">
-        <i class="fa-solid fa-clock"></i> ลา
+<button class="admin-only bg-amber-950/40 text-amber-400 border border-amber-900/40 px-3 py-2 rounded-lg text-xs font-bold" onclick="bulkSetAttendanceStatus('ลา')">
+<i class="fa-solid fa-clock"></i> ลา
     </button>
-
-    <button onclick="bulkSetAttendanceStatus('ขาด')" class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-3 py-2 rounded-lg text-xs font-bold">
-        <i class="fa-solid fa-circle-xmark"></i> ขาด
+<button class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-3 py-2 rounded-lg text-xs font-bold" onclick="bulkSetAttendanceStatus('ขาด')">
+<i class="fa-solid fa-circle-xmark"></i> ขาด
     </button>
-
-    <button onclick="deleteSelectedPlayers()" class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-4 py-2 rounded-lg transition shadow-md text-xs font-bold">
-        <i class="fa-solid fa-trash-can"></i> ลบสมาชิก
+<button class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-4 py-2 rounded-lg transition shadow-md text-xs font-bold" onclick="deleteSelectedPlayers()">
+<i class="fa-solid fa-trash-can"></i> ลบสมาชิก
     </button>
 </div>
-                        </div>
-                        <div class="overflow-x-auto">
-                            <table class="w-full text-left text-sm border-collapse">
-                                <thead>
-                                    <tr class="bg-[#1c2331] text-gray-300 border-b border-[#1f2838]">
-                                        <th class="p-3 text-center w-10"><input type="checkbox" id="select-all-members-chk" onchange="toggleSelectAllMembers(this)" class="w-4.5 h-4.5 rounded accent-[#d4af37]"></th>
-                                        <th class="p-3 font-bold">ชื่อตัวละคร</th>
-                                        <th class="p-3 font-bold text-center">Power</th>
-                                        <th class="p-3 font-bold">อาชีพคลาส</th>
-                                        <th class="p-3 font-bold">Discord</th>
-                                        <th class="p-3 font-bold">สถานะวันนี้</th>
-                                        <th class="p-3 font-bold text-center">เช็คชื่อ Manual</th>
-                                        <th class="p-3 font-bold text-center">จัดการ</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="member-manager-table-body" class="divide-y divide-[#1c2331]"></tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                    <div class="space-y-4">
-                        <div class="bg-[#111520] p-5 rounded-xl border border-[#1f2838] space-y-4 shadow-xl">
-                            <h3 class="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2 border-b border-[#1f2838] pb-2"><i class="fa-solid fa-user-plus"></i> เพิ่มสมาชิกแมนนวลหน้าเว็บ</h3>
-                            <div class="space-y-3.5 text-xs">
-                                <div>
-                                    <label class="block text-gray-300 mb-1 font-semibold">UID ตัวละคร</label>
-                                    <input type="text" id="manual-add-uid" placeholder="เช่น 1000123456" class="w-full bg-[#1c2331] text-cyan-200 font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none">
-                                    <div class="text-[10px] text-gray-500 mt-1">ใช้สำหรับเชื่อม Discord Bot ในอนาคต</div>
-                                </div>
-                                <div>
-                                    <label class="block text-gray-300 mb-1 font-semibold">ชื่อตัวละครในเกม</label>
-                                    <input type="text" id="manual-add-name" placeholder="ระบุชื่อ..." class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-gray-300 mb-1 font-semibold">Power ตัวละคร</label>
-                                    <input type="text" id="manual-add-power" placeholder="เช่น 300K / 1.2M" class="w-full bg-[#1c2331] text-[#facc15] font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none">
-                                </div>
-                                <div>
-                                    <label class="block text-gray-300 mb-1 font-semibold">สายอาชีพตัวละคร (Job)</label>
-                                    <select id="manual-add-job" class="w-full bg-[#1c2331] text-gray-300 p-2.5 rounded-lg border border-[#2d3748] focus:outline-none"></select>
-                                </div>
-                                <button onclick="manualAddMemberSubmit()" class="admin-only w-full bg-[#d4af37] text-black font-extrabold py-3 rounded-lg text-sm transition"><i class="fa-solid fa-plus-circle"></i> บันทึกรายชื่อเข้าบอร์ด</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- 4. แท็บหน้าโควตาสุ่มของรางวัล -->
-<div id="tab-content-rewards" class="hidden space-y-5">
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
-        <div class="lg:col-span-1 bg-[#111520] p-6 rounded-xl border border-[#1f2838] flex flex-col items-center justify-between min-h-[560px] shadow-2xl">
-            <div class="text-center w-full">
-                <h2 class="text-base font-bold text-[#d4af37] uppercase tracking-widest">
-                    <i class="fa-solid fa-gift text-lg"></i> แท่นสุ่มรางวัล BELLONA
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm border-collapse">
+<thead>
+<tr class="bg-[#1c2331] text-gray-300 border-b border-[#1f2838]">
+<th class="p-3 text-center w-10"><input class="w-4.5 h-4.5 rounded accent-[#d4af37]" id="select-all-members-chk" onchange="toggleSelectAllMembers(this)" type="checkbox"/></th>
+<th class="p-3 font-bold">ชื่อตัวละคร</th>
+<th class="p-3 font-bold text-center">Power</th>
+<th class="p-3 font-bold">อาชีพคลาส</th>
+<th class="p-3 font-bold">Discord</th>
+<th class="p-3 font-bold">สถานะวันนี้</th>
+<th class="p-3 font-bold text-center">เช็คชื่อ Manual</th>
+<th class="p-3 font-bold text-center">จัดการ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#1c2331]" id="member-manager-table-body"></tbody>
+</table>
+</div>
+</div>
+<div class="space-y-4">
+<div class="bg-[#111520] p-5 rounded-xl border border-[#1f2838] space-y-4 shadow-xl">
+<h3 class="text-xs font-bold text-[#d4af37] uppercase tracking-wider flex items-center gap-2 border-b border-[#1f2838] pb-2"><i class="fa-solid fa-user-plus"></i> เพิ่มสมาชิกแมนนวลหน้าเว็บ</h3>
+<div class="space-y-3.5 text-xs">
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">UID ตัวละคร</label>
+<input class="w-full bg-[#1c2331] text-cyan-200 font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none" id="manual-add-uid" placeholder="เช่น 1000123456" type="text"/>
+<div class="text-[10px] text-gray-500 mt-1">ใช้สำหรับเชื่อม Discord Bot ในอนาคต</div>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">ชื่อตัวละครในเกม</label>
+<input class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none" id="manual-add-name" placeholder="ระบุชื่อ..." type="text"/>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">Power ตัวละคร</label>
+<input class="w-full bg-[#1c2331] text-[#facc15] font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none" id="manual-add-power" placeholder="เช่น 300K / 1.2M" type="text"/>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">สายอาชีพตัวละคร (Job)</label>
+<select class="w-full bg-[#1c2331] text-gray-300 p-2.5 rounded-lg border border-[#2d3748] focus:outline-none" id="manual-add-job"></select>
+</div>
+<button class="admin-only w-full bg-[#d4af37] text-black font-extrabold py-3 rounded-lg text-sm transition" onclick="manualAddMemberSubmit()"><i class="fa-solid fa-plus-circle"></i> บันทึกรายชื่อเข้าบอร์ด</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- 4. แท็บหน้าโควตาสุ่มของรางวัล -->
+<div class="hidden space-y-5" id="tab-content-rewards">
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-1 bg-[#111520] p-6 rounded-xl border border-[#1f2838] flex flex-col items-center justify-between min-h-[560px] shadow-2xl">
+<div class="text-center w-full">
+<h2 class="text-base font-bold text-[#d4af37] uppercase tracking-widest">
+<i class="fa-solid fa-gift text-lg"></i> แท่นสุ่มรางวัล BELLONA
                 </h2>
-            </div>
-
-            <div class="relative w-72 h-72 flex items-center justify-center my-5">
-                <div id="raffle-glow" class="absolute inset-0 rounded-full border-4 border-dashed border-[#d4af37]/40"></div>
-                <div class="absolute inset-4 rounded-full bg-[#0c0e14] border flex flex-col items-center justify-center p-3 text-center">
-                    <div id="lucky-winner-name" class="text-3xl font-extrabold text-white py-1.5 truncate max-w-full">???</div>
-                    <div id="lucky-winner-job" class="text-sm text-[#d4af37] italic">พร้อมรับรางวัล</div>
-                </div>
-            </div>
-
-            <div class="w-full bg-[#0c0e14] border border-[#1f2838] rounded-xl p-3 mb-3">
-                <div class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-2">ผู้ชนะรางวัลล่าสุด</div>
-                <div id="reward-winner-history" class="space-y-1 text-sm text-white font-bold min-h-[54px]">
-                    <div class="text-gray-500 text-xs font-normal">ยังไม่มีประวัติการสุ่ม</div>
-                </div>
-            </div>
-
-            <div class="w-full space-y-2">
-                <button onclick="spinEligibleReward()" class="admin-only w-full bg-[#d4af37] hover:bg-yellow-500 text-black font-extrabold py-3 px-4 rounded-lg text-sm">
-                    <i class="fa-solid fa-dice"></i> สุ่มจากคนมีสิทธิ์
+</div>
+<div class="relative w-72 h-72 flex items-center justify-center my-5">
+<div class="absolute inset-0 rounded-full border-4 border-dashed border-[#d4af37]/40" id="raffle-glow"></div>
+<div class="absolute inset-4 rounded-full bg-[#0c0e14] border flex flex-col items-center justify-center p-3 text-center">
+<div class="text-3xl font-extrabold text-white py-1.5 truncate max-w-full" id="lucky-winner-name">???</div>
+<div class="text-sm text-[#d4af37] italic" id="lucky-winner-job">พร้อมรับรางวัล</div>
+</div>
+</div>
+<div class="w-full bg-[#0c0e14] border border-[#1f2838] rounded-xl p-3 mb-3">
+<div class="text-[11px] text-gray-400 font-bold uppercase tracking-wider mb-2">ผู้ชนะรางวัลล่าสุด</div>
+<div class="space-y-1 text-sm text-white font-bold min-h-[54px]" id="reward-winner-history">
+<div class="text-gray-500 text-xs font-normal">ยังไม่มีประวัติการสุ่ม</div>
+</div>
+</div>
+<div class="w-full space-y-2">
+<button class="admin-only w-full bg-[#d4af37] hover:bg-yellow-500 text-black font-extrabold py-3 px-4 rounded-lg text-sm" onclick="spinEligibleReward()">
+<i class="fa-solid fa-dice"></i> สุ่มจากคนมีสิทธิ์
                 </button>
-
-                <button onclick="spinAllReward()" class="admin-only w-full bg-[#1c2331] hover:bg-[#263249] text-cyan-300 border border-cyan-900/50 font-bold py-3 px-4 rounded-lg text-sm">
-                    <i class="fa-solid fa-users"></i> สุ่มจากรายชื่อทั้งหมด
+<button class="admin-only w-full bg-[#1c2331] hover:bg-[#263249] text-cyan-300 border border-cyan-900/50 font-bold py-3 px-4 rounded-lg text-sm" onclick="spinAllReward()">
+<i class="fa-solid fa-users"></i> สุ่มจากรายชื่อทั้งหมด
                 </button>
-                <button onclick="clearRewardWheelHistory()" class="admin-only w-full bg-red-950/30 hover:bg-red-950/50 text-red-300 border border-red-900/50 font-bold py-3 px-4 rounded-lg text-sm">
-                    <i class="fa-solid fa-eraser"></i> ล้างรายชื่อสุ่มวงล้อ
+<button class="admin-only w-full bg-red-950/30 hover:bg-red-950/50 text-red-300 border border-red-900/50 font-bold py-3 px-4 rounded-lg text-sm" onclick="clearRewardWheelHistory()">
+<i class="fa-solid fa-eraser"></i> ล้างรายชื่อสุ่มวงล้อ
                 </button>
-            </div>
-        </div>
-
-        <div class="lg:col-span-2 bg-[#111520] p-6 rounded-xl border border-[#1f2838] space-y-4 shadow-2xl">
-            <div class="flex flex-wrap justify-between items-center gap-3 border-b border-[#1f2838] pb-3">
-                <h3 class="text-sm font-bold text-gray-200">
+</div>
+</div>
+<div class="lg:col-span-2 bg-[#111520] p-6 rounded-xl border border-[#1f2838] space-y-4 shadow-2xl">
+<div class="flex flex-wrap justify-between items-center gap-3 border-b border-[#1f2838] pb-3">
+<h3 class="text-sm font-bold text-gray-200">
                     รายชื่อผู้มีสิทธิ์โควตาสุ่มรางวัล
                 </h3>
-
-                <div class="flex flex-wrap gap-2 text-xs">
-                    <span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
-                        👥 ทั้งหมด <b id="reward-total-members" class="text-white">0</b>
-                    </span>
-                    <span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
-                        ✅ มีสิทธิ์ <b id="reward-active-members" class="text-green-400">0</b>
-                    </span>
-                    <span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
-                        ❌ ตัดสิทธิ์ <b id="reward-inactive-members" class="text-red-400">0</b>
-                    </span>
-                </div>
-            </div>
-
-            <div class="flex flex-wrap gap-2 text-xs">
-                <button onclick="setAllRewardQuota(true)" class="admin-only bg-green-950/40 text-green-400 border border-green-900/40 px-3 py-2 rounded-lg font-bold">
+<div class="flex flex-wrap gap-2 text-xs">
+<span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
+                        👥 ทั้งหมด <b class="text-white" id="reward-total-members">0</b>
+</span>
+<span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
+                        ✅ มีสิทธิ์ <b class="text-green-400" id="reward-active-members">0</b>
+</span>
+<span class="bg-[#0c0e14] border border-[#1f2838] rounded-lg px-3 py-2">
+                        ❌ ตัดสิทธิ์ <b class="text-red-400" id="reward-inactive-members">0</b>
+</span>
+</div>
+</div>
+<div class="flex flex-wrap gap-2 text-xs">
+<button class="admin-only bg-green-950/40 text-green-400 border border-green-900/40 px-3 py-2 rounded-lg font-bold" onclick="setAllRewardQuota(true)">
                     เปิดสิทธิ์ทั้งหมด
                 </button>
-                <button onclick="setAllRewardQuota(false)" class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-3 py-2 rounded-lg font-bold">
+<button class="admin-only bg-red-950/40 text-red-400 border border-red-900/40 px-3 py-2 rounded-lg font-bold" onclick="setAllRewardQuota(false)">
                     ปิดสิทธิ์ทั้งหมด
                 </button>
-                <button onclick="resetAllRewardQuota()" class="admin-only bg-[#1c2331] text-[#d4af37] border border-[#2d3748] px-3 py-2 rounded-lg font-bold">
+<button class="admin-only bg-[#1c2331] text-[#d4af37] border border-[#2d3748] px-3 py-2 rounded-lg font-bold" onclick="resetAllRewardQuota()">
                     รีเซ็ตสิทธิ์ทั้งหมด
                 </button>
-                <button onclick="copyRewardEligibleNames()" class="admin-only bg-cyan-950/40 text-cyan-400 border border-cyan-900/40 px-3 py-2 rounded-lg font-bold text-xs">
+<button class="admin-only bg-cyan-950/40 text-cyan-400 border border-cyan-900/40 px-3 py-2 rounded-lg font-bold text-xs" onclick="copyRewardEligibleNames()">
                     📋 Copy คนมีสิทธิ์
                 </button>
-                <button onclick="openRewardEligiblePopup()" class="bg-[#141a24] text-[#d4af37] border border-[#2d3748] px-3 py-2 rounded-lg font-bold text-xs">
+<button class="bg-[#141a24] text-[#d4af37] border border-[#2d3748] px-3 py-2 rounded-lg font-bold text-xs" onclick="openRewardEligiblePopup()">
                     👁️ ดูรายชื่อผู้มีสิทธิ์ที่เหลือ
                 </button>
-                <button onclick="copyRewardAllNames()" class="admin-only bg-indigo-950/40 text-indigo-400 border border-indigo-900/40 px-3 py-2 rounded-lg font-bold text-xs">
+<button class="admin-only bg-indigo-950/40 text-indigo-400 border border-indigo-900/40 px-3 py-2 rounded-lg font-bold text-xs" onclick="copyRewardAllNames()">
                     👥 Copy มาวอร์
                 </button>
-            </div>
-
-            <div id="reward-eligible-name-grid" class="hidden"></div>
-
-            <div class="overflow-x-auto">
-                <table class="w-full text-left text-sm border-collapse">
-                    <thead>
-                        <tr class="bg-[#1c2331] text-gray-300">
-                            <th class="p-3 font-bold">ชื่อตัวละคร</th>
-                            <th class="p-3 font-bold">ของรางวัลที่ลุ้นได้</th>
-                            <th class="p-3 font-bold text-center">สถานะสิทธิ์</th>
-                            <th class="p-3 font-bold text-center">สถานะวอร์</th>
-                            <th class="p-3 font-bold text-right">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="reward-quota-table-body" class="divide-y divide-[#1c2331]"></tbody>
-                </table>
-            </div>
-        </div>
-
-    </div>
 </div>
-
-
-
-            <!-- 4.5 แท็บคิวรับรางวัล -->
-            <div id="tab-content-auction" class="hidden space-y-4">
-                <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-xl">
-                    <div>
-                        <h2 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-trophy"></i> จัดการคิวรางวัล</h2>
-                        <p class="text-xs text-gray-400 mt-1">จัดการคิวรับรางวัลหลังจบ GVG · ใช้ Layout v114 ที่ใช้งานง่าย · คิวถาวรไม่เรียงตามรายชื่อใหม่</p>
-                    </div>
-                    <div class="flex flex-wrap gap-2 text-xs">
-                        <button onclick="openRewardQueueSettings()" class="admin-only bg-[#d4af37] text-black font-black px-3 py-2 rounded-lg"><i class="fa-solid fa-gear"></i> ตั้งค่ารางวัล</button>
-                        <button onclick="copyRewardQueueSummary()" class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-2 rounded-lg font-bold"><i class="fa-regular fa-copy"></i> Copy สรุป</button>
-                        <button onclick="openRewardQueueReport()" class="bg-[#141a24] text-emerald-300 border border-emerald-900/50 px-3 py-2 rounded-lg font-bold"><i class="fa-solid fa-clipboard-list"></i> รายงานรอบนี้</button>
-                        <button onclick="openRewardQueuePreview()" class="admin-only bg-[#141a24] text-cyan-300 border border-cyan-900/50 px-3 py-2 rounded-lg font-bold"><i class="fa-solid fa-eye"></i> Preview</button>
-                        <button onclick="undoRewardQueueLastAction()" class="admin-only bg-[#141a24] text-amber-300 border border-amber-900/50 px-3 py-2 rounded-lg font-bold"><i class="fa-solid fa-rotate-left"></i> Undo</button>
-                        <button onclick="saveRewardQueueTodayRound()" class="admin-only bg-green-950/40 text-green-300 border border-green-800/50 px-3 py-2 rounded-lg font-bold"><i class="fa-solid fa-check-double"></i> บันทึกรอบวันนี้</button>
-                    </div>
-                </div>
-
-                <div class="rq-main-layout h-[calc(100vh-235px)] min-h-[640px]">
-                    <div class="bg-[#111520] border border-[#1f2838] rounded-2xl p-4 overflow-hidden flex flex-col shadow-xl">
-                        <div class="flex items-center justify-between gap-2 mb-3 shrink-0">
-                            <div>
-                                <h3 class="text-sm font-black text-[#d4af37]"><i class="fa-solid fa-user-shield"></i> Admin View: ดึงของวันนี้</h3>
-                                <p class="text-[11px] text-gray-400">แต่ละกล่องแสดงคนถึงคิว + คิวถัดไป 4 คน สามารถสลับ/เลื่อน/ข้ามคิวได้</p>
-                            </div>
-                        </div>
-                        <div id="reward-queue-admin-board" class="rq-admin-grid overflow-y-auto pr-1"></div>
-                    </div>
-
-                    <div class="bg-[#111520] border border-[#1f2838] rounded-2xl p-4 overflow-hidden flex flex-col shadow-xl">
-                        <div class="mb-3 shrink-0">
-                            <h3 class="text-sm font-black text-[#d4af37]"><i class="fa-solid fa-list-ol"></i> คิวถาวรทั้งหมด</h3>
-                            <p class="text-[11px] text-gray-400">ใช้ตรวจและจัดการคิวภาพรวมของรางวัลแต่ละประเภท</p>
-                        </div>
-                        <div id="reward-queue-member-tabs" class="rq-member-tabs mb-3 shrink-0"></div>
-                        <div id="reward-queue-member-board" class="space-y-2 overflow-y-auto pr-1"></div>
-                    </div>
-                </div>
-            </div>
-
-
-
-            <!-- 4.6 แท็บเช็คคิวรับรางวัล -->
-            <div id="tab-content-queuecheck" class="hidden space-y-4">
-                <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-4 shadow-xl max-w-[960px] mx-auto">
-                    <div class="mb-4 text-center">
-                        <h2 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-list-check"></i> เช็คคิวรับรางวัล</h2>
-                        <p class="text-xs text-gray-400 mt-1">เลือกประเภทรางวัลเพื่อดูคิวถาวรของตัวเอง</p>
-                    </div>
-                    <div id="reward-queue-check-tabs" class="grid grid-cols-4 gap-2 mb-4"></div>
-                    <div id="reward-queue-check-board" class="space-y-2 max-w-[760px] mx-auto"></div>
-                </div>
-            </div>
-
-            <!-- 5. แท็บหน้าวิเคราะห์ข้อมูลประวัติการมาวอร์สะสม -->
-            <div id="tab-content-stats" class="hidden space-y-5">
-                <div class="bg-[#111520] p-6 rounded-xl border border-[#1f2838] space-y-5 shadow-2xl">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-                        <div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">มาร่วมรบสะสม</span><h3 class="text-2xl font-bold text-green-400 mt-1" id="stat-avg-present">0 ครั้ง</h3></div>
-                        <div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">ขอลาหยุดสะสม</span><h3 class="text-2xl font-bold text-[#e2a03f] mt-1" id="stat-avg-leave">0 ครั้ง</h3></div>
-                        <div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">ขาดวอร์สะสม</span><h3 class="text-2xl font-bold text-red-400 mt-1" id="stat-avg-absent">0 ครั้ง</h3></div>
-                    </div>
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
-                        <div class="bg-[#0c0e14] p-5 border rounded border-[#1f2838]">
-                            <h3 class="text-sm font-bold text-amber-400 mb-3"><i class="fa-solid fa-clock"></i> ผู้ลาวอร์มากที่สุด 5 อันดับแรก</h3>
-                            <div id="top-leave-list" class="space-y-2 text-sm"></div>
-                        </div>
-                        <div class="bg-[#0c0e14] p-5 border rounded border-[#1f2838]">
-                            <h3 class="text-sm font-bold text-red-400 mb-3"><i class="fa-solid fa-circle-xmark"></i> ผู้ขาดวอร์มากที่สุด 5 อันดับแรก</h3>
-                            <div id="top-absent-list" class="space-y-2 text-sm"></div>
-                        </div>
-                    </div>
-                    <div class="overflow-x-auto"><table class="w-full text-left text-sm border-collapse"><thead><tr class="bg-[#1c2331] text-gray-300"><th class="p-3 font-bold">ชื่อตัวละคร</th><th class="p-3 font-bold">อาชีพ</th><th class="p-3 text-center font-bold">มา (ครั้ง)</th><th class="p-3 text-center font-bold">ลา (ครั้ง)</th><th class="p-3 text-center font-bold">ขาด (ครั้ง)</th><th class="p-3 text-center font-bold">ขาดติดกันล่าสุด</th></tr></thead><tbody id="stats-table-body" class="divide-y divide-[#1c2331]"></tbody></table></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 💡 หน้าต่างควบคุมการตั้งค่ากิลด์ โลโก้ และคลาสอาชีพ -->
-    <div id="guild-settings-modal" class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-[100] hidden">
-    <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[540px] max-w-[90%] flex flex-col max-h-[85vh] shadow-2xl">
-        <h3 class="text-base font-bold text-[#d4af37] mb-1.5 uppercase tracking-wider flex items-center gap-2">
-            <i class="fa-solid fa-sliders"></i> ศูนย์ตั้งค่ากิลด์
+<div class="hidden" id="reward-eligible-name-grid"></div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm border-collapse">
+<thead>
+<tr class="bg-[#1c2331] text-gray-300">
+<th class="p-3 font-bold">ชื่อตัวละคร</th>
+<th class="p-3 font-bold">ของรางวัลที่ลุ้นได้</th>
+<th class="p-3 font-bold text-center">สถานะสิทธิ์</th>
+<th class="p-3 font-bold text-center">สถานะวอร์</th>
+<th class="p-3 font-bold text-right">จัดการ</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-[#1c2331]" id="reward-quota-table-body"></tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<!-- 4.5 แท็บคิวรับรางวัล -->
+<div class="hidden space-y-4" id="tab-content-auction">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-4 flex flex-wrap items-center justify-between gap-3 shadow-xl">
+<div>
+<h2 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-trophy"></i> จัดการคิวรางวัล</h2>
+<p class="text-xs text-gray-400 mt-1">จัดการคิวรับรางวัลหลังจบ GVG · ใช้ Layout v114 ที่ใช้งานง่าย · คิวถาวรไม่เรียงตามรายชื่อใหม่</p>
+</div>
+<div class="flex flex-wrap gap-2 text-xs">
+<button class="admin-only bg-[#d4af37] text-black font-black px-3 py-2 rounded-lg" onclick="openRewardQueueSettings()"><i class="fa-solid fa-gear"></i> ตั้งค่ารางวัล</button>
+<button class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-2 rounded-lg font-bold" onclick="copyRewardQueueSummary()"><i class="fa-regular fa-copy"></i> Copy สรุป</button>
+<button class="bg-[#141a24] text-emerald-300 border border-emerald-900/50 px-3 py-2 rounded-lg font-bold" onclick="openRewardQueueReport()"><i class="fa-solid fa-clipboard-list"></i> รายงานรอบนี้</button>
+<button class="admin-only bg-[#141a24] text-cyan-300 border border-cyan-900/50 px-3 py-2 rounded-lg font-bold" onclick="openRewardQueuePreview()"><i class="fa-solid fa-eye"></i> Preview</button>
+<button class="admin-only bg-[#141a24] text-amber-300 border border-amber-900/50 px-3 py-2 rounded-lg font-bold" onclick="undoRewardQueueLastAction()"><i class="fa-solid fa-rotate-left"></i> Undo</button>
+<button class="admin-only bg-green-950/40 text-green-300 border border-green-800/50 px-3 py-2 rounded-lg font-bold" onclick="saveRewardQueueTodayRound()"><i class="fa-solid fa-check-double"></i> บันทึกรอบวันนี้</button>
+</div>
+</div>
+<div class="rq-main-layout h-[calc(100vh-235px)] min-h-[640px]">
+<div class="bg-[#111520] border border-[#1f2838] rounded-2xl p-4 overflow-hidden flex flex-col shadow-xl">
+<div class="flex items-center justify-between gap-2 mb-3 shrink-0">
+<div>
+<h3 class="text-sm font-black text-[#d4af37]"><i class="fa-solid fa-user-shield"></i> Admin View: ดึงของวันนี้</h3>
+<p class="text-[11px] text-gray-400">แต่ละกล่องแสดงคนถึงคิว + คิวถัดไป 4 คน สามารถสลับ/เลื่อน/ข้ามคิวได้</p>
+</div>
+</div>
+<div class="rq-admin-grid overflow-y-auto pr-1" id="reward-queue-admin-board"></div>
+</div>
+<div class="bg-[#111520] border border-[#1f2838] rounded-2xl p-4 overflow-hidden flex flex-col shadow-xl">
+<div class="mb-3 shrink-0">
+<h3 class="text-sm font-black text-[#d4af37]"><i class="fa-solid fa-list-ol"></i> คิวถาวรทั้งหมด</h3>
+<p class="text-[11px] text-gray-400">ใช้ตรวจและจัดการคิวภาพรวมของรางวัลแต่ละประเภท</p>
+</div>
+<div class="rq-member-tabs mb-3 shrink-0" id="reward-queue-member-tabs"></div>
+<div class="space-y-2 overflow-y-auto pr-1" id="reward-queue-member-board"></div>
+</div>
+</div>
+</div>
+<!-- 4.6 แท็บเช็คคิวรับรางวัล -->
+<div class="hidden space-y-4" id="tab-content-queuecheck">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-4 shadow-xl max-w-[960px] mx-auto">
+<div class="mb-4 text-center">
+<h2 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-list-check"></i> เช็คคิวรับรางวัล</h2>
+<p class="text-xs text-gray-400 mt-1">เลือกประเภทรางวัลเพื่อดูคิวถาวรของตัวเอง</p>
+</div>
+<div class="grid grid-cols-4 gap-2 mb-4" id="reward-queue-check-tabs"></div>
+<div class="space-y-2 max-w-[760px] mx-auto" id="reward-queue-check-board"></div>
+</div>
+</div>
+<!-- 5. แท็บหน้าวิเคราะห์ข้อมูลประวัติการมาวอร์สะสม -->
+<div class="hidden space-y-5" id="tab-content-stats">
+<div class="bg-[#111520] p-6 rounded-xl border border-[#1f2838] space-y-5 shadow-2xl">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+<div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">มาร่วมรบสะสม</span><h3 class="text-2xl font-bold text-green-400 mt-1" id="stat-avg-present">0 ครั้ง</h3></div>
+<div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">ขอลาหยุดสะสม</span><h3 class="text-2xl font-bold text-[#e2a03f] mt-1" id="stat-avg-leave">0 ครั้ง</h3></div>
+<div class="bg-[#0c0e14] p-5 text-center border rounded border-[#1f2838]"><span class="text-xs text-gray-400">ขาดวอร์สะสม</span><h3 class="text-2xl font-bold text-red-400 mt-1" id="stat-avg-absent">0 ครั้ง</h3></div>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+<div class="bg-[#0c0e14] p-5 border rounded border-[#1f2838]">
+<h3 class="text-sm font-bold text-amber-400 mb-3"><i class="fa-solid fa-clock"></i> ผู้ลาวอร์มากที่สุด 5 อันดับแรก</h3>
+<div class="space-y-2 text-sm" id="top-leave-list"></div>
+</div>
+<div class="bg-[#0c0e14] p-5 border rounded border-[#1f2838]">
+<h3 class="text-sm font-bold text-red-400 mb-3"><i class="fa-solid fa-circle-xmark"></i> ผู้ขาดวอร์มากที่สุด 5 อันดับแรก</h3>
+<div class="space-y-2 text-sm" id="top-absent-list"></div>
+</div>
+</div>
+<div class="overflow-x-auto"><table class="w-full text-left text-sm border-collapse"><thead><tr class="bg-[#1c2331] text-gray-300"><th class="p-3 font-bold">ชื่อตัวละคร</th><th class="p-3 font-bold">อาชีพ</th><th class="p-3 text-center font-bold">มา (ครั้ง)</th><th class="p-3 text-center font-bold">ลา (ครั้ง)</th><th class="p-3 text-center font-bold">ขาด (ครั้ง)</th><th class="p-3 text-center font-bold">ขาดติดกันล่าสุด</th></tr></thead><tbody class="divide-y divide-[#1c2331]" id="stats-table-body"></tbody></table></div>
+</div>
+</div>
+</section>
+</main>
+<!-- 💡 หน้าต่างควบคุมการตั้งค่ากิลด์ โลโก้ และคลาสอาชีพ -->
+<div class="fixed inset-0 bg-black/85 backdrop-blur-sm flex items-center justify-center z-[100] hidden" id="guild-settings-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[540px] max-w-[90%] flex flex-col max-h-[85vh] shadow-2xl">
+<h3 class="text-base font-bold text-[#d4af37] mb-1.5 uppercase tracking-wider flex items-center gap-2">
+<i class="fa-solid fa-sliders"></i> ศูนย์ตั้งค่ากิลด์
         </h3>
-        
-        <div class="flex-grow overflow-y-auto pr-1 space-y-4 text-xs mt-3">
-
-            <div class="p-4 bg-[#181f2d] border border-[#232c3f] rounded-lg space-y-3">
-                <span class="text-xs text-[#d4af37] font-bold uppercase block">
-                    <i class="fa-solid fa-plus-circle"></i> เพิ่มสายอาชีพใหม่เข้าสู่ระบบเว็บ
+<div class="flex-grow overflow-y-auto pr-1 space-y-4 text-xs mt-3">
+<div class="p-4 bg-[#181f2d] border border-[#232c3f] rounded-lg space-y-3">
+<span class="text-xs text-[#d4af37] font-bold uppercase block">
+<i class="fa-solid fa-plus-circle"></i> เพิ่มสายอาชีพใหม่เข้าสู่ระบบเว็บ
                 </span>
-
-                <div class="flex gap-2">
-                    <input type="text" id="new-job-input" placeholder="พิมพ์ชื่อคลาสใหม่..." class="flex-grow bg-[#111520] text-xs text-gray-100 px-3 py-2 rounded-lg border border-[#232c3f] focus:outline-none">
-
-                    <button onclick="addNewJobToGuild()" class="bg-[#d4af37] text-black hover:bg-yellow-500 px-4 py-2 rounded-lg font-extrabold transition">
+<div class="flex gap-2">
+<input class="flex-grow bg-[#111520] text-xs text-gray-100 px-3 py-2 rounded-lg border border-[#232c3f] focus:outline-none" id="new-job-input" placeholder="พิมพ์ชื่อคลาสใหม่..." type="text"/>
+<button class="bg-[#d4af37] text-black hover:bg-yellow-500 px-4 py-2 rounded-lg font-extrabold transition" onclick="addNewJobToGuild()">
                         เพิ่มอาชีพ
                     </button>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="flex justify-end pt-4 border-t border-[#1f2838] mt-4">
-            <button onclick="closeGuildSettingsModal()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold">
+</div>
+</div>
+</div>
+<div class="flex justify-end pt-4 border-t border-[#1f2838] mt-4">
+<button class="bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold" onclick="closeGuildSettingsModal()">
                 เสร็จสิ้น
             </button>
-        </div>
-    </div>
 </div>
-
-
-    <!-- 💡 Popup รายชื่อผู้มีสิทธิ์สุ่มรางวัลที่เหลือ -->
-    <div id="reward-eligible-popup" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[145] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[720px] max-w-[92%] max-h-[82vh] shadow-2xl flex flex-col">
-            <div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
-                <h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-gift"></i> รายชื่อผู้มีสิทธิ์สุ่มที่เหลือ</h3>
-                <button onclick="closeRewardEligiblePopup()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <div id="reward-eligible-popup-count" class="text-xs text-gray-400 mb-3">ทั้งหมด 0 คน</div>
-            <div id="reward-eligible-popup-list" class="reward-popup-list overflow-y-auto pr-1 text-sm"></div>
-        </div>
-    </div>
-
-
-
-
-
-
-
-    <!-- 👤 Member Edit Modal v2.3 -->
-    <div id="member-edit-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[155] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[520px] max-w-[94%] max-h-[86vh] shadow-2xl flex flex-col">
-            <div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-user-pen"></i> แก้ไขข้อมูลสมาชิก</h3>
-                    <div id="member-edit-subtitle" class="text-[11px] text-gray-500 mt-1">-</div>
-                </div>
-                <button onclick="closeMemberEditModal()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <input type="hidden" id="member-edit-id">
-            <div class="space-y-3 text-xs overflow-y-auto pr-1">
-                <div>
-                    <label class="block text-gray-300 mb-1 font-semibold">UID ตัวละคร</label>
-                    <input type="text" id="member-edit-uid" placeholder="UID สำหรับเชื่อม Discord" class="w-full bg-[#1c2331] text-cyan-200 font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]">
-                    <div class="text-[10px] text-gray-500 mt-1">UID ต้องไม่ซ้ำกับสมาชิกคนอื่น</div>
-                </div>
-                <div>
-                    <label class="block text-gray-300 mb-1 font-semibold">ชื่อตัวละคร</label>
-                    <input type="text" id="member-edit-name" class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]">
-                </div>
-                <div>
-                    <label class="block text-gray-300 mb-1 font-semibold">Power</label>
-                    <input type="text" id="member-edit-power" placeholder="เช่น 300K / 1.2M" class="w-full bg-[#1c2331] text-[#facc15] font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]">
-                </div>
-                <div>
-                    <label class="block text-gray-300 mb-1 font-semibold">อาชีพ</label>
-                    <select id="member-edit-job" class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]"></select>
-                </div>
-                <div class="bg-[#0c0e14] border border-[#1f2838] rounded-lg p-3">
-                    <div class="text-gray-400 mb-1 font-semibold">Discord Status</div>
-                    <div id="member-edit-discord-status" class="text-sm">-</div>
-                </div>
-            </div>
-            <div class="flex justify-end gap-2 pt-4 border-t border-[#1f2838] mt-4">
-                <button onclick="closeMemberEditModal()" class="bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold">ยกเลิก</button>
-                <button onclick="saveMemberEditModal()" class="admin-only bg-[#d4af37] text-black px-5 py-2 rounded-lg text-xs font-extrabold"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 🛠️ Admin Tools Modal -->
-    <div id="admin-tools-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[149] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
-            <div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Tools</h3>
-                    <div class="text-[11px] text-gray-500 mt-1">เครื่องมือผู้ดูแลระบบ ใช้ด้วยความระมัดระวัง และควร Export Backup ก่อนทุกครั้ง</div>
-                </div>
-                <button onclick="closeAdminToolsModal()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm overflow-y-auto pr-1">
-                <button onclick="exportBellonaBackup()" class="bg-[#101826] text-emerald-300 border border-emerald-900/60 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-file-export"></i> Export Backup
+</div>
+</div>
+<!-- 💡 Popup รายชื่อผู้มีสิทธิ์สุ่มรางวัลที่เหลือ -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[145] hidden" id="reward-eligible-popup">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[720px] max-w-[92%] max-h-[82vh] shadow-2xl flex flex-col">
+<div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
+<h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-gift"></i> รายชื่อผู้มีสิทธิ์สุ่มที่เหลือ</h3>
+<button class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeRewardEligiblePopup()">ปิด</button>
+</div>
+<div class="text-xs text-gray-400 mb-3" id="reward-eligible-popup-count">ทั้งหมด 0 คน</div>
+<div class="reward-popup-list overflow-y-auto pr-1 text-sm" id="reward-eligible-popup-list"></div>
+</div>
+</div>
+<!-- 👤 Member Edit Modal v2.3 -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[155] hidden" id="member-edit-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[520px] max-w-[94%] max-h-[86vh] shadow-2xl flex flex-col">
+<div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-user-pen"></i> แก้ไขข้อมูลสมาชิก</h3>
+<div class="text-[11px] text-gray-500 mt-1" id="member-edit-subtitle">-</div>
+</div>
+<button class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeMemberEditModal()">ปิด</button>
+</div>
+<input id="member-edit-id" type="hidden"/>
+<div class="space-y-3 text-xs overflow-y-auto pr-1">
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">UID ตัวละคร</label>
+<input class="w-full bg-[#1c2331] text-cyan-200 font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]" id="member-edit-uid" placeholder="UID สำหรับเชื่อม Discord" type="text"/>
+<div class="text-[10px] text-gray-500 mt-1">UID ต้องไม่ซ้ำกับสมาชิกคนอื่น</div>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">ชื่อตัวละคร</label>
+<input class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]" id="member-edit-name" type="text"/>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">Power</label>
+<input class="w-full bg-[#1c2331] text-[#facc15] font-bold px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]" id="member-edit-power" placeholder="เช่น 300K / 1.2M" type="text"/>
+</div>
+<div>
+<label class="block text-gray-300 mb-1 font-semibold">อาชีพ</label>
+<select class="w-full bg-[#1c2331] text-gray-100 px-4 py-2.5 rounded-lg border border-[#2d3748] focus:outline-none focus:border-[#d4af37]" id="member-edit-job"></select>
+</div>
+<div class="bg-[#0c0e14] border border-[#1f2838] rounded-lg p-3">
+<div class="text-gray-400 mb-1 font-semibold">Discord Status</div>
+<div class="text-sm" id="member-edit-discord-status">-</div>
+</div>
+</div>
+<div class="flex justify-end gap-2 pt-4 border-t border-[#1f2838] mt-4">
+<button class="bg-slate-800 text-white px-4 py-2 rounded-lg text-xs font-bold" onclick="closeMemberEditModal()">ยกเลิก</button>
+<button class="admin-only bg-[#d4af37] text-black px-5 py-2 rounded-lg text-xs font-extrabold" onclick="saveMemberEditModal()"><i class="fa-solid fa-floppy-disk"></i> บันทึก</button>
+</div>
+</div>
+</div>
+<!-- 🛠️ Admin Tools Modal -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[149] hidden" id="admin-tools-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
+<div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-screwdriver-wrench"></i> Admin Tools</h3>
+<div class="text-[11px] text-gray-500 mt-1">เครื่องมือผู้ดูแลระบบ ใช้ด้วยความระมัดระวัง และควร Export Backup ก่อนทุกครั้ง</div>
+</div>
+<button class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeAdminToolsModal()">ปิด</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm overflow-y-auto pr-1">
+<button class="bg-[#101826] text-emerald-300 border border-emerald-900/60 px-4 py-4 rounded-xl font-bold text-left" onclick="exportBellonaBackup()">
+<i class="fa-solid fa-file-export"></i> Export Backup
                     <div class="text-[11px] text-gray-500 mt-1">สำรองข้อมูลทั้งหมดเป็นไฟล์ JSON</div>
-                </button>
-                <button onclick="triggerBellonaBackupImport()" class="bg-[#101826] text-amber-300 border border-amber-900/60 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-file-import"></i> Import Backup
+</button>
+<button class="bg-[#101826] text-amber-300 border border-amber-900/60 px-4 py-4 rounded-xl font-bold text-left" onclick="triggerBellonaBackupImport()">
+<i class="fa-solid fa-file-import"></i> Import Backup
                     <div class="text-[11px] text-gray-500 mt-1">นำข้อมูลสำรองกลับเข้าเว็บ</div>
-                </button>
-                <button onclick="startNewWarRoundKeepStats()" class="bg-emerald-950/25 text-emerald-300 border border-emerald-900/50 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-flag-checkered"></i> เริ่มวอร์ใหม่
+</button>
+<button class="bg-emerald-950/25 text-emerald-300 border border-emerald-900/50 px-4 py-4 rounded-xl font-bold text-left" onclick="startNewWarRoundKeepStats()">
+<i class="fa-solid fa-flag-checkered"></i> เริ่มวอร์ใหม่
                     <div class="text-[11px] text-gray-500 mt-1">ล้างเฉพาะสถานะเช็คชื่อวันนี้ ไม่ลบสถิติ ไม่ลบคิวรางวัล</div>
-                </button>
-                <button onclick="resetWarHistoryKeepMembers()" class="bg-red-950/30 text-red-300 border border-red-900/50 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-clock-rotate-left"></i> รีเซ็ตประวัติวอร์
+</button>
+<button class="bg-red-950/30 text-red-300 border border-red-900/50 px-4 py-4 rounded-xl font-bold text-left" onclick="resetWarHistoryKeepMembers()">
+<i class="fa-solid fa-clock-rotate-left"></i> รีเซ็ตประวัติวอร์
                     <div class="text-[11px] text-gray-500 mt-1">ล้าง attendanceLogs และรีเซ็ต มา/ลา/ขาด แต่ไม่ลบสมาชิก</div>
-                </button>
-                <button onclick="triggerClearPartiesConfirmation()" class="bg-red-950/20 text-red-300 border border-red-900/40 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-users-slash"></i> ล้างปาร์ตี้ทั้งหมด
+</button>
+<button class="bg-red-950/20 text-red-300 border border-red-900/40 px-4 py-4 rounded-xl font-bold text-left" onclick="triggerClearPartiesConfirmation()">
+<i class="fa-solid fa-users-slash"></i> ล้างปาร์ตี้ทั้งหมด
                     <div class="text-[11px] text-gray-500 mt-1">ปลดสมาชิกออกจากทุกช่องปาร์ตี้</div>
-                </button>
-                <button onclick="clearRewardWheelHistory()" class="bg-orange-950/20 text-orange-300 border border-orange-900/40 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-solid fa-eraser"></i> ล้างรายชื่อสุ่มวงล้อ
+</button>
+<button class="bg-orange-950/20 text-orange-300 border border-orange-900/40 px-4 py-4 rounded-xl font-bold text-left" onclick="clearRewardWheelHistory()">
+<i class="fa-solid fa-eraser"></i> ล้างรายชื่อสุ่มวงล้อ
                     <div class="text-[11px] text-gray-500 mt-1">ทำให้คนที่เคยถูกสุ่มสามารถกลับมาถูกสุ่มใหม่ได้</div>
-                </button>
-                <button onclick="copyRewardQueueSummary()" class="bg-cyan-950/20 text-cyan-300 border border-cyan-900/40 px-4 py-4 rounded-xl font-bold text-left">
-                    <i class="fa-regular fa-copy"></i> Copy สรุปคิวรับรางวัล
+</button>
+<button class="bg-cyan-950/20 text-cyan-300 border border-cyan-900/40 px-4 py-4 rounded-xl font-bold text-left" onclick="copyRewardQueueSummary()">
+<i class="fa-regular fa-copy"></i> Copy สรุปคิวรับรางวัล
                     <div class="text-[11px] text-gray-500 mt-1">คัดลอกคิวรับรางวัลวันนี้สำหรับส่ง Discord/Line</div>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 📜 Activity Log Modal -->
-    <div id="activity-log-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[148] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
-            <div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log</h3>
-                    <div class="text-[11px] text-gray-500 mt-1">แสดง 120 รายการล่าสุดของการจัดการระบบ</div>
-                </div>
-                <div class="flex gap-2">
-                    <button onclick="clearActivityLogs()" class="admin-only bg-red-950/30 text-red-300 border border-red-900/50 px-3 py-1.5 rounded-lg text-xs font-bold">ล้าง Log</button>
-                    <button onclick="closeActivityLogModal()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-                </div>
-            </div>
-            <div id="activity-log-list" class="space-y-2 overflow-y-auto pr-1 text-sm"></div>
-        </div>
-    </div>
-
-    <div class="bellona-version-pill">BELLONA ROOC · v114 Map Engine</div>
-
-
-
-    <!-- 🎁 Reward Queue Settings Modal -->
-    <div id="reward-queue-settings-modal" class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[820px] max-w-[96vw] max-h-[92vh] overflow-y-auto shadow-2xl">
-            <div class="flex justify-between items-start border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-gear"></i> ตั้งค่ารางวัลวอร์วันนี้</h3>
-                    <p class="text-xs text-gray-400 mt-1">ติ๊กว่ามี/ไม่มีรางวัล ระบุจำนวน และช่วงหน้า ระบบคำนวณคิวให้อัตโนมัติ</p>
-                </div>
-                <button onclick="closeRewardQueueSettings()" class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <div id="reward-queue-settings-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-            <div class="flex justify-end gap-2 pt-5">
-                <button onclick="closeRewardQueueSettings()" class="bg-[#141a24] text-gray-300 border border-[#2d374a] px-5 py-2.5 rounded-lg text-sm font-bold">ยกเลิก</button>
-                <button onclick="saveRewardQueueSettings()" class="bg-[#d4af37] text-black px-5 py-2.5 rounded-lg text-sm font-black">คำนวณใหม่</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 🎁 Reward Queue Action Modal -->
-    <div id="reward-queue-action-modal" class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-5 w-[480px] max-w-[94vw] shadow-2xl">
-            <div class="border-b border-[#1f2838] pb-3 mb-4">
-                <h3 id="reward-queue-action-title" class="text-base font-black text-[#d4af37]">จัดการคิว</h3>
-                <p id="reward-queue-action-sub" class="text-xs text-gray-400 mt-1"></p>
-            </div>
-            <div class="space-y-2 text-sm">
-                <button onclick="markRewardQueueReceived()" class="admin-only w-full text-left bg-green-950/30 text-green-300 border border-green-800/50 px-4 py-3 rounded-lg font-bold"><i class="fa-solid fa-check"></i> รับของแล้ว / ไปท้ายคิว</button>
-                <button onclick="undoRewardQueueReceivedForPlayer()" class="admin-only w-full text-left bg-cyan-950/30 text-cyan-300 border border-cyan-800/50 px-4 py-3 rounded-lg font-bold"><i class="fa-solid fa-rotate-left"></i> ยกเลิกรับแล้ว</button>
-                <button onclick="skipRewardQueuePlayer()" class="admin-only w-full text-left bg-orange-950/30 text-orange-300 border border-orange-800/50 px-4 py-3 rounded-lg font-bold"><i class="fa-solid fa-forward"></i> ข้ามคิว / ไปท้ายกลุ่มยังไม่ได้รับ</button>
-                <div class="grid grid-cols-2 gap-2">
-                    <button onclick="moveRewardQueue(-1)" class="admin-only bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-4 py-3 rounded-lg font-bold"><i class="fa-solid fa-arrow-up"></i> เลื่อนขึ้น</button>
-                    <button onclick="moveRewardQueue(1)" class="admin-only bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-4 py-3 rounded-lg font-bold"><i class="fa-solid fa-arrow-down"></i> เลื่อนลง</button>
-                </div>
-                <div class="bg-[#0c0e14] border border-[#1f2838] rounded-lg p-3">
-                    <label class="text-xs text-gray-400 font-bold block mb-2">สลับคิวกับสมาชิก</label>
-                    <div class="flex gap-2">
-                        <select id="reward-queue-swap-target" class="flex-1 bg-[#090b10] border border-[#263245] rounded-lg px-3 py-2"></select>
-                        <button onclick="swapRewardQueue()" class="admin-only bg-[#d4af37] text-black px-4 py-2 rounded-lg font-black text-sm">สลับ</button>
-                    </div>
-                </div>
-                <button onclick="closeRewardQueueAction()" class="w-full bg-[#1c2331] text-white px-4 py-3 rounded-lg font-bold">ปิด</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- 🎁 Reward Queue Preview Modal -->
-    <div id="reward-queue-preview-modal" class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-5 w-[760px] max-w-[94vw] max-h-[82vh] overflow-y-auto shadow-2xl">
-            <div class="flex justify-between items-start border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-eye"></i> Preview บันทึกรอบวันนี้</h3>
-                    <p class="text-xs text-gray-400 mt-1">แสดงคิวก่อนและหลังบันทึก ตาม Fair Queue: รับแล้วไปท้ายคิว / ลา-ขาดไปท้ายกลุ่มที่ยังไม่ได้รับ</p>
-                </div>
-                <button onclick="closeRewardQueuePreview()" class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <div id="reward-queue-preview-body" class="grid grid-cols-1 md:grid-cols-2 gap-4"></div>
-        </div>
-    </div>
-
-    <!-- 💡 หน้าต่างป๊อปอัพยืนยันการทำรายการ -->
-    <div id="custom-confirm-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[150] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[420px] max-w-[90%] shadow-2xl text-center">
-            <h3 class="text-base font-bold text-gray-200 mb-2 uppercase" id="confirm-title">ยืนยันรายการ?</h3>
-            <p class="text-xs text-gray-400 mb-6" id="confirm-description">รายละเอียด...</p>
-            <div class="flex gap-2.5 justify-center text-xs"><button id="confirm-cancel-btn" class="bg-slate-800 text-white px-5 py-2.5 rounded-lg">ยกเลิก</button><button id="confirm-ok-btn" class="bg-[#d4af37] text-black px-5 py-2.5 rounded-lg font-bold">ยืนยันทำงาน</button></div>
-        </div>
-    </div>
-
-    
-
-    <!-- 📋 Reward Queue Report Modal -->
-    <div id="reward-queue-report-modal" class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[151] hidden">
-        <div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
-            <div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
-                <div>
-                    <h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-clipboard-list"></i> สรุปรายงาน GVG Rewards รอบนี้</h3>
-                    <div class="text-[11px] text-gray-500 mt-1">รายงานจากสถานะรับแล้ว / รอรับ / ข้าม ในรอบปัจจุบัน ใช้สำหรับส่ง Discord/Line</div>
-                </div>
-                <button onclick="closeRewardQueueReportModal()" class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold">ปิด</button>
-            </div>
-            <textarea id="reward-queue-report-text" readonly class="w-full flex-grow min-h-[360px] bg-[#0c0e14] border border-[#1f2838] rounded-lg p-4 text-sm text-gray-100 leading-7 focus:outline-none resize-none"></textarea>
-            <div class="flex justify-end gap-2 mt-4">
-                <button onclick="copyRewardQueueReportFromModal()" class="bg-[#d4af37] text-black font-extrabold px-4 py-2 rounded-lg text-xs"><i class="fa-regular fa-copy"></i> Copy รายงาน</button>
-                <button onclick="downloadRewardQueueReportTxt()" class="bg-[#141a24] text-cyan-300 border border-cyan-900/50 px-4 py-2 rounded-lg text-xs font-bold"><i class="fa-solid fa-download"></i> Download TXT</button>
-            </div>
-        </div>
-    </div>
-
-<script src="./js/modules/bellona-core.js"></script>
-<script src="./assets/dashboard.js"></script>
-
-<script src="./js/modules/party-export-fallback.js"></script>
-<script src="./assets/js/party-export.js"></script>
-
-
-<script src="./js/modules/party-export-fallback.js"></script>
-
-<script type="module" src="./js/firebase-init.js"></script>
-<script src="./js/modules/10-performance-safe.js"></script>
+</button>
+</div>
+</div>
+</div>
+<!-- 📜 Activity Log Modal -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[148] hidden" id="activity-log-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
+<div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-clock-rotate-left"></i> Activity Log</h3>
+<div class="text-[11px] text-gray-500 mt-1">แสดง 120 รายการล่าสุดของการจัดการระบบ</div>
+</div>
+<div class="flex gap-2">
+<button class="admin-only bg-red-950/30 text-red-300 border border-red-900/50 px-3 py-1.5 rounded-lg text-xs font-bold" onclick="clearActivityLogs()">ล้าง Log</button>
+<button class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeActivityLogModal()">ปิด</button>
+</div>
+</div>
+<div class="space-y-2 overflow-y-auto pr-1 text-sm" id="activity-log-list"></div>
+</div>
+</div>
+<div class="bellona-version-pill">BELLONA ROOC · v114 Map Engine</div>
+<!-- 🎁 Reward Queue Settings Modal -->
+<div class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4" id="reward-queue-settings-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[820px] max-w-[96vw] max-h-[92vh] overflow-y-auto shadow-2xl">
+<div class="flex justify-between items-start border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-gear"></i> ตั้งค่ารางวัลวอร์วันนี้</h3>
+<p class="text-xs text-gray-400 mt-1">ติ๊กว่ามี/ไม่มีรางวัล ระบุจำนวน และช่วงหน้า ระบบคำนวณคิวให้อัตโนมัติ</p>
+</div>
+<button class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeRewardQueueSettings()">ปิด</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="reward-queue-settings-grid"></div>
+<div class="flex justify-end gap-2 pt-5">
+<button class="bg-[#141a24] text-gray-300 border border-[#2d374a] px-5 py-2.5 rounded-lg text-sm font-bold" onclick="closeRewardQueueSettings()">ยกเลิก</button>
+<button class="bg-[#d4af37] text-black px-5 py-2.5 rounded-lg text-sm font-black" onclick="saveRewardQueueSettings()">คำนวณใหม่</button>
+</div>
+</div>
+</div>
+<!-- 🎁 Reward Queue Action Modal -->
+<div class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4" id="reward-queue-action-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-5 w-[480px] max-w-[94vw] shadow-2xl">
+<div class="border-b border-[#1f2838] pb-3 mb-4">
+<h3 class="text-base font-black text-[#d4af37]" id="reward-queue-action-title">จัดการคิว</h3>
+<p class="text-xs text-gray-400 mt-1" id="reward-queue-action-sub"></p>
+</div>
+<div class="space-y-2 text-sm">
+<button class="admin-only w-full text-left bg-green-950/30 text-green-300 border border-green-800/50 px-4 py-3 rounded-lg font-bold" onclick="markRewardQueueReceived()"><i class="fa-solid fa-check"></i> รับของแล้ว / ไปท้ายคิว</button>
+<button class="admin-only w-full text-left bg-cyan-950/30 text-cyan-300 border border-cyan-800/50 px-4 py-3 rounded-lg font-bold" onclick="undoRewardQueueReceivedForPlayer()"><i class="fa-solid fa-rotate-left"></i> ยกเลิกรับแล้ว</button>
+<button class="admin-only w-full text-left bg-orange-950/30 text-orange-300 border border-orange-800/50 px-4 py-3 rounded-lg font-bold" onclick="skipRewardQueuePlayer()"><i class="fa-solid fa-forward"></i> ข้ามคิว / ไปท้ายกลุ่มยังไม่ได้รับ</button>
+<div class="grid grid-cols-2 gap-2">
+<button class="admin-only bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-4 py-3 rounded-lg font-bold" onclick="moveRewardQueue(-1)"><i class="fa-solid fa-arrow-up"></i> เลื่อนขึ้น</button>
+<button class="admin-only bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-4 py-3 rounded-lg font-bold" onclick="moveRewardQueue(1)"><i class="fa-solid fa-arrow-down"></i> เลื่อนลง</button>
+</div>
+<div class="bg-[#0c0e14] border border-[#1f2838] rounded-lg p-3">
+<label class="text-xs text-gray-400 font-bold block mb-2">สลับคิวกับสมาชิก</label>
+<div class="flex gap-2">
+<select class="flex-1 bg-[#090b10] border border-[#263245] rounded-lg px-3 py-2" id="reward-queue-swap-target"></select>
+<button class="admin-only bg-[#d4af37] text-black px-4 py-2 rounded-lg font-black text-sm" onclick="swapRewardQueue()">สลับ</button>
+</div>
+</div>
+<button class="w-full bg-[#1c2331] text-white px-4 py-3 rounded-lg font-bold" onclick="closeRewardQueueAction()">ปิด</button>
+</div>
+</div>
+</div>
+<!-- 🎁 Reward Queue Preview Modal -->
+<div class="fixed inset-0 rq-modal-backdrop flex items-center justify-center z-[149] hidden p-4" id="reward-queue-preview-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-5 w-[760px] max-w-[94vw] max-h-[82vh] overflow-y-auto shadow-2xl">
+<div class="flex justify-between items-start border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-black text-[#d4af37]"><i class="fa-solid fa-eye"></i> Preview บันทึกรอบวันนี้</h3>
+<p class="text-xs text-gray-400 mt-1">แสดงคิวก่อนและหลังบันทึก ตาม Fair Queue: รับแล้วไปท้ายคิว / ลา-ขาดไปท้ายกลุ่มที่ยังไม่ได้รับ</p>
+</div>
+<button class="bg-[#141a24] text-[#d4af37] border border-[#2d374a] px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeRewardQueuePreview()">ปิด</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4" id="reward-queue-preview-body"></div>
+</div>
+</div>
+<!-- 💡 หน้าต่างป๊อปอัพยืนยันการทำรายการ -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[150] hidden" id="custom-confirm-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[420px] max-w-[90%] shadow-2xl text-center">
+<h3 class="text-base font-bold text-gray-200 mb-2 uppercase" id="confirm-title">ยืนยันรายการ?</h3>
+<p class="text-xs text-gray-400 mb-6" id="confirm-description">รายละเอียด...</p>
+<div class="flex gap-2.5 justify-center text-xs"><button class="bg-slate-800 text-white px-5 py-2.5 rounded-lg" id="confirm-cancel-btn">ยกเลิก</button><button class="bg-[#d4af37] text-black px-5 py-2.5 rounded-lg font-bold" id="confirm-ok-btn">ยืนยันทำงาน</button></div>
+</div>
+</div>
+<!-- 📋 Reward Queue Report Modal -->
+<div class="fixed inset-0 bg-black/90 backdrop-blur-sm flex items-center justify-center z-[151] hidden" id="reward-queue-report-modal">
+<div class="bg-[#111520] border border-[#1f2838] rounded-xl p-6 w-[760px] max-w-[94%] max-h-[82vh] shadow-2xl flex flex-col">
+<div class="flex items-center justify-between gap-3 border-b border-[#1f2838] pb-3 mb-4">
+<div>
+<h3 class="text-base font-bold text-[#d4af37]"><i class="fa-solid fa-clipboard-list"></i> สรุปรายงาน GVG Rewards รอบนี้</h3>
+<div class="text-[11px] text-gray-500 mt-1">รายงานจากสถานะรับแล้ว / รอรับ / ข้าม ในรอบปัจจุบัน ใช้สำหรับส่ง Discord/Line</div>
+</div>
+<button class="bg-slate-800 text-white px-3 py-1.5 rounded-lg text-xs font-bold" onclick="closeRewardQueueReportModal()">ปิด</button>
+</div>
+<textarea class="w-full flex-grow min-h-[360px] bg-[#0c0e14] border border-[#1f2838] rounded-lg p-4 text-sm text-gray-100 leading-7 focus:outline-none resize-none" id="reward-queue-report-text" readonly=""></textarea>
+<div class="flex justify-end gap-2 mt-4">
+<button class="bg-[#d4af37] text-black font-extrabold px-4 py-2 rounded-lg text-xs" onclick="copyRewardQueueReportFromModal()"><i class="fa-regular fa-copy"></i> Copy รายงาน</button>
+<button class="bg-[#141a24] text-cyan-300 border border-cyan-900/50 px-4 py-2 rounded-lg text-xs font-bold" onclick="downloadRewardQueueReportTxt()"><i class="fa-solid fa-download"></i> Download TXT</button>
+</div>
+</div>
+</div>
+<script src="./js/modules/00-production-core.js"></script>
+<script src="./js/modules/14-dashboard.js"></script>
+<script src="./js/modules/15-party-export-fallback.js"></script>
+<script src="./js/modules/16-party-export.js"></script>
+<script src="./js/modules/17-dual-party-export.js"></script>
+<script src="./js/modules/90-firebase-init.js" type="module"></script>
 </body>
 </html>

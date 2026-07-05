@@ -1,36 +1,26 @@
-# BELLONA Refactor v2.0 Latest
+# BELLONA Refactor v2.2 Clean
 
-ฐานจาก `bellona-gvg-3.5.zip` ซึ่งเป็น Production ล่าสุดที่ฟังก์ชันครบ
+ฐานจาก `bellona-gvg-main(1).zip` แล้วแยกโมดูลใหม่ทั้งชุด
 
-## วิธีอัป GitHub
-อัปไฟล์/โฟลเดอร์ **ข้างในโฟลเดอร์นี้** ไปไว้ root repo:
+## สิ่งที่ทำ
+- แยก inline CSS ไปที่ `css/modules/00-production-core.css`
+- แยก inline JS ไปที่ `js/modules/00-production-core.js`
+- ย้าย Dashboard JS ไปที่ `js/modules/14-dashboard.js`
+- ย้าย Party Export JS ไปที่ `js/modules/16-party-export.js`
+- แก้ `index.html` ให้เรียกไฟล์แบบไม่ซ้อนทับ
+- แก้ path พื้นหลังเป็น `assets/bg-rooc.png` ผ่าน CSS module
+- Dashboard v2.1 layout ตาม mockup ล่าสุด
+- Reward quota table เลื่อน scroll ได้เมื่อสมาชิกเยอะ
+- เพิ่ม Dropdown กรองสถานะในแถบรายชื่อสมาชิก
+- ใช้ Firebase / API / assets เดิม
 
+## วิธีอัป
+อัปไฟล์และโฟลเดอร์ทั้งหมดข้างในโฟลเดอร์นี้ไปไว้ที่ root repo:
 - `index.html`
-- `api/`
-- `assets/`
 - `css/`
 - `js/`
+- `assets/`
+- `api/`
 - `maps.json`
-- `README.md`
 
-อย่าอัปโฟลเดอร์ซ้อนทั้งก้อน เช่น `bellona-refactor-v2.0-latest/index.html`
-
-## สิ่งที่ทำใน v2.0 Latest
-
-- ใช้ Production stable ล่าสุดเป็นฐาน 100%
-- แยก inline CSS ไป `css/bellona-production.css`
-- แยก inline JS หลักไป `js/modules/bellona-core.js`
-- แยก fallback/export/firebase init เป็นไฟล์
-- คง `assets/dashboard.js` และ `assets/js/party-export.js` ตามต้นฉบับ
-- เพิ่ม `css/performance.css` และ `js/modules/10-performance-safe.js` แบบไม่แตะ logic หลัก
-
-## Performance ที่เพิ่มแบบปลอดภัย
-
-- ลด repaint/reflow ระหว่าง scroll ด้วย `contain`
-- เพิ่ม `content-visibility:auto` ให้รายการยาว เช่น waiting list / reward queue rows
-- lazy/async decode ให้รูป job icons ที่ render ภายหลัง
-- debounce ช่องค้นหา/กรองรายชื่อ โดยไม่เปลี่ยนฟังก์ชัน `filterPlayers()` เดิม
-
-## ข้อจำกัด
-
-ยังไม่ทำ Virtual List เพราะเสี่ยงกระทบ Drag & Drop / Party Logic / Reward Queue Logic
+หลังอัปให้ Redeploy Vercel และกด Hard Refresh
