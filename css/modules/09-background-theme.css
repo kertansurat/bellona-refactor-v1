@@ -1,29 +1,41 @@
-/* BELLONA background theme - scoped path-safe */
-html, body {
+/* BELLONA v2.2.1 Background Fix
+   ใช้ absolute path จาก root repo เพื่อให้ Vercel โหลด assets/bg-rooc.png ได้แน่นอน */
+html,
+body {
   min-height: 100%;
   background-color: #080a0f !important;
-}
-html::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -3;
   background-image:
-    linear-gradient(180deg, rgba(7, 9, 14, .30), rgba(8, 10, 15, .60)),
-    url("../../assets/bg-rooc.png");
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  pointer-events: none;
+    linear-gradient(180deg, rgba(7, 9, 14, .34), rgba(8, 10, 15, .62)),
+    url("/assets/bg-rooc.png") !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
 }
 body {
-  background: transparent !important;
+  background-color: transparent !important;
 }
-body::before, body::after {
+body::before,
+body::after,
+html::before,
+html::after {
   display: none !important;
   content: none !important;
 }
-main, main > section.flex-grow, main > section:last-child {
-  background: transparent !important;
+main,
+main > section.flex-grow,
+main > section:last-child {
+  background: rgba(8, 10, 15, .08) !important;
+}
+header,
+nav {
+  background-color: rgba(9, 11, 16, .82) !important;
+  backdrop-filter: blur(8px);
+}
+#player-sidebar {
+  background-color: rgba(12, 14, 20, .70) !important;
+  backdrop-filter: blur(7px);
+}
+#login-overlay-screen {
+  background-color: rgba(7, 9, 14, .88) !important;
 }

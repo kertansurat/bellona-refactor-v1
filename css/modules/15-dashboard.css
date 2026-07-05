@@ -1,3 +1,16 @@
+/* BELLONA v2.2.1 Dashboard Scope Fix
+   สำคัญ: กัน Dashboard display:flex ชนะ Tailwind .hidden แล้วไปทับหน้าอื่น */
+#tab-content-dashboard.hidden,
+#tab-content-dashboard.bellona-dashboard-v21.hidden,
+.hidden#tab-content-dashboard.bellona-dashboard-v21 {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+#tab-content-dashboard:not(.hidden).bellona-dashboard-v21 {
+  display: flex !important;
+}
+
 /* BELLONA Dashboard v2.1 final - scoped only */
 #tab-content-dashboard.bellona-dashboard-v21 {
   height: calc(100vh - 112px);
