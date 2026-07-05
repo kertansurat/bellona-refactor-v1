@@ -276,3 +276,81 @@ input[type="text"] {
     #tab-content-stats .stats-summary-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     #tab-content-stats .stats-table-wrap { max-height: none; }
 }
+
+/* v2.3.2 STATS SCROLL LOCK + STICKY HEADER FIX
+   Scope: stats tab only. Prevents whole-page scroll, keeps table header visible, and adds bottom breathing space. */
+#tab-content-stats:not(.hidden) {
+    height: calc(100vh - 112px) !important;
+    max-height: calc(100vh - 112px) !important;
+    overflow: hidden !important;
+    padding-bottom: 14px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    min-height: 0 !important;
+}
+#tab-content-stats > .bg\[\#111520\] {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 14px !important;
+}
+#tab-content-stats > .bg\[\#111520\] > .grid,
+#tab-content-stats .stats-search-panel {
+    flex: 0 0 auto !important;
+}
+#tab-content-stats .stats-search-panel {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 12 !important;
+    backdrop-filter: blur(8px);
+}
+#tab-content-stats .stats-table-wrap {
+    flex: 1 1 auto !important;
+    min-height: 260px !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    padding-bottom: 0 !important;
+    border: 1px solid rgba(31, 40, 56, .92) !important;
+    border-radius: 14px !important;
+    scrollbar-gutter: stable both-edges;
+    overscroll-behavior: contain;
+}
+#tab-content-stats .stats-table-wrap table {
+    margin-bottom: 0 !important;
+}
+#tab-content-stats .stats-table-wrap thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 20 !important;
+    background: linear-gradient(180deg, rgba(28,35,49,.98), rgba(18,23,33,.98)) !important;
+    box-shadow: 0 1px 0 rgba(212,175,55,.12), 0 10px 20px rgba(0,0,0,.28) !important;
+    backdrop-filter: blur(8px);
+}
+#tab-content-stats .stats-scroll-footer,
+#tab-content-stats::after {
+    display: none !important;
+    height: 0 !important;
+    content: none !important;
+}
+#stats-table-body tr.stats-table-spacer td {
+    height: 96px !important;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+}
+@media (max-height: 820px) and (min-width: 1024px) {
+    #tab-content-stats > .bg\[\#111520\] {
+        gap: 10px !important;
+    }
+    #tab-content-stats .stats-search-panel {
+        padding: 10px !important;
+    }
+    #tab-content-stats .stats-table-wrap {
+        min-height: 220px !important;
+    }
+}
