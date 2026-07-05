@@ -354,3 +354,56 @@ input[type="text"] {
         min-height: 220px !important;
     }
 }
+
+/* v2.3.3 STATS MOUSE WHEEL FINAL FIX
+   Force the stats table to own its own scroll area. This prevents the main page
+   from swallowing the mouse wheel and keeps the table header sticky. */
+#tab-content-stats:not(.hidden) {
+    height: calc(100vh - 112px) !important;
+    max-height: calc(100vh - 112px) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+#tab-content-stats:not(.hidden) > .bg\[\#111520\] {
+    height: 100% !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    display: grid !important;
+    grid-template-rows: auto auto minmax(0, 1fr) auto !important;
+    gap: 14px !important;
+}
+#tab-content-stats:not(.hidden) .stats-search-panel,
+#tab-content-stats:not(.hidden) > .bg\[\#111520\] > .grid {
+    min-height: 0 !important;
+}
+#tab-content-stats:not(.hidden) .stats-member-summary.hidden {
+    display: none !important;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap {
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: 100% !important;
+    overflow-y: scroll !important;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain !important;
+    scrollbar-gutter: stable;
+    touch-action: pan-y;
+    position: relative;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap table {
+    min-width: 980px;
+    margin-bottom: 92px !important;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 30 !important;
+}
+#tab-content-stats:not(.hidden) .stats-scroll-footer {
+    display: block !important;
+    height: 18px !important;
+    flex: 0 0 18px !important;
+}
