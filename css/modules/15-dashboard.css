@@ -734,3 +734,57 @@
     margin-top: 6px !important;
   }
 }
+
+/* v2.2.7 Dashboard Final Polish
+   - Remove job name text from bars entirely.
+   - Keep only count + colored bar + large job icon.
+   - Preserve tooltip via title attribute in JS.
+   Scope: Dashboard only. No logic/Firebase/API changes. */
+#tab-content-dashboard .dash-v21-job-vertical,
+#tab-content-dashboard .dash-v21-job-code,
+#tab-content-dashboard .dash-v21-job-item small {
+  display: none !important;
+}
+
+#tab-content-dashboard .dash-v21-job-bar {
+  overflow: hidden !important;
+}
+
+#tab-content-dashboard .dash-v21-job-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(180deg, rgba(255,255,255,.22), transparent 18%, rgba(0,0,0,.18));
+  pointer-events: none;
+}
+
+#tab-content-dashboard .dash-v21-job-count {
+  margin-bottom: 2px !important;
+  font-size: clamp(27px, 1.62vw, 36px) !important;
+  line-height: .86 !important;
+}
+
+#tab-content-dashboard .dash-v21-job-item > img {
+  width: clamp(54px, 4vw, 80px) !important;
+  height: clamp(54px, 4vw, 80px) !important;
+  margin-top: 9px !important;
+}
+
+#tab-content-dashboard .dash-v21-job-item:hover .dash-v21-job-bar,
+#tab-content-dashboard .dash-v21-job-item:hover > img {
+  transform: translate3d(0,-2px,0);
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+
+@media (max-height: 850px) and (min-width: 1024px) {
+  #tab-content-dashboard .dash-v21-job-count {
+    font-size: clamp(23px, 1.35vw, 30px) !important;
+    margin-bottom: 2px !important;
+  }
+  #tab-content-dashboard .dash-v21-job-item > img {
+    width: clamp(46px, 3.35vw, 66px) !important;
+    height: clamp(46px, 3.35vw, 66px) !important;
+    margin-top: 7px !important;
+  }
+}
