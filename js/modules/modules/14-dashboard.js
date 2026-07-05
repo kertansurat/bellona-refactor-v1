@@ -226,10 +226,8 @@ function renderDashboard() {
       const h = max ? Math.max(18, Math.round((count / max) * 100)) : 0;
       return `
         <div class="dash-v21-job-item ${dashJobColorClass(job)}" title="${dashEscape(job)} ${count} คน">
-          <div class="dash-v21-bar-stack">
-            <div class="dash-v21-job-count">${count}</div>
-            <div class="dash-v21-job-bar" style="height:${h}%"><span class="dash-v21-job-vertical">${dashEscape(job)}</span></div>
-          </div>
+          <div class="dash-v21-job-count">${count}</div>
+          <div class="dash-v21-job-bar" style="height:${h}%"><span class="dash-v21-job-vertical">${dashEscape(job)}</span></div>
           <img src="${dashEscape(dashJobIcon(job))}" onerror="this.src='./assets/logo-bellona.png'" alt="${dashEscape(job)}">
           <div class="dash-v21-job-code">${dashEscape(dashJobCode(job))}</div>
           <small>${dashEscape(job)}</small>
