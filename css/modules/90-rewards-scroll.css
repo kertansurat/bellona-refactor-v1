@@ -1,0 +1,22 @@
+/* Reward scroll safety */
+#tab-content-rewards {
+  min-height: 0;
+}
+#tab-content-rewards > .grid {
+  align-items: flex-start !important;
+}
+#tab-content-rewards .lg\:col-span-2 {
+  min-height: 0;
+  max-height: calc(100vh - 178px);
+  display: flex;
+  flex-direction: column;
+}
+#tab-content-rewards .lg\:col-span-2 > .overflow-x-auto {
+  flex: 1 1 auto;
+  min-height: 260px;
+  overflow: auto !important;
+  border-radius: 12px;
+}
+#reward-quota-table-body {
+  overflow: visible;
+}

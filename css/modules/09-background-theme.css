@@ -1,0 +1,29 @@
+/* BELLONA background theme - scoped path-safe */
+html, body {
+  min-height: 100%;
+  background-color: #080a0f !important;
+}
+html::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -3;
+  background-image:
+    linear-gradient(180deg, rgba(7, 9, 14, .30), rgba(8, 10, 15, .60)),
+    url("../../assets/bg-rooc.png");
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  pointer-events: none;
+}
+body {
+  background: transparent !important;
+}
+body::before, body::after {
+  display: none !important;
+  content: none !important;
+}
+main, main > section.flex-grow, main > section:last-child {
+  background: transparent !important;
+}

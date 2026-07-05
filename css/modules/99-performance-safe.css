@@ -1,0 +1,4 @@
+/* Safe performance helpers */
+#waiting-list { contain: content; }
+#tab-content-party .dual-party-grid .glass-panel,
+#tab-content-dashboard .dash-v21-panel { will-change: auto; }
