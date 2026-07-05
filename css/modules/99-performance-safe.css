@@ -407,3 +407,92 @@ input[type="text"] {
     height: 18px !important;
     flex: 0 0 18px !important;
 }
+
+/* v2.3.4 STATS HARD SCROLL FIX
+   Final override: stats page is a fixed-height flex column, and only the table
+   body wrapper owns the vertical scroll. This avoids scrolling the main page
+   and keeps the table header visible. */
+#tab-content-stats:not(.hidden) {
+    height: calc(100dvh - 112px) !important;
+    max-height: calc(100dvh - 112px) !important;
+    min-height: 0 !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding-bottom: 0 !important;
+}
+#tab-content-stats:not(.hidden)::after {
+    display: none !important;
+    content: none !important;
+    height: 0 !important;
+}
+#tab-content-stats:not(.hidden) > .bg\[\#111520\] {
+    flex: 1 1 auto !important;
+    height: 100% !important;
+    min-height: 0 !important;
+    max-height: 100% !important;
+    overflow: hidden !important;
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px !important;
+    padding-bottom: 12px !important;
+}
+#tab-content-stats:not(.hidden) > .bg\[\#111520\] > * {
+    margin-top: 0 !important;
+}
+#tab-content-stats:not(.hidden) > .bg\[\#111520\] > .grid,
+#tab-content-stats:not(.hidden) .stats-search-panel,
+#tab-content-stats:not(.hidden) .stats-member-summary,
+#tab-content-stats:not(.hidden) .stats-scroll-footer {
+    flex: 0 0 auto !important;
+}
+#tab-content-stats:not(.hidden) .stats-search-panel {
+    position: relative !important;
+    top: auto !important;
+    z-index: 5 !important;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap {
+    display: block !important;
+    flex: 1 1 0% !important;
+    height: 0 !important;
+    min-height: 240px !important;
+    max-height: none !important;
+    overflow-y: auto !important;
+    overflow-x: auto !important;
+    overscroll-behavior: contain !important;
+    scrollbar-gutter: stable both-edges !important;
+    -webkit-overflow-scrolling: touch !important;
+    touch-action: pan-y !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 0 !important;
+    border: 1px solid rgba(31,40,56,.92) !important;
+    border-radius: 14px !important;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap table {
+    min-width: 980px !important;
+    margin-bottom: 110px !important;
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+#tab-content-stats:not(.hidden) .stats-table-wrap thead th {
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 40 !important;
+    background: linear-gradient(180deg, rgba(28,35,49,.98), rgba(18,23,33,.98)) !important;
+    box-shadow: 0 1px 0 rgba(212,175,55,.12), 0 10px 20px rgba(0,0,0,.28) !important;
+}
+#tab-content-stats:not(.hidden) #stats-table-body tr:last-child td {
+    border-bottom: 80px solid transparent !important;
+}
+@media (max-height: 820px) and (min-width: 1024px) {
+    #tab-content-stats:not(.hidden) > .bg\[\#111520\] {
+        gap: 8px !important;
+        padding: 12px !important;
+    }
+    #tab-content-stats:not(.hidden) > .bg\[\#111520\] > .grid:first-child {
+        display: none !important;
+    }
+    #tab-content-stats:not(.hidden) .stats-table-wrap {
+        min-height: 260px !important;
+    }
+}
