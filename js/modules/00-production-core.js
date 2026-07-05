@@ -196,6 +196,34 @@ let rewardQueueRoundItems = {};
 let rewardQueueRoundPenalties = {};
 
 function safeEl(id) { return document.getElementById(id); }
+
+/* v2.5 PERFORMANCE SAFE HELPERS
+   - Small utilities only. No Firebase/API/schema changes.
+   - Used to reduce duplicate renders and debounce heavy UI filters. */
+const BELLONA_PERF_SAFE = window.BELLONA_PERF_SAFE || (window.BELLONA_PERF_SAFE = {
+    timers: Object.create(null),
+    frames: Object.create(null),
+    lastWaitingListKey: '',
+    lastFilterValue: '',
+    debounce(key, fn, delay = 140) {
+        clearTimeout(this.timers[key]);
+        this.timers[key] = setTimeout(fn, delay);
+    },
+    frame(key, fn) {
+        if (this.frames[key]) cancelAnimationFrame(this.frames[key]);
+        this.frames[key] = requestAnimationFrame(() => {
+            this.frames[key] = null;
+            fn();
+        });
+    }
+});
+function bellonaActiveTabSafe() {
+    return (typeof getCurrentActiveTab === 'function') ? getCurrentActiveTab() : 'party';
+}
+function bellonaShouldRenderSidebar() {
+    const active = bellonaActiveTabSafe();
+    return active === 'party' || active === 'members';
+}
 function escapeHtml(value) {
     return String(value ?? '').replace(/[&<>"]/g, s => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[s]));
 }
@@ -1272,10 +1300,13 @@ function manualAddMemberSubmit() {
 }
 
 function filterPlayers() {
-    renderWaitingList();
-    const tab = (typeof getCurrentActiveTab === 'function') ? getCurrentActiveTab() : 'members';
-    if (tab === 'members') renderMemberManagerTab();
-    if (tab === 'rewards' && typeof renderRewardsTab === 'function') renderRewardsTab();
+    /* v2.5: debounce search/dropdown filter so typing does not re-render large lists every keystroke. */
+    BELLONA_PERF_SAFE.debounce('filterPlayers', () => {
+        if (bellonaShouldRenderSidebar()) renderWaitingList();
+        const tab = bellonaActiveTabSafe();
+        if (tab === 'members') renderMemberManagerTab();
+        if (tab === 'rewards' && typeof renderRewardsTab === 'function') renderRewardsTab();
+    }, 140);
 }
 
 function renderHeaderCounts() {
@@ -1329,14 +1360,49 @@ function getSidebarPlayerState(p) {
 function renderWaitingList() {
     const container = safeEl('waiting-list');
     if (!container) return;
+
+    /* v2.5: skip expensive sidebar render while sidebar is hidden on non Party/Member tabs. */
+    if (!bellonaShouldRenderSidebar()) {
+        BELLONA_PERF_SAFE.lastWaitingListKey = '';
+        renderHeaderCounts();
+        return;
+    }
+
     const list = getFilteredWaitingPlayers();
-    if (list.length === 0) {
+    const canDrag = checkAdminAccess();
+    const rows = list.map(p => {
+        const st = getSidebarPlayerState(p);
+        const active = String(selectedPlayerId) === String(p.id);
+        const draggable = canDrag && !st.locked;
+        return { p, st, active, draggable };
+    });
+
+    const renderKey = [
+        safeEl('search-name')?.value || '',
+        safeEl('search-job-dropdown')?.value || 'all',
+        safeEl('search-status-dropdown')?.value || 'all',
+        String(selectedPlayerId || ''),
+        String(canDrag),
+        rows.map(x => {
+            const planState = getPlayerPlanState(x.p, currentPartyPlan);
+            return [
+                x.p.id, x.p.name, x.p.job, x.p.uid, x.p.status,
+                planState.partyId ?? '', planState.slotIndex ?? '',
+                x.st.text, x.active ? 1 : 0
+            ].join(':');
+        }).join('|')
+    ].join('::');
+
+    if (container.dataset.bellonaRenderKey === renderKey) {
+        renderHeaderCounts();
+        return;
+    }
+    container.dataset.bellonaRenderKey = renderKey;
+
+    if (rows.length === 0) {
         container.innerHTML = '<div class="text-xs text-gray-500 text-center py-4">ไม่พบรายชื่อที่ตรงกับตัวกรอง</div>';
     } else {
-        container.innerHTML = list.map(p => {
-            const st = getSidebarPlayerState(p);
-            const active = String(selectedPlayerId) === String(p.id);
-            const draggable = checkAdminAccess() && !st.locked;
+        container.innerHTML = rows.map(({ p, st, active, draggable }) => {
             return `<div class="flex items-center gap-3 border p-2.5 rounded-lg ${st.cls} ${active ? 'ring-1 ring-[#d4af37]' : ''} ${st.locked ? 'cursor-not-allowed' : 'cursor-pointer hover:border-[#d4af37]/50'}"
                  onclick="selectPlayer('${escapeInlineJs(p.id)}')"
                  draggable="${draggable ? 'true' : 'false'}"
@@ -3423,9 +3489,9 @@ function renderAll() {
     updateAttendanceRoundDisplay();
     populateDynamicJobSelectors();
     renderHeaderCounts();
-    renderWaitingList();
 
     const activeTab = getCurrentActiveTab();
+    if (activeTab === 'party' || activeTab === 'members') renderWaitingList();
     if (activeTab === 'dashboard' && typeof renderDashboard === 'function') renderDashboard();
     if (activeTab === 'members') renderMemberManagerTab();
     if (activeTab === 'party') renderParties();
