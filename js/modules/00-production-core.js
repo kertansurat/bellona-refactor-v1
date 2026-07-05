@@ -3440,3 +3440,32 @@ function renderAll() {
 
     applyRolePermissions();
 }
+
+/* v2.3.3 STATS MOUSE WHEEL FIX
+   Some global layout rules lock the page scroll, so route wheel events over the
+   stats table directly into the table container. Scoped to stats only. */
+(function setupBellonaStatsMouseWheelFix(){
+    if (window.__bellonaStatsMouseWheelFixInstalled) return;
+    window.__bellonaStatsMouseWheelFixInstalled = true;
+
+    function getStatsWrap(target) {
+        if (!target || !target.closest) return null;
+        return target.closest('#tab-content-stats .stats-table-wrap');
+    }
+
+    document.addEventListener('wheel', function(event){
+        const wrap = getStatsWrap(event.target);
+        if (!wrap) return;
+        if (wrap.scrollHeight <= wrap.clientHeight) return;
+
+        const delta = event.deltaY || 0;
+        if (!delta) return;
+
+        const atTop = wrap.scrollTop <= 0;
+        const atBottom = Math.ceil(wrap.scrollTop + wrap.clientHeight) >= wrap.scrollHeight;
+        if ((delta < 0 && atTop) || (delta > 0 && atBottom)) return;
+
+        wrap.scrollTop += delta;
+        event.preventDefault();
+    }, { passive: false, capture: true });
+})();
