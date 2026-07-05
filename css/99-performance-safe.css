@@ -1,0 +1,98 @@
+/* BELLONA v2.2.2 Safe Performance + Scroll Fix
+   Scope: CSS only. No Firebase/API/logic changes. */
+
+/* Keep hidden tabs truly hidden even when other modules use display/overflow rules. */
+[id^="tab-content-"].hidden {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+
+/* Main right workspace must be scrollable for long pages. */
+@media (min-width: 1024px) {
+  main > section.flex-grow,
+  main > section:last-child {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    overscroll-behavior: contain;
+  }
+}
+
+/* Scroll safety for pages that can grow when members increase. */
+#tab-content-members:not(.hidden),
+#tab-content-party:not(.hidden),
+#tab-content-auction:not(.hidden),
+#tab-content-queuecheck:not(.hidden),
+#tab-content-rewards:not(.hidden),
+#tab-content-stats:not(.hidden) {
+  max-height: calc(100vh - 112px) !important;
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  padding-bottom: 24px;
+  overscroll-behavior: contain;
+}
+
+/* Reward queue / queue check boards: allow full member list scrolling. */
+#reward-queue-admin-board,
+#reward-queue-member-board,
+#reward-queue-check-board {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+#reward-queue-admin-board,
+#reward-queue-member-board {
+  max-height: calc(100vh - 245px) !important;
+}
+#reward-queue-check-board {
+  max-height: calc(100vh - 300px) !important;
+  padding-right: 6px;
+}
+
+/* Rewards table scroll: keep wheel fixed while quota table can scroll. */
+#tab-content-rewards .overflow-x-auto {
+  overflow: auto !important;
+  overscroll-behavior: contain;
+}
+#reward-quota-table-body {
+  contain: content;
+}
+
+/* Stats page can grow with many members. */
+#tab-content-stats .overflow-x-auto {
+  max-height: calc(100vh - 300px);
+  overflow: auto !important;
+  overscroll-behavior: contain;
+}
+
+/* Light containment for heavy lists; avoids re-layout outside the list while preserving drag/drop logic. */
+#waiting-list,
+#reward-queue-admin-board,
+#reward-queue-member-board,
+#reward-queue-check-board,
+#stats-table-body {
+  contain: layout paint;
+}
+
+/* Smoother scrolling on member-heavy panels. */
+#waiting-list,
+#reward-queue-admin-board,
+#reward-queue-member-board,
+#reward-queue-check-board,
+#tab-content-stats .overflow-x-auto,
+#tab-content-rewards .overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Do not force Dashboard over other pages. */
+#tab-content-dashboard.hidden,
+.hidden#tab-content-dashboard,
+#tab-content-dashboard.bellona-dashboard-v21.hidden {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+#tab-content-dashboard:not(.hidden).bellona-dashboard-v21 {
+  display: flex !important;
+}
