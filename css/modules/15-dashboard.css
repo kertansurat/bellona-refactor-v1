@@ -307,3 +307,24 @@
   #tab-content-dashboard .dash-v21-grid { grid-template-columns: 1fr; grid-template-rows:auto; }
   #tab-content-dashboard .dash-v21-panel { min-height: 320px; }
 }
+
+/* v2.2.2 Dashboard visual polish: hide short job labels and enlarge job icons */
+#tab-content-dashboard .dash-v21-job-item {
+  grid-template-rows: 22px minmax(74px, 1fr) 44px !important;
+  gap: 5px !important;
+}
+#tab-content-dashboard .dash-v21-job-item img {
+  width: 38px !important;
+  height: 38px !important;
+  border-radius: 12px !important;
+  background: rgba(5, 8, 14, .45);
+  padding: 3px;
+  border: 1px solid rgba(255,255,255,.08);
+}
+#tab-content-dashboard .dash-v21-job-code,
+#tab-content-dashboard .dash-v21-job-item small {
+  display: none !important;
+}
+#tab-content-dashboard .dash-v21-job-count {
+  font-size: 14px !important;
+}

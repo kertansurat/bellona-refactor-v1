@@ -1,9 +1,12 @@
-/* Reward scroll safety */
+/* BELLONA v2.2.2 Rewards scroll safety */
 #tab-content-rewards {
   min-height: 0;
 }
 #tab-content-rewards > .grid {
   align-items: flex-start !important;
+}
+#tab-content-rewards > .grid > div:first-child {
+  align-self: flex-start !important;
 }
 #tab-content-rewards .lg\:col-span-2 {
   min-height: 0;
@@ -14,8 +17,10 @@
 #tab-content-rewards .lg\:col-span-2 > .overflow-x-auto {
   flex: 1 1 auto;
   min-height: 260px;
+  max-height: calc(100vh - 250px);
   overflow: auto !important;
   border-radius: 12px;
+  overscroll-behavior: contain;
 }
 #reward-quota-table-body {
   overflow: visible;
