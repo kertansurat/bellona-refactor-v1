@@ -496,3 +496,54 @@ input[type="text"] {
         min-height: 260px !important;
     }
 }
+
+
+/* =========================================================
+   v2.5 PERFORMANCE SAFE PASS
+   Scope: CSS-only compositing/containment for long lists.
+   Does not change layout logic or Firebase/API behavior.
+========================================================= */
+
+/* Long scroll areas: isolate paint/layout work while keeping existing UI intact. */
+#waiting-list,
+#reward-queue-member-board,
+#reward-queue-check-board,
+#reward-queue-admin-board .overflow-y-auto,
+#tab-content-stats .stats-table-wrap,
+#reward-quota-table-body {
+  overscroll-behavior: contain;
+}
+
+/* Only apply content-visibility to rows/cards inside large list areas, not party slots. */
+#waiting-list > div,
+#reward-queue-member-board .rq-row,
+#reward-queue-check-board .rq-row,
+#reward-queue-admin-board .rq-row,
+#tab-content-stats .stats-table-wrap tbody tr {
+  content-visibility: auto;
+  contain-intrinsic-size: 44px;
+}
+
+/* Prevent hover/glow effects from repainting the whole page on large lists. */
+#waiting-list > div,
+.rq-row,
+#tab-content-stats .stats-table-wrap tbody tr {
+  contain: layout paint style;
+}
+
+/* Smoother scroll and less accidental page chaining. */
+#waiting-list,
+#tab-content-stats .stats-table-wrap,
+#reward-queue-member-board,
+#reward-queue-check-board {
+  scroll-behavior: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Dropdown/input interaction should stay lightweight. */
+#search-name,
+#search-job-dropdown,
+#search-status-dropdown,
+#stats-member-search {
+  will-change: auto;
+}
