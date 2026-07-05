@@ -539,7 +539,20 @@
 <div class="space-y-2 text-sm" id="top-absent-list"></div>
 </div>
 </div>
-<div class="overflow-x-auto"><table class="w-full text-left text-sm border-collapse"><thead><tr class="bg-[#1c2331] text-gray-300"><th class="p-3 font-bold">ชื่อตัวละคร</th><th class="p-3 font-bold">อาชีพ</th><th class="p-3 text-center font-bold">มา (ครั้ง)</th><th class="p-3 text-center font-bold">ลา (ครั้ง)</th><th class="p-3 text-center font-bold">ขาด (ครั้ง)</th><th class="p-3 text-center font-bold">ขาดติดกันล่าสุด</th></tr></thead><tbody class="divide-y divide-[#1c2331]" id="stats-table-body"></tbody></table></div>
+<div class="stats-search-panel">
+<div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+<div>
+<h3 class="text-sm font-black text-[#d4af37] uppercase tracking-wider"><i class="fa-solid fa-magnifying-glass-chart"></i> ค้นหาสถิติสมาชิก</h3>
+<p class="text-xs text-gray-500 mt-1">พิมพ์ชื่อ / UID / อาชีพ เพื่อเช็คจำนวนมาวอร์ ลา ขาด ของตัวเอง</p>
+</div>
+<div class="relative w-full lg:w-[420px]">
+<i class="fa-solid fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-500"></i>
+<input id="stats-member-search" oninput="handleStatsSearchInput(this.value)" type="text" placeholder="ค้นหาชื่อตัวละคร, UID หรืออาชีพ..." class="stats-search-input w-full bg-[#0c0e14] border border-[#263247] rounded-xl pl-11 pr-4 py-3 text-sm text-gray-100 outline-none focus:border-[#d4af37]">
+</div>
+</div>
+<div id="stats-member-summary" class="stats-member-summary hidden"></div>
+</div>
+<div class="overflow-x-auto stats-table-wrap"><table class="w-full text-left text-sm border-collapse"><thead><tr class="bg-[#1c2331] text-gray-300"><th class="p-3 font-bold">ชื่อตัวละคร</th><th class="p-3 font-bold">อาชีพ</th><th class="p-3 text-center font-bold">มา (ครั้ง)</th><th class="p-3 text-center font-bold">ลา (ครั้ง)</th><th class="p-3 text-center font-bold">ขาด (ครั้ง)</th><th class="p-3 text-center font-bold">ขาดติดกันล่าสุด</th></tr></thead><tbody class="divide-y divide-[#1c2331]" id="stats-table-body"></tbody></table></div><div class="stats-scroll-footer" aria-hidden="true"></div>
 </div>
 </div>
 </section>
