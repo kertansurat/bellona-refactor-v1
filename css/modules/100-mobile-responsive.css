@@ -1,22 +1,29 @@
-/* BELLONA Mobile App Shell v2.6.3
+/* BELLONA Mobile App UI v2.7
    Add-on only. Desktop remains unchanged.
-   Goal: mobile should feel like an app, not a squeezed desktop. */
+   Goal: mobile app shell + readable content without changing production logic. */
 
 @media (min-width: 1024px) {
   .bellona-mobile-action-toggle,
-  .bellona-mobile-drawer-backdrop { display: none !important; }
+  .bellona-mobile-drawer-backdrop,
+  .bellona-mobile-app-drawer { display: none !important; }
 }
 
 @media (max-width: 1023px) {
   :root {
-    --mobile-header-h: 72px;
-    --mobile-bottom-nav-h: 78px;
+    --mobile-header-h: 70px;
+    --mobile-bottom-nav-h: 68px;
+    --mobile-safe-top: env(safe-area-inset-top, 0px);
     --mobile-safe-bottom: env(safe-area-inset-bottom, 0px);
-    --mobile-panel: rgba(12, 14, 20, .92);
-    --mobile-border: rgba(212, 175, 55, .18);
+    --mobile-bg: rgba(8, 10, 15, .96);
+    --mobile-card: rgba(14, 16, 22, .94);
+    --mobile-card-2: rgba(18, 22, 31, .90);
+    --mobile-border: rgba(212, 175, 55, .20);
+    --mobile-border-soft: rgba(148, 163, 184, .16);
+    --mobile-gold: #d4af37;
   }
 
-  html, body {
+  html,
+  body {
     width: 100% !important;
     min-height: 100% !important;
     overflow-x: hidden !important;
@@ -30,22 +37,27 @@
     overscroll-behavior-y: none;
   }
 
+  body.bellona-mobile-actions-open {
+    overflow: hidden !important;
+    touch-action: none;
+  }
+
   /* ---------- App header ---------- */
   header {
     position: sticky !important;
     top: 0 !important;
-    z-index: 300 !important;
-    min-height: var(--mobile-header-h) !important;
-    height: auto !important;
+    z-index: 500 !important;
+    min-height: calc(var(--mobile-header-h) + var(--mobile-safe-top)) !important;
+    height: calc(var(--mobile-header-h) + var(--mobile-safe-top)) !important;
     display: flex !important;
     align-items: center !important;
     justify-content: space-between !important;
-    gap: 8px !important;
-    padding: calc(8px + env(safe-area-inset-top, 0px)) 12px 8px !important;
-    border-bottom: 1px solid rgba(212, 175, 55, .16) !important;
-    background: rgba(8, 10, 15, .96) !important;
-    backdrop-filter: blur(14px) !important;
-    box-shadow: 0 10px 30px rgba(0,0,0,.36) !important;
+    gap: 10px !important;
+    padding: calc(8px + var(--mobile-safe-top)) 12px 8px !important;
+    border-bottom: 1px solid rgba(212, 175, 55, .18) !important;
+    background: rgba(8, 10, 15, .97) !important;
+    backdrop-filter: blur(16px) !important;
+    box-shadow: 0 12px 34px rgba(0,0,0,.45) !important;
     overflow: visible !important;
   }
 
@@ -68,98 +80,148 @@
   #role-status-badge {
     margin-left: auto !important;
     max-width: 118px !important;
-    padding: 7px 9px !important;
+    padding: 8px 10px !important;
     font-size: 10px !important;
     line-height: 1 !important;
     white-space: nowrap !important;
     overflow: hidden !important;
     text-overflow: ellipsis !important;
-    border-radius: 10px !important;
+    border-radius: 12px !important;
   }
 
-  /* Hide desktop summary and top action strip on phones. JS marks them too, but nth-child is a fallback. */
+  /* Hide desktop header stats + action strip on mobile. JS adds these classes robustly. */
+  header .bellona-mobile-header-stats,
+  header .bellona-mobile-header-actions,
   header > div:nth-of-type(2),
-  header .bellona-mobile-header-stats {
+  header > div:nth-of-type(3) {
     display: none !important;
-  }
-
-  header > div:nth-of-type(3),
-  header .bellona-mobile-header-actions {
-    display: none !important;
+    visibility: hidden !important;
+    width: 0 !important;
+    height: 0 !important;
+    overflow: hidden !important;
+    pointer-events: none !important;
   }
 
   .bellona-mobile-action-toggle {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    width: 44px !important;
-    height: 44px !important;
-    flex: 0 0 44px !important;
-    margin-left: 8px !important;
-    border-radius: 14px !important;
-    border: 1px solid rgba(212,175,55,.38) !important;
-    background: linear-gradient(180deg, rgba(31,35,48,.96), rgba(12,15,22,.96)) !important;
+    width: 48px !important;
+    height: 48px !important;
+    flex: 0 0 48px !important;
+    margin-left: 4px !important;
+    border-radius: 16px !important;
+    border: 1px solid rgba(212,175,55,.50) !important;
+    background: linear-gradient(180deg, rgba(34,38,50,.98), rgba(12,15,22,.98)) !important;
     color: #facc15 !important;
-    font-size: 19px !important;
-    box-shadow: 0 14px 34px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.06) !important;
+    font-size: 22px !important;
+    box-shadow: 0 12px 30px rgba(0,0,0,.40), inset 0 1px 0 rgba(255,255,255,.07) !important;
   }
 
   .bellona-mobile-action-toggle:active { transform: scale(.96); }
 
   .bellona-mobile-drawer-backdrop {
-    position: fixed;
-    inset: 0;
-    z-index: 320;
-    display: none;
-    background: rgba(0,0,0,.54);
-    backdrop-filter: blur(3px);
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 900 !important;
+    display: none !important;
+    background: rgba(0,0,0,.64) !important;
+    backdrop-filter: blur(6px) !important;
   }
 
   body.bellona-mobile-actions-open .bellona-mobile-drawer-backdrop {
     display: block !important;
   }
 
-  body.bellona-mobile-actions-open header > div:nth-of-type(3),
-  body.bellona-mobile-actions-open header .bellona-mobile-header-actions {
+  .bellona-mobile-app-drawer {
     position: fixed !important;
     left: 12px !important;
     right: 12px !important;
-    top: calc(var(--mobile-header-h) + env(safe-area-inset-top, 0px) + 8px) !important;
-    z-index: 340 !important;
-    width: auto !important;
+    top: calc(var(--mobile-header-h) + var(--mobile-safe-top) + 10px) !important;
+    z-index: 950 !important;
+    display: none !important;
     max-height: min(68dvh, 520px) !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior: contain !important;
+    padding: 14px !important;
+    border: 1px solid rgba(212,175,55,.30) !important;
+    border-radius: 20px !important;
+    background: linear-gradient(180deg, rgba(13,16,24,.99), rgba(8,10,15,.99)) !important;
+    box-shadow: 0 30px 100px rgba(0,0,0,.76), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    backdrop-filter: blur(18px) !important;
+  }
+
+  body.bellona-mobile-actions-open .bellona-mobile-app-drawer {
+    display: block !important;
+    animation: bellonaDrawerIn .16s ease-out both;
+  }
+
+  @keyframes bellonaDrawerIn {
+    from { transform: translateY(-10px) scale(.98); opacity: 0; }
+    to { transform: translateY(0) scale(1); opacity: 1; }
+  }
+
+  .bellona-mobile-drawer-head {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
+    padding: 2px 2px 12px !important;
+    border-bottom: 1px solid rgba(148,163,184,.12) !important;
+    margin-bottom: 12px !important;
+  }
+
+  .bellona-mobile-drawer-title {
+    color: #facc15 !important;
+    font-size: 13px !important;
+    font-weight: 900 !important;
+    letter-spacing: .08em !important;
+    text-transform: uppercase !important;
+  }
+
+  .bellona-mobile-drawer-close {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 11px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #e5e7eb !important;
+    background: rgba(15,23,42,.80) !important;
+    border: 1px solid rgba(148,163,184,.18) !important;
+  }
+
+  .bellona-mobile-action-list {
     display: grid !important;
     grid-template-columns: 1fr !important;
-    gap: 8px !important;
-    overflow-y: auto !important;
-    overscroll-behavior: contain !important;
-    -webkit-overflow-scrolling: touch !important;
-    padding: 12px !important;
-    border: 1px solid rgba(212,175,55,.24) !important;
-    border-radius: 18px !important;
-    background: rgba(9,11,16,.98) !important;
-    box-shadow: 0 30px 90px rgba(0,0,0,.72) !important;
-    backdrop-filter: blur(16px) !important;
+    gap: 9px !important;
   }
 
-  body.bellona-mobile-actions-open header > div:nth-of-type(3) button,
-  body.bellona-mobile-actions-open header .bellona-mobile-header-actions button {
+  .bellona-mobile-action-list button {
     width: 100% !important;
     min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
     justify-content: center !important;
+    gap: 8px !important;
     padding: 12px 14px !important;
-    border-radius: 14px !important;
+    border-radius: 15px !important;
     font-size: 14px !important;
+    font-weight: 900 !important;
+    white-space: nowrap !important;
+    border: 1px solid rgba(148,163,184,.16) !important;
+    background: rgba(17,24,39,.85) !important;
   }
 
-  /* ---------- App bottom navigation ---------- */
+  /* ---------- Mobile bottom navigation ---------- */
   main {
     display: flex !important;
     flex-direction: column !important;
     height: auto !important;
     min-height: calc(100dvh - var(--mobile-header-h)) !important;
     overflow: visible !important;
-    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 16px) !important;
+    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 10px) !important;
   }
 
   #main-left-menu {
@@ -167,7 +229,7 @@
     left: 0 !important;
     right: 0 !important;
     bottom: 0 !important;
-    z-index: 260 !important;
+    z-index: 480 !important;
     width: 100% !important;
     height: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom)) !important;
     max-height: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom)) !important;
@@ -175,39 +237,41 @@
     flex-direction: row !important;
     align-items: center !important;
     gap: 8px !important;
-    padding: 10px 12px calc(10px + var(--mobile-safe-bottom)) !important;
+    padding: 8px 10px calc(8px + var(--mobile-safe-bottom)) !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
     border-right: 0 !important;
     border-top: 1px solid rgba(212, 175, 55, .22) !important;
     background: rgba(8, 10, 15, .98) !important;
     backdrop-filter: blur(18px) !important;
-    box-shadow: 0 -18px 44px rgba(0,0,0,.54) !important;
+    box-shadow: 0 -16px 38px rgba(0,0,0,.60) !important;
     scrollbar-width: none !important;
+    scroll-snap-type: x proximity;
   }
 
   #main-left-menu::-webkit-scrollbar { display: none !important; }
 
   #main-left-menu .tab-btn {
-    min-width: 116px !important;
-    height: 54px !important;
+    min-width: 100px !important;
+    height: 50px !important;
     flex: 0 0 auto !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
-    padding: 8px 12px !important;
-    border-radius: 16px !important;
-    font-size: 12px !important;
+    gap: 7px !important;
+    padding: 7px 10px !important;
+    border-radius: 15px !important;
+    font-size: 11px !important;
     line-height: 1.1 !important;
     white-space: nowrap !important;
     background: rgba(17, 24, 39, .94) !important;
     border: 1px solid rgba(148, 163, 184, .14) !important;
+    scroll-snap-align: start;
   }
 
   #main-left-menu .tab-btn.active {
-    background: rgba(212,175,55,.16) !important;
-    border-color: rgba(212,175,55,.55) !important;
+    background: rgba(212,175,55,.17) !important;
+    border-color: rgba(212,175,55,.58) !important;
     color: #facc15 !important;
   }
 
@@ -216,7 +280,7 @@
     font-size: 16px !important;
   }
 
-  /* ---------- Main content: app cards ---------- */
+  /* ---------- Main content ---------- */
   main > section.flex-grow,
   main > section:last-child {
     width: 100% !important;
@@ -224,7 +288,7 @@
     min-height: 0 !important;
     overflow: visible !important;
     padding: 12px !important;
-    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 20px) !important;
+    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 24px) !important;
   }
 
   .glass-panel,
@@ -235,14 +299,12 @@
     border-radius: 18px !important;
   }
 
-  input, select, textarea, button {
-    font-size: 16px !important;
-  }
+  input, select, textarea, button { font-size: 16px !important; }
 
-  /* ---------- Waiting/player sidebar ---------- */
+  /* ---------- Player sidebar / waiting list ---------- */
   #player-sidebar {
     width: 100% !important;
-    max-height: 44dvh !important;
+    max-height: 34dvh !important;
     min-height: 0 !important;
     border-right: 0 !important;
     border-bottom: 1px solid rgba(31, 40, 56, .9) !important;
@@ -251,15 +313,21 @@
   }
 
   #player-sidebar.sidebar-hidden { display: none !important; }
-
-  #player-sidebar > div:first-child { padding: 12px !important; }
+  #player-sidebar > div:first-child { padding: 10px !important; }
+  #player-sidebar > div:first-child .flex.items-center.justify-between { margin-bottom: 6px !important; }
 
   #waiting-list {
-    max-height: calc(44dvh - 144px) !important;
+    max-height: calc(34dvh - 126px) !important;
     overflow-y: auto !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
-    padding-bottom: 18px !important;
+    padding: 8px !important;
+  }
+
+  #waiting-list > div {
+    min-height: 64px !important;
+    padding: 10px 12px !important;
+    border-radius: 15px !important;
   }
 
   /* ---------- Dashboard mobile ---------- */
@@ -268,35 +336,25 @@
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
-    padding-bottom: calc(var(--mobile-bottom-nav-h) + 20px) !important;
+    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 22px) !important;
   }
 
-  #tab-content-dashboard .dash-v21-hero {
-    padding: 18px !important;
-  }
-
+  #tab-content-dashboard .dash-v21-hero { padding: 18px !important; }
   #tab-content-dashboard .dash-v21-hero h1 {
-    font-size: clamp(30px, 9vw, 42px) !important;
+    font-size: clamp(29px, 8.4vw, 40px) !important;
     line-height: 1.08 !important;
   }
-
   #tab-content-dashboard .dash-v21-hero p:not(:first-child) {
     font-size: 14px !important;
     line-height: 1.55 !important;
   }
-
-  #tab-content-dashboard .dash-v21-hero .flex.flex-wrap,
-  #tab-content-dashboard .dash-v21-hero [class*="flex-wrap"] {
-    gap: 8px !important;
-  }
-
+  #tab-content-dashboard .dash-v21-hero [class*="flex-wrap"] { gap: 8px !important; }
   #tab-content-dashboard .dash-v21-hero button {
     flex: 1 1 calc(50% - 8px) !important;
-    min-width: 138px !important;
+    min-width: 132px !important;
     padding: 11px 12px !important;
     border-radius: 14px !important;
   }
-
   #tab-content-dashboard .dash-v21-grid,
   #tab-content-dashboard .bellona-dash-grid,
   #tab-content-dashboard .dashboard-main-grid {
@@ -304,76 +362,63 @@
     flex-direction: column !important;
     gap: 12px !important;
   }
-
-  #tab-content-dashboard .dash-v21-panel {
-    min-height: 0 !important;
-    overflow: hidden !important;
-  }
+  #tab-content-dashboard .dash-v21-panel { min-height: 0 !important; overflow: hidden !important; }
 
   #tab-content-dashboard #dash-job-ranking.dash-v21-job-chart,
   #tab-content-dashboard .dash-v21-job-chart {
-    height: 260px !important;
-    min-height: 260px !important;
-    max-height: 260px !important;
+    height: 230px !important;
+    min-height: 230px !important;
+    max-height: 230px !important;
     display: flex !important;
     align-items: flex-end !important;
     justify-content: flex-start !important;
-    gap: 18px !important;
+    gap: 14px !important;
     overflow-x: auto !important;
     overflow-y: hidden !important;
-    padding: 22px 16px 14px !important;
+    padding: 32px 12px 12px !important;
     -webkit-overflow-scrolling: touch !important;
     scroll-snap-type: x proximity;
   }
-
   #tab-content-dashboard .dash-v21-job-item {
-    flex: 0 0 68px !important;
-    max-width: 68px !important;
+    flex: 0 0 58px !important;
+    max-width: 58px !important;
     scroll-snap-align: start;
   }
-
   #tab-content-dashboard .dash-v21-job-count {
-    font-size: 29px !important;
+    font-size: 27px !important;
     line-height: 1 !important;
     margin-bottom: 2px !important;
   }
-
   #tab-content-dashboard .dash-v21-job-bar {
-    width: 56px !important;
+    width: 50px !important;
     border-radius: 15px 15px 7px 7px !important;
   }
-
   #tab-content-dashboard .dash-v21-job-item > img {
-    width: 60px !important;
-    height: 60px !important;
+    width: 54px !important;
+    height: 54px !important;
     margin-top: 8px !important;
   }
-
   #tab-content-dashboard .dash-v21-war-title {
-    font-size: clamp(30px, 9vw, 42px) !important;
+    font-size: clamp(29px, 8.2vw, 40px) !important;
     line-height: 1.1 !important;
     text-align: center !important;
   }
-
   #tab-content-dashboard .dash-v21-war-date {
-    font-size: clamp(17px, 5vw, 24px) !important;
+    font-size: clamp(17px, 4.8vw, 23px) !important;
     text-align: center !important;
   }
-
   #tab-content-dashboard .dash-v21-top-brand-grid {
     display: flex !important;
     flex-direction: column !important;
     gap: 12px !important;
   }
-
-  #tab-content-dashboard .dash-v21-brand-card { min-height: 190px !important; }
-
+  #tab-content-dashboard .dash-v21-brand-card { min-height: 170px !important; }
   #tab-content-dashboard .dash-v21-brand-card img {
-    width: min(82vw, 360px) !important;
-    max-height: 170px !important;
+    width: min(80vw, 340px) !important;
+    max-height: 150px !important;
   }
 
-  /* ---------- Party mobile ---------- */
+  /* ---------- Party mobile app cards ---------- */
   #tab-content-party,
   #tab-content-party.bellona-dual-party {
     height: auto !important;
@@ -382,7 +427,6 @@
     flex-direction: column !important;
     gap: 10px !important;
   }
-
   #tab-content-party.hidden,
   #tab-content-party.bellona-dual-party.hidden { display: none !important; }
 
@@ -395,18 +439,20 @@
     padding: 10px !important;
     border-radius: 16px !important;
   }
-
+  #tab-content-party .dual-party-toolbar p,
+  #tab-content-party .dual-party-toolbar .text-xs {
+    line-height: 1.35 !important;
+  }
   #tab-content-party .party-plan-btn,
   #tab-content-party .party-export-btn,
   #tab-content-party .party-view-btn {
     flex: 1 1 calc(50% - 8px) !important;
-    min-width: 138px !important;
+    min-width: 134px !important;
     justify-content: center !important;
-    padding: 11px 9px !important;
+    padding: 10px 9px !important;
     font-size: 13px !important;
     border-radius: 14px !important;
   }
-
   #tab-content-party #capture-party-combined-zone.dual-party-zone,
   #tab-content-party .dual-party-zone {
     display: flex !important;
@@ -415,7 +461,22 @@
     overflow: visible !important;
     gap: 12px !important;
   }
-
+  #tab-content-party .dual-party-section {
+    padding: 10px !important;
+    border-radius: 18px !important;
+    overflow: hidden !important;
+  }
+  #tab-content-party .dual-party-section-head {
+    min-height: 0 !important;
+    height: auto !important;
+    flex: 0 0 auto !important;
+    gap: 8px !important;
+    align-items: flex-start !important;
+  }
+  #tab-content-party .dual-party-section-head h3 {
+    font-size: 18px !important;
+    line-height: 1.2 !important;
+  }
   #tab-content-party .dual-party-grid {
     display: grid !important;
     grid-template-columns: 1fr !important;
@@ -424,27 +485,37 @@
     overflow: visible !important;
     gap: 10px !important;
   }
-
   #tab-content-party .dual-party-grid .glass-panel {
     min-height: 0 !important;
-    overflow: visible !important;
+    overflow: hidden !important;
+    border-radius: 18px !important;
+    padding: 12px !important;
   }
-
+  #tab-content-party .dual-party-grid .glass-panel > div:first-child {
+    min-height: 34px !important;
+  }
+  #tab-content-party .dual-party-grid .party-title-main,
+  #tab-content-party .dual-party-grid .party-title-sub {
+    font-size: 18px !important;
+  }
+  #tab-content-party .dual-party-grid .slots {
+    display: grid !important;
+    gap: 8px !important;
+  }
   #tab-content-party .dual-party-grid .party-slot {
-    min-height: 44px !important;
+    min-height: 50px !important;
     height: auto !important;
     padding: 8px 10px !important;
+    border-radius: 14px !important;
   }
-
-  #tab-content-party .dual-party-grid .party-player-name { font-size: 13px !important; }
-
+  #tab-content-party .dual-party-grid .party-player-name { font-size: 16px !important; line-height: 1.2 !important; }
   #tab-content-party .dual-party-grid .party-player-info img {
-    width: 30px !important;
-    height: 30px !important;
-    flex-basis: 30px !important;
+    width: 36px !important;
+    height: 36px !important;
+    flex-basis: 36px !important;
   }
 
-  /* ---------- Tables/lists: mobile readable ---------- */
+  /* ---------- Stats/reward/member tables ---------- */
   #tab-content-members,
   #tab-content-stats,
   #tab-content-rewards,
@@ -452,10 +523,9 @@
   #tab-content-queuecheck,
   #tab-content-tactical {
     min-height: calc(100dvh - 150px) !important;
-    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 34px) !important;
+    padding-bottom: calc(var(--mobile-bottom-nav-h) + var(--mobile-safe-bottom) + 36px) !important;
     overflow: visible !important;
   }
-
   #tab-content-members .overflow-x-auto,
   #tab-content-stats .overflow-x-auto,
   #tab-content-rewards .overflow-x-auto,
@@ -466,28 +536,31 @@
   #tab-content-rewards [class*="overflow-x-auto"],
   #tab-content-auction [class*="overflow-x-auto"],
   #tab-content-queuecheck [class*="overflow-x-auto"] {
-    max-height: calc(100dvh - 220px) !important;
+    max-height: calc(100dvh - 205px) !important;
     overflow: auto !important;
     -webkit-overflow-scrolling: touch !important;
     overscroll-behavior: contain !important;
-    padding-bottom: 110px !important;
+    padding-bottom: 96px !important;
   }
-
   #tab-content-members table,
   #tab-content-stats table,
   #tab-content-rewards table,
   #tab-content-auction table,
   #tab-content-queuecheck table {
-    min-width: 780px !important;
+    min-width: 720px !important;
   }
-
+  #tab-content-stats .stats-search-panel,
+  #tab-content-stats [id*="stats-search"] {
+    position: sticky !important;
+    top: calc(var(--mobile-header-h) + 4px) !important;
+    z-index: 30 !important;
+  }
   .map-scroll-container {
     min-height: 320px !important;
     max-height: 62dvh !important;
     overflow: auto !important;
     -webkit-overflow-scrolling: touch !important;
   }
-
   .map-canvas-wrapper {
     width: min(92vw, 620px) !important;
     height: min(92vw, 620px) !important;
@@ -497,37 +570,22 @@
 }
 
 @media (max-width: 480px) {
-  :root { --mobile-bottom-nav-h: 82px; }
-
+  :root { --mobile-bottom-nav-h: 66px; }
   #header-logo { height: 36px !important; max-width: 132px !important; }
   #role-status-badge { max-width: 108px !important; font-size: 9px !important; }
-  .bellona-mobile-action-toggle { width: 42px !important; height: 42px !important; flex-basis: 42px !important; }
-
-  #main-left-menu .tab-btn {
-    min-width: 112px !important;
-    height: 54px !important;
-    font-size: 11px !important;
-  }
-
+  .bellona-mobile-action-toggle { width: 46px !important; height: 46px !important; flex-basis: 46px !important; }
+  #main-left-menu .tab-btn { min-width: 98px !important; height: 49px !important; font-size: 11px !important; }
   #tab-content-dashboard #dash-job-ranking.dash-v21-job-chart,
   #tab-content-dashboard .dash-v21-job-chart {
-    height: 245px !important;
-    min-height: 245px !important;
-    max-height: 245px !important;
-    gap: 15px !important;
+    height: 220px !important;
+    min-height: 220px !important;
+    max-height: 220px !important;
+    gap: 13px !important;
   }
-
-  #tab-content-dashboard .dash-v21-job-item {
-    flex-basis: 64px !important;
-    max-width: 64px !important;
-  }
-
-  #tab-content-dashboard .dash-v21-job-bar { width: 52px !important; }
-  #tab-content-dashboard .dash-v21-job-item > img { width: 56px !important; height: 56px !important; }
-
+  #tab-content-dashboard .dash-v21-job-item { flex-basis: 56px !important; max-width: 56px !important; }
+  #tab-content-dashboard .dash-v21-job-bar { width: 48px !important; }
+  #tab-content-dashboard .dash-v21-job-item > img { width: 52px !important; height: 52px !important; }
   #tab-content-party .party-plan-btn,
   #tab-content-party .party-export-btn,
-  #tab-content-party .party-view-btn {
-    flex-basis: 100% !important;
-  }
+  #tab-content-party .party-view-btn { flex-basis: 100% !important; }
 }
