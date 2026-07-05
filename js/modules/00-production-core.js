@@ -3469,3 +3469,84 @@ function renderAll() {
         event.preventDefault();
     }, { passive: false, capture: true });
 })();
+
+/* v2.3.4 STATS HARD SCROLL FIX
+   Route mouse-wheel input to the stats table wrapper whenever the stats tab is active.
+   This is intentionally scoped to stats only and does not change Firebase/data logic. */
+(function setupBellonaStatsHardScrollFix(){
+    if (window.__bellonaStatsHardScrollFixInstalled) return;
+    window.__bellonaStatsHardScrollFixInstalled = true;
+
+    function isStatsActive() {
+        const tab = document.getElementById('tab-content-stats');
+        return !!tab && !tab.classList.contains('hidden');
+    }
+
+    function getStatsWrap() {
+        return document.querySelector('#tab-content-stats:not(.hidden) .stats-table-wrap');
+    }
+
+    function normalizeStatsScrollArea() {
+        const wrap = getStatsWrap();
+        if (!wrap) return;
+        const rect = wrap.getBoundingClientRect();
+        const available = Math.max(240, window.innerHeight - rect.top - 24);
+        wrap.style.setProperty('height', available + 'px', 'important');
+        wrap.style.setProperty('max-height', available + 'px', 'important');
+        wrap.style.setProperty('overflow-y', 'auto', 'important');
+        wrap.style.setProperty('overflow-x', 'auto', 'important');
+    }
+
+    function requestStatsScrollNormalize() {
+        if (!isStatsActive()) return;
+        requestAnimationFrame(normalizeStatsScrollArea);
+        setTimeout(normalizeStatsScrollArea, 80);
+    }
+
+    const originalRenderStatsTab = window.renderStatsTab;
+    if (typeof originalRenderStatsTab === 'function' && !originalRenderStatsTab.__bellonaHardScrollWrapped) {
+        const wrapped = function(){
+            const result = originalRenderStatsTab.apply(this, arguments);
+            requestStatsScrollNormalize();
+            return result;
+        };
+        wrapped.__bellonaHardScrollWrapped = true;
+        window.renderStatsTab = wrapped;
+    }
+
+    const originalSwitchTab = window.switchTab;
+    if (typeof originalSwitchTab === 'function' && !originalSwitchTab.__bellonaStatsHardScrollWrapped) {
+        const wrappedSwitchTab = function(tab){
+            const result = originalSwitchTab.apply(this, arguments);
+            if (tab === 'stats') requestStatsScrollNormalize();
+            return result;
+        };
+        wrappedSwitchTab.__bellonaStatsHardScrollWrapped = true;
+        window.switchTab = wrappedSwitchTab;
+    }
+
+    document.addEventListener('wheel', function(event){
+        if (!isStatsActive()) return;
+        const target = event.target;
+        if (target && target.closest && target.closest('input, textarea, select, option, button')) return;
+
+        const wrap = getStatsWrap();
+        if (!wrap) return;
+        if (wrap.scrollHeight <= wrap.clientHeight + 2) return;
+
+        const delta = event.deltaY || 0;
+        if (!delta) return;
+
+        const atTop = wrap.scrollTop <= 0;
+        const atBottom = Math.ceil(wrap.scrollTop + wrap.clientHeight) >= wrap.scrollHeight;
+        if ((delta < 0 && atTop) || (delta > 0 && atBottom)) return;
+
+        wrap.scrollTop += delta;
+        event.preventDefault();
+        event.stopPropagation();
+    }, { passive: false, capture: true });
+
+    window.addEventListener('resize', requestStatsScrollNormalize, { passive: true });
+    document.addEventListener('DOMContentLoaded', requestStatsScrollNormalize);
+    setInterval(function(){ if (isStatsActive()) normalizeStatsScrollArea(); }, 800);
+})();
