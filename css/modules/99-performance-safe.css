@@ -96,3 +96,64 @@
 #tab-content-dashboard:not(.hidden).bellona-dashboard-v21 {
   display: flex !important;
 }
+
+/* v2.2.3 Stats bottom visibility: keep last member rows clear of the viewport edge. */
+#tab-content-stats:not(.hidden) {
+  padding-bottom: 96px !important;
+  scroll-padding-bottom: 120px !important;
+}
+#tab-content-stats::after {
+  content: "";
+  display: block;
+  height: 84px;
+  flex: 0 0 84px;
+}
+#tab-content-stats .overflow-x-auto {
+  max-height: calc(100vh - 245px) !important;
+  padding-bottom: 72px !important;
+  scrollbar-gutter: stable;
+}
+#tab-content-stats table {
+  margin-bottom: 52px !important;
+}
+
+/* v2.2.4 Safe performance polish: reduce paint/layout work without changing logic. */
+#waiting-list,
+#tab-content-party:not(.hidden),
+#tab-content-members:not(.hidden),
+#tab-content-auction:not(.hidden),
+#tab-content-queuecheck:not(.hidden),
+#tab-content-rewards:not(.hidden),
+#tab-content-stats:not(.hidden) {
+  scrollbar-gutter: stable;
+  transform: translateZ(0);
+  backface-visibility: hidden;
+}
+#waiting-list > *,
+#reward-queue-admin-board > *,
+#reward-queue-member-board > *,
+#reward-queue-check-board > * {
+  contain: layout paint style;
+}
+#search-name,
+#search-job-dropdown,
+#search-status-dropdown,
+select,
+input[type="text"] {
+  will-change: contents;
+}
+#tab-content-stats:not(.hidden) {
+  padding-bottom: 132px !important;
+  scroll-padding-bottom: 152px !important;
+}
+#tab-content-stats::after {
+  height: 118px !important;
+  flex: 0 0 118px !important;
+}
+#tab-content-stats .overflow-x-auto {
+  max-height: calc(100vh - 230px) !important;
+  padding-bottom: 96px !important;
+}
+#tab-content-stats table {
+  margin-bottom: 84px !important;
+}
