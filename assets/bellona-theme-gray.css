@@ -1,0 +1,314 @@
+/* BELLONA Neutral Gray Theme Override v2
+   วางไฟล์นี้หลัง Tailwind และหลัง CSS หลักทั้งหมด */
+
+:root{
+  --bn-bg-0:#090909;
+  --bn-bg-1:#111111;
+  --bn-bg-2:#181818;
+  --bn-bg-3:#1f1f1f;
+  --bn-bg-4:#262626;
+  --bn-border-1:#343434;
+  --bn-border-2:#464646;
+  --bn-text-muted:#a3a3a3;
+  --bn-text-soft:#d4d4d4;
+  --bn-gold:#d4af37;
+}
+
+/* Base overlay / page / panels */
+html{
+    background-color:transparent !important;
+}
+
+body{
+    background:transparent !important;
+}
+
+header,
+nav,
+#login-overlay-screen,
+#player-sidebar,
+.glass-panel,
+.bellona-bg-panel,
+.admin-tool-card,
+.activity-log-row,
+.rq-row{
+  background-color:rgba(17,17,17,.88) !important;
+  border-color:var(--bn-border-1) !important;
+}
+
+/* Tailwind arbitrary background colors: รวมทั้งแบบมี /opacity */
+.bg-\[\#07090e\], .bg-\[\#07090e\]\/98,
+.bg-\[\#080a0f\], .bg-\[\#080a0f\]\/80, .bg-\[\#080a0f\]\/90,
+.bg-\[\#090b10\], .bg-\[\#090b10\]\/80, .bg-\[\#090b10\]\/90,
+.bg-\[\#0c0e14\], .bg-\[\#0c0e14\]\/80, .bg-\[\#0c0e14\]\/90,
+.bg-\[\#101826\], .bg-\[\#101826\]\/80,
+.bg-\[\#111520\], .bg-\[\#111520\]\/80, .bg-\[\#111520\]\/90,
+.bg-\[\#121620\], .bg-\[\#121620\]\/80,
+.bg-\[\#141a24\], .bg-\[\#141a24\]\/80,
+.bg-\[\#161b26\], .bg-\[\#161b26\]\/80,
+.bg-\[\#181f2d\], .bg-\[\#181f2d\]\/80,
+.bg-\[\#1a202c\], .bg-\[\#1a202c\]\/80,
+.bg-\[\#1c2331\], .bg-\[\#1c2331\]\/80,
+.bg-\[\#1f2a3a\], .bg-\[\#1f2a3a\]\/80,
+.bg-\[\#0b1f2a\], .bg-\[\#0b1f2a\]\/80{
+  background-color:var(--bn-bg-3) !important;
+}
+
+.bg-\[\#0c0e14\], .bg-\[\#090b10\], .bg-\[\#080a0f\], .bg-\[\#07090e\]{
+  background-color:var(--bn-bg-1) !important;
+}
+
+/* Slate / Blue / Cyan / Sky / Indigo utility ที่ยังหลุดมา */
+.bg-slate-950, .bg-slate-900, .bg-slate-800, .bg-slate-700,
+.bg-blue-950, .bg-blue-900, .bg-blue-800,
+.bg-sky-950, .bg-sky-900, .bg-sky-800,
+.bg-cyan-950, .bg-cyan-900, .bg-cyan-800,
+.bg-indigo-950, .bg-indigo-900, .bg-indigo-800{
+  background-color:var(--bn-bg-3) !important;
+}
+
+.bg-blue-950\/40, .bg-blue-950\/50, .bg-blue-950\/60,
+.bg-sky-950\/40, .bg-sky-950\/50, .bg-sky-950\/60,
+.bg-cyan-950\/40, .bg-cyan-950\/50, .bg-cyan-950\/60,
+.bg-indigo-950\/40, .bg-indigo-950\/50, .bg-indigo-950\/60,
+.bg-slate-950\/40, .bg-slate-950\/50, .bg-slate-950\/60{
+  background-color:rgba(31,31,31,.50) !important;
+}
+
+/* Border arbitrary + utility */
+.border-\[\#1f2838\], .border-\[\#212a3a\], .border-\[\#222b3c\],
+.border-\[\#232c3f\], .border-\[\#283247\], .border-\[\#2b3543\],
+.border-\[\#2b364a\], .border-\[\#2d3748\], .border-\[\#2d374a\],
+.border-\[\#374151\], .border-\[\#475569\],
+.border-slate-900, .border-slate-800, .border-slate-700,
+.border-blue-900, .border-sky-900, .border-cyan-900, .border-indigo-900{
+  border-color:var(--bn-border-1) !important;
+}
+
+.border-blue-900\/40, .border-blue-900\/50, .border-blue-900\/60,
+.border-sky-900\/40, .border-sky-900\/50, .border-sky-900\/60,
+.border-cyan-900\/40, .border-cyan-900\/50, .border-cyan-900\/60,
+.border-indigo-900\/40, .border-indigo-900\/50, .border-indigo-900\/60,
+.border-slate-900\/40, .border-slate-900\/50, .border-slate-900\/60{
+  border-color:rgba(70,70,70,.55) !important;
+}
+
+/* Text blue/cyan/sky/indigo -> neutral gray */
+.text-blue-300, .text-blue-400, .text-blue-500,
+.text-sky-300, .text-sky-400, .text-sky-500,
+.text-cyan-300, .text-cyan-400, .text-cyan-500,
+.text-indigo-300, .text-indigo-400, .text-indigo-500,
+.text-slate-300, .text-slate-400, .text-slate-500{
+  color:var(--bn-text-soft) !important;
+}
+
+/* Forms: input/select/textarea + Chrome autofill สีฟ้าอ่อน */
+input, select, textarea,
+input[type="text"], input[type="password"], input[type="number"], input[type="search"]{
+  background-color:var(--bn-bg-3) !important;
+  color:#f5f5f5 !important;
+  border-color:var(--bn-border-1) !important;
+  box-shadow:none !important;
+  caret-color:var(--bn-gold) !important;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+select:-webkit-autofill{
+  -webkit-text-fill-color:#f5f5f5 !important;
+  -webkit-box-shadow:0 0 0 1000px var(--bn-bg-3) inset !important;
+  box-shadow:0 0 0 1000px var(--bn-bg-3) inset !important;
+  transition:background-color 9999s ease-out 0s !important;
+}
+
+input::placeholder,
+textarea::placeholder{
+  color:#9ca3af !important;
+}
+
+/* Login card / eye button / guest button */
+#login-overlay-screen > div{
+  background-color:#1f1f1f !important;
+  border-color:var(--bn-border-2) !important;
+  box-shadow:0 0 50px rgba(0,0,0,.45) !important;
+}
+.login-eye-btn{
+  background-color:#2a2a2a !important;
+  border-color:#4a4a4a !important;
+  color:#a3a3a3 !important;
+}
+.login-eye-btn:hover{
+  color:var(--bn-gold) !important;
+  border-color:rgba(212,175,55,.35) !important;
+}
+
+/* Admin/GUEST badge ที่ JS สร้าง class ใหม่ */
+#role-status-badge{
+  background-color:#242424 !important;
+  border-color:#444 !important;
+  color:var(--bn-gold) !important;
+}
+
+/* Dropdown/list/sidebar cards */
+#waiting-list > div,
+#saved-maps-list > div,
+#markers-setting-list > div,
+#reward-queue-admin-board > div,
+#reward-queue-member-board > div,
+#reward-queue-check-board > div{
+  background-color:#202020 !important;
+  border-color:#3a3a3a !important;
+}
+
+/* Hover ที่ยังอมฟ้า */
+.hover\:bg-\[\#1e2535\]:hover,
+.hover\:bg-\[\#1c2433\]:hover,
+.hover\:bg-\[\#263249\]:hover,
+.hover\:bg-slate-800:hover,
+.hover\:bg-blue-950:hover,
+.hover\:bg-sky-950:hover,
+.hover\:bg-cyan-950:hover,
+.hover\:bg-indigo-950:hover{
+  background-color:#2b2b2b !important;
+}
+
+/* Tables */
+thead tr,
+tr.bg-\[\#1c2331\]{
+  background-color:#242424 !important;
+}
+tbody tr,
+.divide-y > :not([hidden]) ~ :not([hidden]){
+  border-color:#303030 !important;
+}
+
+/* Map board / placeholder */
+.map-scroll-container,
+.map-canvas-wrapper,
+#battle-map-placeholder{
+  background-color:#111 !important;
+  border-color:#333 !important;
+}
+
+/* Keep gold focus */
+.focus\:border-\[\#d4af37\]:focus,
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--bn-gold) !important;
+  outline:none !important;
+}
+/* ===== Restore Background Image ===== */
+
+/* ===== Restore ROOC Background Image Only ===== */
+
+html {
+  min-height: 100% !important;
+  background-color: #080a0f !important;
+  background-image:
+    linear-gradient(180deg, rgba(7, 9, 14, .36), rgba(8, 10, 15, .58)),
+    url('./bg-rooc.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+body {
+  min-height: 100% !important;
+  background: transparent !important;
+}
+
+main {
+  background: transparent !important;
+}
+
+main > section.flex-grow,
+main > section:last-child {
+  background-color: rgba(8, 10, 15, .18) !important;
+}
+
+body {
+    background: transparent !important;
+}
+
+main {
+    background: transparent !important;
+}
+/* ===== Left Main Menu Layout ===== */
+
+#main-left-menu {
+  background-color: rgba(17,17,17,.82) !important;
+  backdrop-filter: blur(8px);
+}
+
+#main-left-menu .tab-btn {
+  border: 1px solid transparent;
+  color: #d4d4d4;
+  justify-content: flex-start;
+}
+
+#main-left-menu .tab-btn:hover {
+  background-color: rgba(212,175,55,.08) !important;
+  border-color: rgba(212,175,55,.18) !important;
+  color: #f5f5f5;
+}
+
+#main-left-menu .tab-btn.active {
+  background-color: rgba(212,175,55,.16) !important;
+  border-color: rgba(212,175,55,.38) !important;
+  color: #d4af37 !important;
+  box-shadow: none !important;
+}
+
+#main-left-menu .tab-btn i {
+  color: #d4af37 !important;
+}
+
+/* ===== FINAL FIX: Neutral Background + Keep BG Image Visible ===== */
+
+html {
+  min-height: 100% !important;
+  background-color: #111111 !important;
+  background-image:
+    linear-gradient(180deg, rgba(18,18,18,.20), rgba(18,18,18,.38)),
+    url('./bg-rooc.png') !important;
+  background-size: cover !important;
+  background-position: center center !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important;
+}
+
+body {
+  min-height: 100% !important;
+  background: transparent !important;
+}
+
+main {
+  background: transparent !important;
+}
+
+main > section.flex-grow,
+main > section:last-child {
+  background-color: rgba(18,18,18,.10) !important;
+  backdrop-filter: blur(.5px) !important;
+}
+
+header,
+nav,
+#main-left-menu,
+#player-sidebar {
+  background-color: rgba(18,18,18,.72) !important;
+}
+
+[class*="bg-[#111520]"],
+[class*="bg-[#0c0e14]"],
+[class*="bg-[#090b10]"],
+[class*="bg-[#080a0f]"],
+[class*="bg-[#121620]"],
+[class*="bg-[#181f2d]"],
+[class*="bg-[#1c2331]"] {
+  background-color: rgba(24,24,24,.62) !important;
+}
