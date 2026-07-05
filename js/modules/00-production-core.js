@@ -1977,6 +1977,72 @@ function getConsecutiveAbsentCount(playerId) {
     return count;
 }
 
+let statsSearchQuery = '';
+let statsSearchDebounceTimer = null;
+
+function normalizeStatsSearchText(value) {
+    return String(value || '').toLowerCase().trim().replace(/\s+/g, ' ');
+}
+
+function getPlayerSearchBlob(player) {
+    return normalizeStatsSearchText([
+        player?.name,
+        player?.job,
+        player?.uid,
+        player?.UID,
+        player?.discordId,
+        player?.DiscordID,
+        player?.id
+    ].filter(Boolean).join(' '));
+}
+
+function handleStatsSearchInput(value) {
+    clearTimeout(statsSearchDebounceTimer);
+    statsSearchDebounceTimer = setTimeout(() => {
+        statsSearchQuery = normalizeStatsSearchText(value);
+        renderStatsTab();
+    }, 180);
+}
+
+function renderStatsMemberSummary(matches, absentMap) {
+    const box = safeEl('stats-member-summary');
+    if (!box) return;
+    const query = normalizeStatsSearchText(statsSearchQuery);
+    if (!query) {
+        box.classList.add('hidden');
+        box.innerHTML = '';
+        return;
+    }
+    box.classList.remove('hidden');
+    if (!matches.length) {
+        box.innerHTML = `<div class="stats-empty-result"><i class="fa-solid fa-circle-info"></i> ไม่พบสมาชิกที่ตรงกับคำค้นหา</div>`;
+        return;
+    }
+    const p = matches[0];
+    const total = (p.presentCount || 0) + (p.leaveCount || 0) + (p.absentCount || 0);
+    const rate = total > 0 ? Math.round(((p.presentCount || 0) / total) * 100) : 0;
+    const consecutiveAbsent = absentMap[String(p.id)] ?? ((p.status === 'ขาด') ? 1 : 0);
+    const more = matches.length > 1 ? `<span class="stats-more-match">พบ ${matches.length} รายการ แสดงสรุปรายการแรก</span>` : '';
+    box.innerHTML = `
+        <div class="stats-summary-card">
+            <div class="stats-summary-main">
+                <div class="stats-summary-avatar">${escapeHtml(String(p.name || '?').slice(0,1).toUpperCase())}</div>
+                <div>
+                    <div class="stats-summary-name">${escapeHtml(p.name || '-')}</div>
+                    <div class="stats-summary-meta">${escapeHtml(p.job || '-')} ${p.uid ? '• UID ' + escapeHtml(p.uid) : ''}</div>
+                    ${more}
+                </div>
+            </div>
+            <div class="stats-summary-grid">
+                <div><b class="text-green-400">${p.presentCount || 0}</b><span>มาวอร์</span></div>
+                <div><b class="text-amber-400">${p.leaveCount || 0}</b><span>ลา</span></div>
+                <div><b class="text-red-400">${p.absentCount || 0}</b><span>ขาด</span></div>
+                <div><b class="${consecutiveAbsent >= 3 ? 'text-red-300' : 'text-gray-200'}">${consecutiveAbsent}</b><span>ขาดติดกัน</span></div>
+                <div><b class="text-[#d4af37]">${rate}%</b><span>Attendance</span></div>
+            </div>
+        </div>`;
+}
+
 function buildConsecutiveAbsentMap() {
     const grouped = {};
     Object.values(attendanceLogs || {}).forEach(log => {
@@ -2003,14 +2069,17 @@ function renderStatsTab() {
     if (!tbody) return;
     let totalP=0, totalL=0, totalA=0;
     const absentMap = buildConsecutiveAbsentMap();
-    tbody.innerHTML = players.map(p => {
+    const query = normalizeStatsSearchText(statsSearchQuery || safeEl('stats-member-search')?.value || '');
+    const visiblePlayers = query ? players.filter(p => getPlayerSearchBlob(p).includes(query)) : players;
+    renderStatsMemberSummary(visiblePlayers, absentMap);
+    tbody.innerHTML = visiblePlayers.map(p => {
         totalP += p.presentCount || 0;
         totalL += p.leaveCount || 0;
         totalA += p.absentCount || 0;
         const consecutiveAbsent = absentMap[String(p.id)] ?? ((p.status === 'ขาด') ? 1 : 0);
         const consecutiveClass = consecutiveAbsent >= 3 ? 'text-red-300 font-extrabold' : consecutiveAbsent > 0 ? 'text-red-400 font-bold' : 'text-gray-500';
         return `<tr><td class="p-3 font-bold">${escapeHtml(p.name)}</td><td class="p-3 text-gray-400">${escapeHtml(p.job)}</td><td class="p-3 text-center text-green-400">${p.presentCount || 0}</td><td class="p-3 text-center text-amber-400">${p.leaveCount || 0}</td><td class="p-3 text-center text-red-400">${p.absentCount || 0}</td><td class="p-3 text-center ${consecutiveClass}">${consecutiveAbsent} ครั้ง</td></tr>`;
-    }).join('');
+    }).join('') || `<tr><td colspan="6" class="p-8 text-center text-gray-500 font-bold">ไม่พบข้อมูลสมาชิกที่ค้นหา</td></tr>`;
     if (safeEl('stat-avg-present')) safeEl('stat-avg-present').innerText = totalP + ' ครั้ง';
     if (safeEl('stat-avg-leave')) safeEl('stat-avg-leave').innerText = totalL + ' ครั้ง';
     if (safeEl('stat-avg-absent')) safeEl('stat-avg-absent').innerText = totalA + ' ครั้ง';
