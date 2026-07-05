@@ -213,3 +213,97 @@
     init();
   }
 })();
+
+/* =========================================================
+   BELLONA Mobile App Layout v2.7.1 enhancer
+   Scope: mobile only. No Firebase/API/logic changes.
+   ========================================================= */
+(function () {
+  'use strict';
+  const mq = window.matchMedia('(max-width: 767px)');
+
+  function isMobile() { return mq.matches; }
+
+  function getActiveTabName() {
+    const active = document.querySelector('#main-left-menu .tab-btn.active');
+    if (!active || !active.id) return '';
+    return active.id.replace('tab-btn-', '').trim();
+  }
+
+  function syncMobileTabClass() {
+    const body = document.body;
+    if (!body) return;
+    Array.from(body.classList).forEach((cls) => {
+      if (cls.indexOf('bellona-mobile-tab-') === 0) body.classList.remove(cls);
+    });
+    if (isMobile()) {
+      const tab = getActiveTabName() || 'dashboard';
+      body.classList.add('bellona-mobile-tab-' + tab);
+      document.documentElement.classList.add('bellona-mobile-mode');
+    }
+  }
+
+  function compactBottomNavText() {
+    if (!isMobile()) return;
+    const labels = {
+      dashboard: 'หน้าแรก',
+      members: 'สมาชิก',
+      party: 'ปาร์ตี้',
+      tactical: 'แผน',
+      auction: 'คิว',
+      queuecheck: 'เช็คคิว',
+      rewards: 'สุ่ม',
+      stats: 'สถิติ'
+    };
+    Object.keys(labels).forEach((key) => {
+      const btn = document.getElementById('tab-btn-' + key);
+      if (!btn || btn.dataset.mobileShortReady === '1') return;
+      const icon = btn.querySelector('i');
+      btn.innerHTML = '';
+      if (icon) btn.appendChild(icon);
+      const span = document.createElement('span');
+      span.className = 'bellona-mobile-nav-label';
+      span.textContent = labels[key];
+      btn.appendChild(span);
+      btn.dataset.mobileShortReady = '1';
+    });
+  }
+
+  function makePartyCardsTouchFriendly() {
+    if (!isMobile()) return;
+    document.querySelectorAll('#tab-content-party .dual-party-grid .glass-panel').forEach((card) => {
+      if (card.dataset.mobilePartyReady === '1') return;
+      card.dataset.mobilePartyReady = '1';
+      card.classList.add('bellona-mobile-party-card');
+    });
+  }
+
+  function refreshMobileEnhancements() {
+    syncMobileTabClass();
+    compactBottomNavText();
+    makePartyCardsTouchFriendly();
+  }
+
+  document.addEventListener('click', function (event) {
+    if (!isMobile()) return;
+    if (event.target.closest && event.target.closest('#main-left-menu .tab-btn')) {
+      window.setTimeout(refreshMobileEnhancements, 80);
+      window.setTimeout(refreshMobileEnhancements, 260);
+    }
+  }, { passive: true });
+
+  window.addEventListener('resize', function () {
+    window.setTimeout(refreshMobileEnhancements, 120);
+  }, { passive: true });
+  window.addEventListener('orientationchange', function () {
+    window.setTimeout(refreshMobileEnhancements, 280);
+  }, { passive: true });
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', refreshMobileEnhancements, { once: true });
+  } else {
+    refreshMobileEnhancements();
+  }
+  window.setTimeout(refreshMobileEnhancements, 500);
+  window.setTimeout(refreshMobileEnhancements, 1500);
+})();
