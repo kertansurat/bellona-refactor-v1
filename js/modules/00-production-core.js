@@ -1183,27 +1183,57 @@ function stopPlayersRealtimeSync() {
     isRealtimeSyncEnabled = false;
 }
 
+const BELLONA_JOB_ICON_MAP = {
+    'Lord Knight': './assets/job/lordknight.webp',
+    'Paladin': './assets/job/paladin.webp',
+    'High Priest': './assets/job/highpriest.webp',
+    'High Wizard': './assets/job/wizard.webp',
+    'Sniper': './assets/job/sniper.webp',
+    'Assassin Cross': './assets/job/assasin.webp',
+    'Champion': './assets/job/champion.webp',
+    'Sage': './assets/job/sage.webp',
+    'Stalker': './assets/job/stalker.webp',
+    'Gypsy': './assets/job/dance.webp',
+    'Mastersmith': './assets/job/blacksmith.webp',
+    'Biochemist': './assets/job/bio.webp',
+    'Gunslinger': './assets/job/gunslinger.png',
+    'Summoner': './assets/job/summoner.png'
+};
+
+const BELLONA_JOB_ICON_FALLBACK = './assets/logo-bellona.png';
+const bellonaPreloadedJobIcons = new Set();
+
+function preloadBellonaJobIcons() {
+    Object.values(BELLONA_JOB_ICON_MAP).forEach(src => {
+        if (!src || bellonaPreloadedJobIcons.has(src)) return;
+        bellonaPreloadedJobIcons.add(src);
+        const img = new Image();
+        img.decoding = 'async';
+        img.src = src;
+    });
+}
+
+function handleBellonaJobIconError(img) {
+    if (!img || img.dataset.jobIconFallbackApplied === '1') return;
+    const retrySrc = img.dataset.retrySrc || '';
+    img.dataset.jobIconFallbackApplied = '1';
+    if (retrySrc && img.src !== retrySrc) {
+        img.src = retrySrc;
+        return;
+    }
+    img.src = BELLONA_JOB_ICON_FALLBACK;
+    img.classList.add('bellona-job-icon-fallback');
+}
+
 function getJobIcon(jobName) {
-    const icons = {
-        'Lord Knight':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/lordknight.webp',
-        'Paladin':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/paladin.webp',
-        'High Priest':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/highpriest.webp',
-        'High Wizard':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/wizard.webp',
-        'Sniper':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/sniper.webp',
-        'Assassin Cross':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/assasin.webp',
-        'Champion':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/champion.webp',
-        'Sage':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/sage.webp',
-        'Stalker':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/stalker.webp',
-        'Gypsy':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/dance.webp',
-        'Mastersmith':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/blacksmith.webp',
-        'Biochemist':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/bio.webp',
-        'Gunslinger':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/gunslinger.png',
-        'Summoner':'https://raw.githubusercontent.com/kertansurat/bellona-gvg/main/assets/job/summoner.png'
-    };
-    const url = icons[jobName];
-    if (url) return `<img src="${url}" class="w-8 h-8 rounded-full object-cover border border-[#d4af37]/50 shrink-0" onerror="this.style.display='none'">`;
+    const url = BELLONA_JOB_ICON_MAP[jobName];
+    if (url) {
+        return `<img src="${url}" data-retry-src="${url}" class="w-8 h-8 rounded-full object-cover border border-[#d4af37]/50 shrink-0 bellona-job-icon" loading="eager" decoding="async" draggable="false" onerror="handleBellonaJobIconError(this)">`;
+    }
     return '<div class="w-8 h-8 rounded-full flex items-center justify-center text-xs bg-slate-700 font-bold shrink-0">🛡️</div>';
 }
+
+preloadBellonaJobIcons();
 
 function populateDynamicJobSelectors() {
     const dropdown = safeEl('search-job-dropdown');
