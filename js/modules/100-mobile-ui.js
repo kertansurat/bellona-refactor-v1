@@ -1,14 +1,14 @@
-/* BELLONA Mobile App UI v2.7
-   Safe add-on only. Desktop is untouched. No Firebase/API/logic schema changes. */
+/* =========================================================
+   BELLONA Mobile App UI v2.7.2
+   Safe add-on only. Desktop remains untouched.
+   ========================================================= */
 (function () {
   'use strict';
 
   const MOBILE_QUERY = '(max-width: 1023px)';
   const mq = window.matchMedia(MOBILE_QUERY);
 
-  function isMobile() {
-    return mq.matches;
-  }
+  function isMobile() { return mq.matches; }
 
   function getHeaderParts() {
     const header = document.querySelector('header');
@@ -63,7 +63,6 @@
   function ensureMobileActionToggle() {
     const { header } = getHeaderParts();
     if (!header) return;
-
     let btn = document.getElementById('bellona-mobile-action-toggle');
     if (!btn) {
       btn = document.createElement('button');
@@ -88,8 +87,7 @@
     if (!actions || !list) return;
 
     list.innerHTML = '';
-    const buttons = Array.from(actions.querySelectorAll('button'));
-    buttons.forEach((original, index) => {
+    Array.from(actions.querySelectorAll('button')).forEach((original, index) => {
       const clone = document.createElement('button');
       clone.type = 'button';
       clone.className = original.className || '';
@@ -116,130 +114,25 @@
     if (open) cloneActionButtons();
   }
 
-  function toggleMobileActions() {
-    setToggleState(!document.body.classList.contains('bellona-mobile-actions-open'));
-  }
-
-  function closeMobileActions() {
-    setToggleState(false);
-  }
-
-  function closeBottomNavAfterTabClick(event) {
-    if (!isMobile()) return;
-    const target = event.target.closest && event.target.closest('#main-left-menu .tab-btn');
-    if (!target) return;
-    closeMobileActions();
-    window.requestAnimationFrame(() => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
-    });
-  }
-
-  function closeOnEscape(event) {
-    if (event.key === 'Escape') closeMobileActions();
-  }
-
-  function refreshMobileMode() {
-    const mobile = isMobile();
-    document.documentElement.classList.toggle('bellona-mobile-mode', mobile);
-    markHeaderParts();
-    if (mobile) {
-      ensureBackdrop();
-      ensureDrawer();
-      ensureMobileActionToggle();
-      cloneActionButtons();
-      improveTouchScrolling();
-    } else {
-      closeMobileActions();
-    }
-  }
-
-  function improveTouchScrolling() {
-    if (!isMobile()) return;
-    const selectors = [
-      '#waiting-list',
-      '#main-left-menu',
-      '#tab-content-stats .overflow-x-auto',
-      '#tab-content-rewards .overflow-x-auto',
-      '#tab-content-auction .overflow-x-auto',
-      '#tab-content-queuecheck .overflow-x-auto',
-      '#tab-content-members .overflow-x-auto',
-      '#dash-job-ranking',
-      '.dash-v21-job-chart',
-      '.map-scroll-container',
-      '.bellona-mobile-app-drawer'
-    ];
-    selectors.forEach((selector) => {
-      document.querySelectorAll(selector).forEach((el) => {
-        el.style.webkitOverflowScrolling = 'touch';
-        el.style.overscrollBehavior = 'contain';
-      });
-    });
-  }
-
-  function patchTabSwitchForMobile() {
-    // Keep original switchTab behavior untouched. This only refreshes mobile scroll hints after tabs render.
-    if (window.__bellonaMobileTabPatch) return;
-    window.__bellonaMobileTabPatch = true;
-    document.addEventListener('click', function (event) {
-      const tabBtn = event.target.closest && event.target.closest('#main-left-menu .tab-btn');
-      if (!tabBtn || !isMobile()) return;
-      window.setTimeout(improveTouchScrolling, 160);
-      window.setTimeout(improveTouchScrolling, 420);
-    }, { passive: true });
-  }
-
-  function init() {
-    refreshMobileMode();
-    patchTabSwitchForMobile();
-    document.addEventListener('click', closeBottomNavAfterTabClick, { passive: true });
-    document.addEventListener('keydown', closeOnEscape);
-    window.addEventListener('orientationchange', () => window.setTimeout(refreshMobileMode, 260), { passive: true });
-
-    if (mq.addEventListener) {
-      mq.addEventListener('change', refreshMobileMode);
-    } else if (mq.addListener) {
-      mq.addListener(refreshMobileMode);
-    }
-
-    // Some modules render after login/Firebase sync. Refresh quietly.
-    window.setTimeout(refreshMobileMode, 500);
-    window.setTimeout(refreshMobileMode, 1500);
-    window.setTimeout(improveTouchScrolling, 2600);
-  }
-
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init, { once: true });
-  } else {
-    init();
-  }
-})();
-
-/* =========================================================
-   BELLONA Mobile App Layout v2.7.1 enhancer
-   Scope: mobile only. No Firebase/API/logic changes.
-   ========================================================= */
-(function () {
-  'use strict';
-  const mq = window.matchMedia('(max-width: 767px)');
-
-  function isMobile() { return mq.matches; }
+  function toggleMobileActions() { setToggleState(!document.body.classList.contains('bellona-mobile-actions-open')); }
+  function closeMobileActions() { setToggleState(false); }
 
   function getActiveTabName() {
     const active = document.querySelector('#main-left-menu .tab-btn.active');
-    if (!active || !active.id) return '';
-    return active.id.replace('tab-btn-', '').trim();
+    if (!active || !active.id) return 'dashboard';
+    return active.id.replace('tab-btn-', '').trim() || 'dashboard';
   }
 
   function syncMobileTabClass() {
     const body = document.body;
-    if (!body) return;
     Array.from(body.classList).forEach((cls) => {
       if (cls.indexOf('bellona-mobile-tab-') === 0) body.classList.remove(cls);
     });
     if (isMobile()) {
-      const tab = getActiveTabName() || 'dashboard';
-      body.classList.add('bellona-mobile-tab-' + tab);
+      body.classList.add('bellona-mobile-tab-' + getActiveTabName());
       document.documentElement.classList.add('bellona-mobile-mode');
+    } else {
+      document.documentElement.classList.remove('bellona-mobile-mode');
     }
   }
 
@@ -258,7 +151,7 @@
     Object.keys(labels).forEach((key) => {
       const btn = document.getElementById('tab-btn-' + key);
       if (!btn || btn.dataset.mobileShortReady === '1') return;
-      const icon = btn.querySelector('i');
+      const icon = btn.querySelector('i')?.cloneNode(true);
       btn.innerHTML = '';
       if (icon) btn.appendChild(icon);
       const span = document.createElement('span');
@@ -269,41 +162,104 @@
     });
   }
 
-  function makePartyCardsTouchFriendly() {
+  function improveTouchScrolling() {
     if (!isMobile()) return;
-    document.querySelectorAll('#tab-content-party .dual-party-grid .glass-panel').forEach((card) => {
-      if (card.dataset.mobilePartyReady === '1') return;
-      card.dataset.mobilePartyReady = '1';
-      card.classList.add('bellona-mobile-party-card');
+    const selectors = [
+      '#waiting-list',
+      '#main-left-menu',
+      '#tab-content-stats .overflow-x-auto',
+      '#tab-content-rewards .overflow-x-auto',
+      '#tab-content-auction .overflow-x-auto',
+      '#tab-content-queuecheck .overflow-x-auto',
+      '#tab-content-members .overflow-x-auto',
+      '#tab-content-party',
+      '#dash-job-ranking',
+      '.dash-v21-job-chart',
+      '.map-scroll-container',
+      '.bellona-mobile-app-drawer'
+    ];
+    selectors.forEach((selector) => {
+      document.querySelectorAll(selector).forEach((el) => {
+        el.style.webkitOverflowScrolling = 'touch';
+        el.style.overscrollBehavior = 'contain';
+      });
     });
   }
 
-  function refreshMobileEnhancements() {
-    syncMobileTabClass();
-    compactBottomNavText();
-    makePartyCardsTouchFriendly();
+  function markMobileCards() {
+    if (!isMobile()) return;
+    document.querySelectorAll('#tab-content-party .dual-party-grid .glass-panel').forEach((card) => {
+      card.classList.add('bellona-mobile-party-card');
+    });
+    document.querySelectorAll('#tab-content-auction .rq-row, #tab-content-queuecheck .rq-row').forEach((row) => {
+      row.classList.add('bellona-mobile-queue-row');
+    });
   }
 
-  document.addEventListener('click', function (event) {
-    if (!isMobile()) return;
-    if (event.target.closest && event.target.closest('#main-left-menu .tab-btn')) {
-      window.setTimeout(refreshMobileEnhancements, 80);
-      window.setTimeout(refreshMobileEnhancements, 260);
+  function refreshMobileMode() {
+    const mobile = isMobile();
+    document.documentElement.classList.toggle('bellona-mobile-mode', mobile);
+    markHeaderParts();
+    if (mobile) {
+      ensureBackdrop();
+      ensureDrawer();
+      ensureMobileActionToggle();
+      cloneActionButtons();
+      syncMobileTabClass();
+      compactBottomNavText();
+      markMobileCards();
+      improveTouchScrolling();
+    } else {
+      closeMobileActions();
     }
-  }, { passive: true });
+  }
 
-  window.addEventListener('resize', function () {
-    window.setTimeout(refreshMobileEnhancements, 120);
-  }, { passive: true });
-  window.addEventListener('orientationchange', function () {
-    window.setTimeout(refreshMobileEnhancements, 280);
-  }, { passive: true });
+  function onMobileTabClick(event) {
+    if (!isMobile()) return;
+    const tabBtn = event.target.closest && event.target.closest('#main-left-menu .tab-btn');
+    if (!tabBtn) return;
+    closeMobileActions();
+    window.setTimeout(refreshMobileMode, 90);
+    window.setTimeout(refreshMobileMode, 280);
+    window.requestAnimationFrame(() => {
+      try { window.scrollTo({ top: 0, left: 0, behavior: 'smooth' }); } catch (_) { window.scrollTo(0, 0); }
+    });
+  }
+
+  function closeOnEscape(event) {
+    if (event.key === 'Escape') closeMobileActions();
+  }
+
+  function observeActiveTabChanges() {
+    const nav = document.getElementById('main-left-menu');
+    if (!nav || window.__bellonaMobileNavObserver) return;
+    window.__bellonaMobileNavObserver = true;
+    const observer = new MutationObserver(() => {
+      if (!isMobile()) return;
+      window.setTimeout(refreshMobileMode, 60);
+    });
+    observer.observe(nav, { subtree: true, attributes: true, attributeFilter: ['class'] });
+  }
+
+  function init() {
+    refreshMobileMode();
+    observeActiveTabChanges();
+    document.addEventListener('click', onMobileTabClick, { passive: true });
+    document.addEventListener('keydown', closeOnEscape);
+    window.addEventListener('orientationchange', () => window.setTimeout(refreshMobileMode, 260), { passive: true });
+    window.addEventListener('resize', () => window.setTimeout(refreshMobileMode, 160), { passive: true });
+
+    if (mq.addEventListener) mq.addEventListener('change', refreshMobileMode);
+    else if (mq.addListener) mq.addListener(refreshMobileMode);
+
+    window.setTimeout(refreshMobileMode, 500);
+    window.setTimeout(refreshMobileMode, 1500);
+    window.setTimeout(improveTouchScrolling, 2600);
+  }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', refreshMobileEnhancements, { once: true });
+    document.addEventListener('DOMContentLoaded', init, { once: true });
   } else {
-    refreshMobileEnhancements();
+    init();
   }
-  window.setTimeout(refreshMobileEnhancements, 500);
-  window.setTimeout(refreshMobileEnhancements, 1500);
 })();
