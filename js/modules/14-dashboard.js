@@ -102,6 +102,58 @@ function dashJobColorClass(job) {
   };
   return map[key] || 'job-gold-1';
 }
+
+const DASH_JOB_ORDER = [
+  'Lord Knight',
+  'Paladin',
+  'High Priest',
+  'High Wizard',
+  'Sniper',
+  'Assassin Cross',
+  'Champion',
+  'Sage',
+  'Stalker',
+  'Gypsy',
+  'Mastersmith',
+  'Biochemist',
+  'Summoner',
+  'Gunslinger'
+];
+const DASH_JOB_ALIAS = {
+  'lord knight': 'Lord Knight',
+  'lk': 'Lord Knight',
+  'paladin': 'Paladin',
+  'high priest': 'High Priest',
+  'hp': 'High Priest',
+  'high wizard': 'High Wizard',
+  'wizard': 'High Wizard',
+  'hw': 'High Wizard',
+  'sniper': 'Sniper',
+  'assassin cross': 'Assassin Cross',
+  'assassin': 'Assassin Cross',
+  'sinx': 'Assassin Cross',
+  'ax': 'Assassin Cross',
+  'champion': 'Champion',
+  'champ': 'Champion',
+  'sage': 'Sage',
+  'stalker': 'Stalker',
+  'gypsy': 'Gypsy',
+  'dancer': 'Gypsy',
+  'mastersmith': 'Mastersmith',
+  'blacksmith': 'Mastersmith',
+  'ms': 'Mastersmith',
+  'biochemist': 'Biochemist',
+  'creator': 'Biochemist',
+  'bio': 'Biochemist',
+  'summoner': 'Summoner',
+  'gunslinger': 'Gunslinger'
+};
+function dashCanonicalJob(job) {
+  const raw = String(job || '').trim();
+  const key = dashNormalizeJob(raw);
+  return DASH_JOB_ALIAS[key] || raw || 'ไม่ระบุอาชีพ';
+}
+
 function dashThaiDate(date) {
   return new Intl.DateTimeFormat('th-TH', {
     weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
@@ -215,15 +267,23 @@ function renderDashboard() {
 
   const jobBox = document.getElementById('dash-job-ranking');
   if (jobBox) {
-    const map = new Map();
+    const counts = new Map(DASH_JOB_ORDER.map(job => [job, 0]));
+    const extraJobs = new Map();
     list.forEach(p => {
-      const job = p.job || 'ไม่ระบุอาชีพ';
-      map.set(job, (map.get(job) || 0) + 1);
+      const job = dashCanonicalJob(p.job);
+      if (counts.has(job)) {
+        counts.set(job, (counts.get(job) || 0) + 1);
+      } else {
+        extraJobs.set(job, (extraJobs.get(job) || 0) + 1);
+      }
     });
-    const jobs = [...map.entries()].sort((a,b) => b[1] - a[1]).slice(0,10);
-    const max = jobs.length ? Math.max(...jobs.map(j => j[1])) : 0;
-    jobBox.innerHTML = jobs.length ? jobs.map(([job,count]) => {
-      const h = max ? Math.max(18, Math.round((count / max) * 100)) : 0;
+    const jobs = [
+      ...DASH_JOB_ORDER.map(job => [job, counts.get(job) || 0]),
+      ...[...extraJobs.entries()].sort((a,b) => b[1] - a[1])
+    ];
+    const max = Math.max(1, ...jobs.map(j => j[1]));
+    jobBox.innerHTML = jobs.map(([job,count]) => {
+      const h = count > 0 ? Math.max(18, Math.round((count / max) * 100)) : 0;
       return `
         <div class="dash-v21-job-item ${dashJobColorClass(job)}" title="${dashEscape(job)} • ${count} คน">
           <div class="dash-v21-bar-stack">
@@ -232,7 +292,7 @@ function renderDashboard() {
           </div>
           <img src="${dashEscape(dashJobIcon(job))}" onerror="this.src='./assets/logo-bellona.png'" alt="${dashEscape(job)}">
         </div>`;
-    }).join('') : '<div class="dash-empty">ยังไม่มีข้อมูลอาชีพ</div>';
+    }).join('');
   }
 
   renderDashboardWarCalendar({present, leave, absent});
